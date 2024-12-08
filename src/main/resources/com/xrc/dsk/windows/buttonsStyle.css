@@ -1,0 +1,44 @@
+
+ .label
+{
+    -fx-text-fill: #808080;
+    /*-fx-fill: #808080;*/
+    /*-fx-background-color: #808080;*/
+
+}
+
+ .button
+ {
+     -fx-background-color: #373737;
+     -fx-border-color: #808080;
+     -fx-border-radius: 8;
+     -fx-text-fill: #9a9a9a;
+     -fx-alignment: center;
+     -fx-font-family: Blazma;
+     -fx-font-size: 20;
+     -fx-font-style: Italic;
+ }
+
+ .button:hover
+ {
+     -fx-background-color: #ab6900;
+     -fx-text-fill: #373737;
+     /*-fx-border-color: #808080;*/
+     /*-fx-border-radius: 8;*/
+     /*-fx-text-fill: #9a9a9a;*/
+     /*-fx-alignment: center;*/
+     /*-fx-font-family: Blazma;*/
+     /*-fx-font-size: 20;*/
+     /*-fx-font-style: Italic;*/
+ }
+ .button:pressed
+ {
+     -fx-background-color: #139900;
+     -fx-text-fill: #373737;
+ }
+
+ .menu-bar {
+     -fx-selection-bar: #ab6900;
+ }
+
+

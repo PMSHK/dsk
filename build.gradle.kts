@@ -6,6 +6,22 @@ plugins {
     id("org.beryx.jlink") version "2.25.0"
 }
 
+tasks.named<Copy>("processResources") {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.withType<Copy> {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs("src/main/resources")
+        }
+    }
+}
+
 group = "com.xrc"
 version = "1.0-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
@@ -53,16 +69,17 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.28")
     implementation("org.projectlombok:lombok-mapstruct-binding:0.2.0")
     annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
+    implementation("ch.qos.logback:logback-classic:1.5.12")
 
     // Test dependencies
     implementation(platform("org.testcontainers:testcontainers-bom:1.20.3"))
-    testImplementation("org.springframework.boot:spring-boot-testcontainers")
+//    testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("ch.qos.logback:logback-classic:1.5.12")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.2")
     testImplementation("org.assertj:assertj-core:3.26.3")
     testImplementation("org.junit.platform:junit-platform-launcher")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+//    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 tasks {

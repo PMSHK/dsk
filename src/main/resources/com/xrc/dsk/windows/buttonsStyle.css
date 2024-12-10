@@ -1,7 +1,7 @@
 
  .label
 {
-    -fx-text-fill: #808080;
+    -fx-text-fill: #CCCCCC;
     /*-fx-fill: #808080;*/
     /*-fx-background-color: #808080;*/
 
@@ -9,10 +9,10 @@
 
  .button
  {
-     -fx-background-color: #373737;
-     -fx-border-color: #808080;
+     -fx-background-color: #333333;
+     -fx-border-color: #CCCCCC;
      -fx-border-radius: 8;
-     -fx-text-fill: #9a9a9a;
+     -fx-text-fill: #CCCCCC;
      -fx-alignment: center;
      -fx-font-family: Blazma;
      -fx-font-size: 20;
@@ -21,8 +21,8 @@
 
  .button:hover
  {
-     -fx-background-color: #ab6900;
-     -fx-text-fill: #373737;
+     -fx-background-color: #FF9900;
+     -fx-text-fill: #333333;
      /*-fx-border-color: #808080;*/
      /*-fx-border-radius: 8;*/
      /*-fx-text-fill: #9a9a9a;*/
@@ -34,11 +34,11 @@
  .button:pressed
  {
      -fx-background-color: #139900;
-     -fx-text-fill: #373737;
+     -fx-text-fill: #333333;
  }
 
  .menu-bar {
-     -fx-selection-bar: #ab6900;
+     -fx-selection-bar: #FF9900;
  }
 
 

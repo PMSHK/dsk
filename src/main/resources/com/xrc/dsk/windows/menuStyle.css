@@ -1,20 +1,20 @@
  .label
 {
-    -fx-text-fill: #808080;
+    -fx-text-fill: #CCCCCC;
     /*-fx-fill: #808080;*/
     /*-fx-background-color: #808080;*/
 
 }
 
  .menu-bar {
-     -fx-selection-bar: #ab6900;
+     -fx-selection-bar: #FF9900;
  }
 
  .grid-pane {
-     -fx-background-color: #373737;
+     -fx-background-color: #333333;
  }
 .anchor-pane
 {
-    -fx-background-color: #373737 ;
+    -fx-background-color: #333333;
 }
 

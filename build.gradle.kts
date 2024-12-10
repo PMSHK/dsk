@@ -58,6 +58,7 @@ dependencies {
     implementation("eu.hansolo:tilesfx:11.48") {
         exclude(group = "org.openjfx")
     }
+    implementation("de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2")
 
     // Converters and utilities
     implementation("com.fasterxml.jackson.core:jackson-databind:2.18.0")

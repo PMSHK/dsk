@@ -11,6 +11,7 @@ module com.xrc.dsk {
     requires eu.hansolo.tilesfx;
     requires static lombok;
     requires static org.slf4j;
+    requires de.jensd.fx.glyphs.fontawesome;
 
     opens com.xrc.dsk to javafx.fxml, org.slf4j;
     opens com.xrc.dsk.controllers to javafx.fxml;

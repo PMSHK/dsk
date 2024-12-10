@@ -1,15 +1,19 @@
 package com.xrc.dsk.controllers;
 
+import com.xrc.dsk.services.MedicineWindowService;
+import com.xrc.dsk.windows.CalculatorWindow;
+import com.xrc.dsk.windows.WindowControl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import lombok.extern.slf4j.Slf4j;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 //@Slf4j
-public class mainWindowController {
+public class mainWindowController extends WindowControl {
     @FXML
     private ImageView medicineImg;
     @FXML
@@ -28,8 +32,13 @@ public class mainWindowController {
     private AnchorPane leftPane;
 
     public void medicineButtonClick(MouseEvent mouseEvent) {
-        System.out.println("medicineButtonClick");
-//        log.info("medicineButtonClick");
+        CalculatorWindow calculatorWindow = new CalculatorWindow(
+                "/com/xrc/dsk/windows/calculator-window.fxml"
+                , "XRC Medicine"
+        );
+        calculatorWindow.show();
+        MedicineWindowService service = new MedicineWindowService(calculatorWindow);
+        service.initialize("Медицина");
     }
 
     public void medicineButtonSelected(MouseEvent mouseEvent) {
@@ -91,5 +100,4 @@ public class mainWindowController {
         rightPane.setVisible(false);
         flawImg.setVisible(false);
     }
-
 }

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+
+<VBox fx:id="calculationPlate" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="200.0" styleClass="vbox" stylesheets="@calculatorStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox prefHeight="65.0" prefWidth="200.0" VBox.vgrow="NEVER">
+         <VBox.margin>
+            <Insets bottom="3.0" top="5.0" />
+         </VBox.margin>
+         <children>
+            <TextArea fx:id="wallName" prefHeight="65.0" prefWidth="76.0" promptText="Стена &quot;А&quot;" styleClass="text-area" stylesheets="@calculatorStyle.css">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </TextArea>
+            <TextArea fx:id="roomAssignment" prefHeight="65.0" prefWidth="112.0" promptText="Назначение смежного помещения">
+               <HBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </HBox.margin>
+            </TextArea>
+         </children>
+      </HBox>
+      <VBox prefHeight="50.0" prefWidth="100.0" VBox.vgrow="NEVER">
+         <children>
+            <ComboBox fx:id="equipType" prefWidth="190.0" promptText="Аппаратура" VBox.vgrow="NEVER">
+               <VBox.margin>
+                  <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
+               </VBox.margin>
+               <styleClass>
+                  <String fx:value="arrow" />
+                  <String fx:value="arrow-button" />
+                  <String fx:value="combo-box" />
+               </styleClass>
+            </ComboBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
+               <children>
+                  <Label text="U:" HBox.hgrow="NEVER">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="voltage" alignment="CENTER" maxWidth="50.0" prefHeight="25.0" prefWidth="49.0" promptText="100 кВ" styleClass="text-field" HBox.hgrow="NEVER">
+                     <HBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Label layoutX="10.0" layoutY="13.0" text="W:" HBox.hgrow="NEVER">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="workload" alignment="CENTER" layoutX="26.0" layoutY="10.0" maxWidth="50.0" prefHeight="25.0" prefWidth="38.0" promptText="1000" HBox.hgrow="NEVER">
+                     <HBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Label layoutX="80.0" layoutY="13.0" text="Kr:">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="radExit" layoutX="142.0" layoutY="10.0" text="0">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <FontAwesomeIconView fx:id="equipTypeMark" glyphName="QUESTION" size="18" styleClass="symbols" HBox.hgrow="NEVER">
+                     <HBox.margin>
+                        <Insets left="15.0" right="5.0" top="3.0" />
+                     </HBox.margin>
+                  </FontAwesomeIconView>
+               </children>
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="25.0" prefWidth="200.0">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="79.0" text="ДМД, мкГр/ч:" HBox.hgrow="NEVER">
+                     <HBox.margin>
+                        <Insets top="2.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="dmd" layoutX="10.0" layoutY="10.0" prefHeight="17.0" prefWidth="79.0" text="0">
+                     <HBox.margin>
+                        <Insets top="2.0" />
+                     </HBox.margin></Label>
+               </children>
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" top="3.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+         <opaqueInsets>
+            <Insets bottom="3.0" />
+         </opaqueInsets>
+      </VBox>
+      <HBox prefHeight="25.0" prefWidth="200.0" VBox.vgrow="NEVER">
+         <children>
+            <Label text="Коэфф. направленности:">
+               <HBox.margin>
+                  <Insets top="6.0" />
+               </HBox.margin>
+            </Label>
+            <ComboBox fx:id="directionCoefficient" prefWidth="50.0" promptText="1" HBox.hgrow="NEVER">
+               <HBox.margin>
+                  <Insets left="5.0" top="2.0" />
+               </HBox.margin>
+               <styleClass>
+                  <String fx:value="arrow" />
+                  <String fx:value="arrow-button" />
+               </styleClass>
+            </ComboBox>
+         </children>
+         <VBox.margin>
+            <Insets left="5.0" right="5.0" />
+         </VBox.margin>
+      </HBox>
+      <TextField fx:id="distance" promptText="Расстояние до излучателя, м">
+         <VBox.margin>
+            <Insets left="5.0" right="5.0" top="7.0" />
+         </VBox.margin>
+      </TextField>
+      <GridPane>
+        <columnConstraints>
+          <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="85.0" />
+          <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="85.0" />
+            <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="26.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <VBox.margin>
+            <Insets left="5.0" right="5.0" top="5.0" />
+         </VBox.margin>
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="K:">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="attenuationCoefficient" text="0000">
+                     <HBox.margin>
+                        <Insets left="2.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+               <children>
+                  <Label text="Eqv:">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="leadEquivalent" text="0000">
+                     <HBox.margin>
+                        <Insets left="2.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <FontAwesomeIconView fx:id="calculatedParamMark" glyphName="QUESTION" size="18" styleClass="symbols" GridPane.columnIndex="2">
+               <GridPane.margin>
+                  <Insets left="7.0" />
+               </GridPane.margin>
+            </FontAwesomeIconView>
+         </children>
+      </GridPane>
+      <VBox fx:id="exMatStorage" prefHeight="25.0" prefWidth="200.0" VBox.vgrow="NEVER">
+         <VBox.margin>
+            <Insets top="2.0" />
+         </VBox.margin>
+      </VBox>
+      <HBox prefHeight="20.0" prefWidth="200.0" VBox.vgrow="NEVER">
+         <VBox.margin>
+            <Insets left="5.0" right="5.0" top="5.0" />
+         </VBox.margin>
+         <children>
+            <Label text="Доп. защита:" />
+            <Label fx:id="additionalProtection" text="Не требуется">
+               <HBox.margin>
+                  <Insets left="2.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <BorderPane prefHeight="50.0" prefWidth="200.0" VBox.vgrow="NEVER">
+         <left>
+            <Label text="Эквивалент:" BorderPane.alignment="CENTER" />
+         </left>
+         <right>
+            <VBox prefHeight="200.0" prefWidth="115.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ComboBox fx:id="analogMaterial" prefHeight="25.0" prefWidth="121.0" promptText="Материал">
+                     <styleClass>
+                        <String fx:value="arrow" />
+                        <String fx:value="arrow-button" />
+                     </styleClass>
+                  </ComboBox>
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="analogMaterialThickness" text="000">
+                           <HBox.margin>
+                              <Insets left="5.0" top="3.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label text="(мм)">
+                           <HBox.margin>
+                              <Insets left="5.0" top="3.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+         </right>
+         <center>
+            <Line startY="45.0" stroke="#cccccc" strokeLineCap="ROUND" BorderPane.alignment="CENTER" />
+         </center>
+         <VBox.margin>
+            <Insets left="5.0" right="5.0" />
+         </VBox.margin>
+      </BorderPane>
+      <VBox fx:id="openingsStorage" prefHeight="25.0" prefWidth="100.0" VBox.vgrow="NEVER" />
+      <GridPane alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <FontAwesomeIconView fx:id="deleteButton" glyphName="MINUS" size="24" styleClass="symbols" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+               <children>
+                  <FontAwesomeIconView fx:id="addButton" glyphName="PLUS" size="24" styleClass="symbols" />
+               </children>
+            </VBox>
+         </children>
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" />
+         </VBox.margin>
+      </GridPane>
+   </children>
+</VBox>

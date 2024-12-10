@@ -18,6 +18,7 @@ public class DskApplication extends Application {
         scene.getStylesheets().add(buttonsCssPath);
         stage.setTitle("XRC");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 

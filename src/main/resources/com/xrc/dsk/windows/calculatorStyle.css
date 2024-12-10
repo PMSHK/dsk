@@ -1,0 +1,133 @@
+.label {
+    -fx-text-fill: #CCCCCC;
+    -fx-alignment: left;
+    -fx-font-family: Blazma;
+    -fx-font-size: 12;
+    -fx-font-style: Italic;
+}
+
+.type-name {
+    -fx-text-fill: #CCCCCC;
+    -fx-alignment: center;
+    -fx-font-family: Blazma;
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-font-style: Italic;
+    -fx-fit-to-width: parent;
+
+}
+
+.menu-bar {
+    -fx-selection-bar: #FF9900;
+}
+
+.grid-pane {
+    -fx-background-color: #333333;
+}
+
+.anchor-pane {
+    -fx-background-color: #333333;
+}
+
+.vbox {
+    -fx-background-color: #333333;
+    -fx-border-radius: 8;
+}
+
+.split-pane {
+
+}
+
+split-pane > .split-pane-divider:horizontal {
+    -fx-background-color: #33ff33;
+}
+
+.combo-box > .list-cell {
+    -fx-text-fill: #CCCCCC;
+    -fx-background-color: #333333;
+    -fx-background: #333333;
+
+}
+
+.combo-box-base > .arrow-button {
+    -fx-background-color: #333333;
+}
+
+.combo-box-base > .arrow-button > .arrow {
+    -fx-background-color: #CCCCCC;;
+}
+
+.combo-box .arrow-button:hover {
+    -fx-background-color: #FF9900;
+}
+
+.list-cell:hover {
+    -fx-background: #FF9900;
+    -fx-background-color: #FF9900;
+}
+
+.combo-box .arrow-button .arrow:hover {
+    -fx-background-color: #FF9900;
+
+}
+
+.symbols {
+    -fx-fill: #CCCCCC;
+}
+
+.symbols:hover {
+    -fx-fill: #FF9900;
+
+}
+
+.scroll-pane > {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: #FFFFFF;
+}
+
+.text-area {
+    -fx-background-color: #333333;
+    -fx-border-color: #CCCCCC;
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-font-family: Blazma;
+    -fx-font-style: Italic;
+    -fx-text-fill: #CCCCCC;
+}
+
+.text-area *.content {
+    -fx-background-color: #333333;
+    -fx-highlight-fill: #FF9900;
+}
+
+.text-area *.viewport{
+    -fx-background-color: #333333;
+}
+
+.text-area:hover {
+    -fx-border-color: #FF9900;
+    -fx-text-fill: #FF9900;
+}
+
+.text-field {
+    -fx-background-color: #333333;
+    -fx-border-color: #333333;
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-font-family: Blazma;
+    -fx-font-style: Italic;
+    -fx-text-fill: #CCCCCC;
+}
+
+.text-field:hover {
+    -fx-border-color: #FF9900;
+    -fx-text-fill: #FF9900;
+
+}
+
+.text-field *.text{
+    -fx-fill: #FF9900;
+}

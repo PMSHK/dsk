@@ -1,20 +1,23 @@
 package com.xrc.dsk.windows;
 
+import com.xrc.dsk.controllers.CalculatorWindowController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
 
 @RequiredArgsConstructor
-public abstract class GeneralWindow {
+public abstract class GeneralWindow extends Window {
     private final String windowPath;
     private final String title;
     private Stage stage;
     @Getter
-    private WindowControl controller;
+    private CalculatorWindowController controller;
+//    private WindowControl controller;
 
     public void show() {
         try {

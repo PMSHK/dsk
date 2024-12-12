@@ -128,6 +128,6 @@ split-pane > .split-pane-divider:horizontal {
 
 }
 
-.text-field *.text{
-    -fx-fill: #FF9900;
+.text-field > .text{
+    -fx-highlight-fill: #FF9900;
 }

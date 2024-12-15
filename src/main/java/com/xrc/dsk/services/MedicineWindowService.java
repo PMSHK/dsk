@@ -4,6 +4,7 @@ import com.xrc.dsk.controllers.CalculatorWindowController;
 import com.xrc.dsk.model.PanelsStorage;
 import com.xrc.dsk.panels.MedicineCalculationPanel;
 import com.xrc.dsk.windows.CalculatorWindow;
+import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -40,7 +41,7 @@ public class MedicineWindowService {
     public void addNewPanel() {
         MedicineCalculationPanel panel = new MedicineCalculationPanel();
         panels.add(panel);
-        calculatorWindowController.getPanelsStorage().getChildren().add(panel.getRootNode());
+        calculatorWindowController.getPanelsStorage().getChildren().add(panel);
     }
 
     public void deletePanel(MedicineCalculationPanel panel) {

@@ -12,7 +12,7 @@ public class MedicinePanelService {
     private MedicineCalculationPanel panel;
 
     public void addPanel(Pane pane){
-        pane.getChildren().add(new MedicineCalculationPanel().getRootNode());
+        pane.getChildren().add(new MedicineCalculationPanel());
 //        MedicineCalculationPanel newPanel = new MedicineCalculationPanel();
 //        service.getCalculatorWindowController().getPanelsStorage().getChildren().add(newPanel.getRootNode());
     }

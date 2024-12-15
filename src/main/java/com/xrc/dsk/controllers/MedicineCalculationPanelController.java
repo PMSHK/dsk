@@ -6,14 +6,19 @@ import com.xrc.dsk.services.MedicinePanelService;
 import com.xrc.dsk.services.MedicineWindowService;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import lombok.Getter;
+import lombok.Setter;
 
-public class MedicineCalculationPanelController {
+@Getter
+@Setter
+public class MedicineCalculationPanelController  {
     private MedicinePanelService medicinePanelService;
     private MedicineWindowService medicineWindowService;
     private PanelsStorage panelsStorage = PanelsStorage.getInstance();

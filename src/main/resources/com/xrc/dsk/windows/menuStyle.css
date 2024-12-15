@@ -1,4 +1,12 @@
- .label
+@font-face {
+    font-family: "Blazma";
+    src: url("/com/xrc/dsk/bin/fonts/ofont.ru_Blazma.ttf");
+}
+
+.root {
+    -fx-font-family: "Blazma";
+}
+.label
 {
     -fx-text-fill: #CCCCCC;
     /*-fx-fill: #808080;*/
@@ -17,4 +25,5 @@
 {
     -fx-background-color: #333333;
 }
+
 

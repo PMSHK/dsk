@@ -1,3 +1,12 @@
+@font-face {
+    font-family: "Blazma";
+    src: url("/com/xrc/dsk/bin/fonts/ofont.ru_Blazma.ttf");
+}
+
+.root {
+    -fx-font-family: "Blazma";
+}
+
 .label {
     -fx-text-fill: #CCCCCC;
     -fx-alignment: left;
@@ -7,7 +16,7 @@
 }
 
 .type-name {
-    -fx-text-fill: #CCCCCC;
+    -fx-text-fill: #FF9900;
     -fx-alignment: center;
     -fx-font-family: Blazma;
     -fx-font-size: 20;
@@ -48,7 +57,9 @@ split-pane > .split-pane-divider:horizontal {
     -fx-background: #333333;
 
 }
-
+.combo-box > .list-cell >.text{
+    -fx-font-family: Blazma;
+}
 .combo-box-base > .arrow-button {
     -fx-background-color: #333333;
 }
@@ -114,7 +125,7 @@ split-pane > .split-pane-divider:horizontal {
 
 .text-field {
     -fx-background-color: #333333;
-    -fx-border-color: #333333;
+    -fx-border-color: #CCCCCC;
     -fx-background-radius: 3;
     -fx-border-radius: 3;
     -fx-font-family: Blazma;
@@ -131,3 +142,4 @@ split-pane > .split-pane-divider:horizontal {
 .text-field > .text{
     -fx-highlight-fill: #FF9900;
 }
+

@@ -6,7 +6,7 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MedicineCalculationPanel extends GeneralPanel {
+public class MedicineCalculationPanel extends CalculationPanel {
     private MedicineCalculationPanel panel;
     private MedicineCalculationPanelController controller;
     private List<MaterialPanel> materialPanels;
@@ -15,11 +15,6 @@ public class MedicineCalculationPanel extends GeneralPanel {
     public MedicineCalculationPanel() {
         super("/com/xrc/dsk/windows/medicine-calculation-panel.fxml");
         initialize();
-    }
-
-    @Override
-    public Pane getMaterialBase() {
-        return controller.getExMatStorage();
     }
 
     @Override
@@ -49,5 +44,15 @@ public class MedicineCalculationPanel extends GeneralPanel {
 
     public void removeMaterialPanel(MaterialPanel materialPanel) {
         controller.getExMatStorage().getChildren().remove(materialPanel);
+    }
+
+    @Override
+    public Pane getMaterialBase() {
+        return controller.getExMatStorage();
+    }
+
+    @Override
+    public Pane getOpeningBase() {
+        return controller.getOpeningsStorage();
     }
 }

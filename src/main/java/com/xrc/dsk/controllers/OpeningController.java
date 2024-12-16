@@ -1,13 +1,10 @@
 package com.xrc.dsk.controllers;
 
-import com.xrc.dsk.panels.MaterialPanel;
 import com.xrc.dsk.panels.OpeningPanel;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import lombok.Setter;
@@ -33,11 +30,12 @@ public class OpeningController {
 
     @FXML
     void addOpeningLayer(MouseEvent event) {
-OpeningPanel newOpeningLayer = new OpeningPanel(openingPanel.getParentPanel());
+        OpeningPanel newOpeningLayer = new OpeningPanel(openingPanel.getParentPanel());
+        newOpeningLayer.addToParentNode();
     }
 
     @FXML
     void deleteOpeningLayer(MouseEvent event) {
-openingPanel.getParentPanel().getMaterialBase().getChildren().remove(openingPlate);
+        openingPanel.getParentPanel().getOpeningBase().getChildren().remove(openingPlate);
     }
 }

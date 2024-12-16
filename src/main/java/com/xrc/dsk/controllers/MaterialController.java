@@ -8,8 +8,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import lombok.Getter;
 import lombok.Setter;
-
+@Getter
 public class MaterialController {
 
     @Setter
@@ -21,7 +22,7 @@ public class MaterialController {
     private FontAwesomeIconView deleteButton;
 
     @FXML
-    private ComboBox<?> materialBox;
+    private ComboBox<String> materialBox;
 
     @FXML
     private VBox materialPlate;

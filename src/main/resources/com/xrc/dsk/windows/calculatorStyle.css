@@ -43,6 +43,26 @@
     -fx-border-radius: 8;
 }
 
+.add-button-vbox{
+    -fx-background-color: #333333;
+    -fx-background-radius: 8;
+    -fx-border-color: #CCCCCC;
+    -fx-border-radius: 8;
+}
+.delete-button-vbox{
+    -fx-background-color: #333333;
+    -fx-background-radius: 8;
+    -fx-border-color: #CCCCCC;
+    -fx-border-radius: 8
+}
+
+.add-button-vbox:hover{
+    -fx-background-color: #FF9900;
+}
+.delete-button-vbox:hover{
+    -fx-background-color: #FF9900;
+}
+
 .split-pane {
 
 }
@@ -91,6 +111,13 @@ split-pane > .split-pane-divider:horizontal {
 
 }
 
+.protection-symbols{
+    -fx-fill: #CCCCCC;
+}
+.protection-symbols:hover {
+    -fx-fill: #FF9900;
+
+}
 .scroll-pane > {
     -fx-background-color: transparent;
 }

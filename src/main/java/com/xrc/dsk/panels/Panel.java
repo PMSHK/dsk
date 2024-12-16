@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public abstract class GeneralPanel extends Pane implements Initializable {
+public abstract class Panel extends Pane implements Initializable {
     private final String path;
     @Getter
     private final FXMLLoader loader;
@@ -19,7 +19,7 @@ public abstract class GeneralPanel extends Pane implements Initializable {
     private final Node rootNode;
     private Controllable controller;
 
-    public GeneralPanel(String path) {
+    public Panel(String path) {
         this.path = path;
         loader = new FXMLLoader(getClass().getResource(path));
         loader.setLocation(getClass().getResource(path));
@@ -42,8 +42,6 @@ public abstract class GeneralPanel extends Pane implements Initializable {
     public <T> T getController() {
         return loader.getController();
     }
-
-    public abstract Pane getMaterialBase();
 
     public abstract void initialize();
 

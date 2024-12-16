@@ -12,6 +12,7 @@ module com.xrc.dsk {
     requires static lombok;
     requires static org.slf4j;
     requires de.jensd.fx.glyphs.fontawesome;
+    requires java.net.http;
 
     opens com.xrc.dsk to javafx.fxml, org.slf4j;
     opens com.xrc.dsk.controllers to javafx.fxml;

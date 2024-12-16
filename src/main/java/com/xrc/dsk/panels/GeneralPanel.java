@@ -6,31 +6,32 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public abstract class GeneralPanel extends Pane implements Initializable{
+public abstract class GeneralPanel extends Pane implements Initializable {
     private final String path;
     @Getter
     private final FXMLLoader loader;
     @Getter
     private final Node rootNode;
     private Controllable controller;
+
     public GeneralPanel(String path) {
         this.path = path;
         loader = new FXMLLoader(getClass().getResource(path));
         loader.setLocation(getClass().getResource(path));
-        rootNode=loadRootNode();
+        rootNode = loadRootNode();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
-    private <T extends Pane> T loadRootNode(){
+
+    private <T extends Pane> T loadRootNode() {
         try {
             return loader.load();
         } catch (IOException e) {
@@ -38,11 +39,12 @@ public abstract class GeneralPanel extends Pane implements Initializable{
         }
     }
 
-    public <T> T getController(){
+    public <T> T getController() {
         return loader.getController();
     }
 
-public abstract Pane getMaterialBase();
+    public abstract Pane getMaterialBase();
+
     public abstract void initialize();
 
 }

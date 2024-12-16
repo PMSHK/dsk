@@ -1,6 +1,5 @@
 package com.xrc.dsk.controllers;
 
-import com.xrc.dsk.panels.GeneralPanel;
 import com.xrc.dsk.panels.MaterialPanel;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
@@ -8,15 +7,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import lombok.Setter;
 
 public class MaterialController {
-    @Setter
-    private GeneralPanel generalPanel;
-    @Setter
-    private Pane materialStorage;
+
     @Setter
     private MaterialPanel materialPanel;
     @FXML
@@ -37,11 +32,13 @@ public class MaterialController {
     @FXML
     void addMatLayer(MouseEvent event) {
         MaterialPanel newMaterialLayer = new MaterialPanel(materialPanel.getParentPanel());
+        newMaterialLayer.addToParentNode();
     }
 
     @FXML
     void deleteMatLayer(MouseEvent event) {
-        materialPanel.getMaterialBase().getChildren().remove(materialPlate);
+        materialPanel.getParentPanel().getMaterialBase().getChildren().remove(materialPlate);
+        System.out.println("deleting material layer");
     }
 
     @FXML

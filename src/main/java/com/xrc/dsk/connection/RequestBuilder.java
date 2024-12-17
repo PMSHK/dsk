@@ -47,6 +47,7 @@ public class RequestBuilder {
             return HttpRequest.newBuilder()
                     .uri(getURI())
                     .timeout(Duration.ofSeconds(5))
+                    .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(body))
                     .build();
         }
@@ -62,6 +63,7 @@ public class RequestBuilder {
             return HttpRequest.newBuilder()
                     .uri(getURI())
                     .timeout(Duration.ofSeconds(5))
+                    .header("Content-Type", "application/json")
                     .PUT(HttpRequest.BodyPublishers.ofString(body))
                     .build();
         }

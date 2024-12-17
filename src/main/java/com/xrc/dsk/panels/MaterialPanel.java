@@ -3,6 +3,7 @@ package com.xrc.dsk.panels;
 
 import com.xrc.dsk.connection.ConnectionService;
 import com.xrc.dsk.controllers.MaterialController;
+import com.xrc.dsk.dto.MaterialInfoDto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.Getter;
@@ -14,6 +15,7 @@ public class MaterialPanel extends Panel {
 
     private CalculationPanel parentPanel;
     private MaterialController materialController;
+    private MaterialInfoDto materialInfoDto;
 
     public MaterialPanel(CalculationPanel parent) {
         super("/com/xrc/dsk/windows/material-panel.fxml");

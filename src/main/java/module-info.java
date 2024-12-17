@@ -13,9 +13,13 @@ module com.xrc.dsk {
     requires static org.slf4j;
     requires de.jensd.fx.glyphs.fontawesome;
     requires java.net.http;
+    requires com.fasterxml.jackson.databind;
 
-    opens com.xrc.dsk to javafx.fxml, org.slf4j;
+    opens com.xrc.dsk to javafx.fxml, org.slf4j, com.fasterxml.jackson.databind;
+    opens com.xrc.dsk.dto to com.fasterxml.jackson.databind;
     opens com.xrc.dsk.controllers to javafx.fxml;
     exports com.xrc.dsk;
     exports com.xrc.dsk.controllers;
+    exports com.xrc.dsk.dto;
+
 }

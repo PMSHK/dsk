@@ -2,8 +2,10 @@ package com.xrc.dsk.connection;
 
 
 import com.xrc.dsk.converters.JsonConverter;
+import com.xrc.dsk.dto.KParamDto;
 import com.xrc.dsk.dto.KermaParamDto;
 import com.xrc.dsk.dto.MaterialInfoDto;
+import com.xrc.dsk.dto.ProtectionDto;
 import com.xrc.dsk.dto.RadiationTypeDto;
 
 import java.net.URLEncoder;
@@ -52,7 +54,7 @@ public class ConnectionService {
                 }).join();
     }
 
-    public Double getRadExit(double voltage){
+    public Double getRadExit(double voltage) {
         KermaParamDto kParamDto = new KermaParamDto(voltage);
         String body = jsonConverter.toJson(kParamDto);
 
@@ -73,4 +75,46 @@ public class ConnectionService {
                     return jsonConverter.listFromJson(json, String.class);
                 }).join();
     }
+
+    public List<String> getPersonalCategories() {
+        requestBuilder = new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/calculation_info/room_categories");
+        jsonConverter = new JsonConverter();
+        return httpClient.sendAsync(requestBuilder.createRequest("GET"), HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(json -> {
+                    return jsonConverter.listFromJson(json, String.class);
+                }).join();
+    }
+
+    public List<Double> getDirectionCoefficients() {
+        requestBuilder = new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/calculation_info/direction_coefficient");
+        jsonConverter = new JsonConverter();
+        return httpClient.sendAsync(requestBuilder.createRequest("GET"), HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(json -> {
+                    return jsonConverter.listFromJson(json, Double.class);
+                }).join();
+    }
+
+    public String getDmdByCategory(String category) {
+        String categoryEncoded = URLEncoder.encode(category, StandardCharsets.UTF_8);
+        categoryEncoded = categoryEncoded.replace("+", "%20");
+        requestBuilder = new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/calculation_info/dmd?room_category=" + categoryEncoded);
+        jsonConverter = new JsonConverter();
+        return httpClient.sendAsync(requestBuilder.createRequest("GET"), HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(json -> jsonConverter.fromJson(json, Double.class))
+                .thenApply(String::valueOf).join();
+    }
+
+    public ProtectionDto getDemandedLeadEquivalent(KParamDto dto){
+
+        requestBuilder =  new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/calculation/protection",jsonConverter.toJson(dto));
+        jsonConverter = new JsonConverter();
+        return httpClient.sendAsync(requestBuilder.createRequest("POST"), HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(json->jsonConverter.fromJson(json, ProtectionDto.class))
+                .join();
+    }
+
 }

@@ -1,12 +1,15 @@
 package com.xrc.dsk.controllers;
 
+import com.xrc.dsk.connection.ConnectionService;
+import com.xrc.dsk.dto.KParamDto;
 import com.xrc.dsk.model.PanelsStorage;
 import com.xrc.dsk.panels.MedicineCalculationPanel;
 import com.xrc.dsk.services.MedicinePanelService;
 import com.xrc.dsk.services.MedicineWindowService;
+import com.xrc.dsk.services.PublisherService;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -22,6 +25,9 @@ public class MedicineCalculationPanelController  {
     private MedicinePanelService medicinePanelService;
     private MedicineWindowService medicineWindowService;
     private PanelsStorage panelsStorage = PanelsStorage.getInstance();
+    private ConnectionService connectionService;
+    private KParamDto kParamDto = new KParamDto();
+    private PublisherService publishService = new PublisherService(kParamDto);
     @FXML
     private FontAwesomeIconView addButton;
 
@@ -29,7 +35,7 @@ public class MedicineCalculationPanelController  {
     private Label additionalProtection;
 
     @FXML
-    private ComboBox<?> analogMaterial;
+    private ComboBox<String> analogMaterial;
 
     @FXML
     private Label analogMaterialThickness;
@@ -47,7 +53,7 @@ public class MedicineCalculationPanelController  {
     private FontAwesomeIconView deleteButton;
 
     @FXML
-    private ComboBox<?> directionCoefficient;
+    private ComboBox<Double> directionCoefficient;
 
     @FXML
     private TextField distance;
@@ -65,7 +71,7 @@ public class MedicineCalculationPanelController  {
     private VBox openingsStorage;
 
     @FXML
-    private ComboBox<?> personalCategory;
+    private ComboBox<String> personalCategory;
 
     @FXML
     private TextArea roomAssignment;
@@ -83,6 +89,14 @@ public class MedicineCalculationPanelController  {
     @FXML
     void deleteRecentPanel(MouseEvent event) {
         panelsStorage.getPanelsStorage().getChildren().remove(calculationPanel);
+    }
+
+    @FXML
+    void getDmd(ActionEvent event) {
+        if (connectionService==null){
+            connectionService = new ConnectionService();
+        }
+        dmd.setText(connectionService.getDmdByCategory(personalCategory.getSelectionModel().getSelectedItem()));
     }
 
 }

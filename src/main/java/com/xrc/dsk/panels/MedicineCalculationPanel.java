@@ -1,6 +1,9 @@
 package com.xrc.dsk.panels;
 
+import com.xrc.dsk.connection.ConnectionService;
 import com.xrc.dsk.controllers.MedicineCalculationPanelController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -33,9 +36,21 @@ public class MedicineCalculationPanel extends CalculationPanel {
         if (openingPanels.isEmpty()) {
             openingPanels.add(new OpeningPanel(this));
         }
+        fillComboBoxes();
         materialPanels.forEach(MaterialPanel::addToParentNode);
         openingPanels.forEach(OpeningPanel::addToParentNode);
         System.out.println("panel initialized");
+    }
+
+    private void fillComboBoxes(){
+        ConnectionService connectionService = new ConnectionService();
+        ObservableList<String> categories = FXCollections.observableList(connectionService.getPersonalCategories());
+        ObservableList<Double> directionCoefficients = FXCollections.observableList(connectionService.getDirectionCoefficients());
+        ObservableList<String> materials = FXCollections.observableList(connectionService.getAllMaterials());
+
+        controller.getPersonalCategory().setItems(categories);
+        controller.getDirectionCoefficient().setItems(directionCoefficients);
+        controller.getAnalogMaterial().setItems(materials);
     }
 
     public void addMaterialPanel() {

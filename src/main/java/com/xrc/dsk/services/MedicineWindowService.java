@@ -38,29 +38,16 @@ public class MedicineWindowService {
         ConnectionService connectionService = new ConnectionService();
         ObservableList<String> equipmentTypes = FXCollections.observableList(connectionService.getEquipmentType());
         calculatorWindowController = ((CalculatorWindowController) window.getController());
+        calculatorWindowController.setWindow(window);
         calculatorWindowController.getType().setText(type);
         calculatorWindowController.getEquipmentType().setItems(equipmentTypes);
         if (panels == null) {
             panels = new ArrayList<>();
-            panels.add(new MedicineCalculationPanel());
+            panels.add(new MedicineCalculationPanel(0));
         }
         for (MedicineCalculationPanel panel : panels) {
             calculatorWindowController.getPanelsStorage().getChildren().add(panel.getRootNode());
         }
         panelsStorage.setPanelsStorage(calculatorWindowController.getPanelsStorage());
     }
-
-//    public void initialize(String type, SaveLoader saveLoader) {
-//        this.saveLoader = saveLoader;
-//    }
-//
-//    public void addNewPanel() {
-//        MedicineCalculationPanel panel = new MedicineCalculationPanel();
-//        panels.add(panel);
-//        calculatorWindowController.getPanelsStorage().getChildren().add(panel);
-//    }
-//
-//    public void deletePanel(MedicineCalculationPanel panel) {
-//        panels.remove(panel);
-//    }
 }

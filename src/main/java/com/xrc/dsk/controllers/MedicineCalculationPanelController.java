@@ -27,7 +27,8 @@ public class MedicineCalculationPanelController  {
     private PanelsStorage panelsStorage = PanelsStorage.getInstance();
     private ConnectionService connectionService;
     private KParamDto kParamDto = new KParamDto();
-    private PublisherService publishService = new PublisherService(kParamDto);
+    private Integer id;
+//    private PublisherService publishService = new PublisherService(kParamDto);
     @FXML
     private FontAwesomeIconView addButton;
 
@@ -81,7 +82,7 @@ public class MedicineCalculationPanelController  {
 
     @FXML
     void addNewPanel(MouseEvent event) {
-        panelsStorage.getPanelsStorage().getChildren().add(new MedicineCalculationPanel().getRootNode());
+        panelsStorage.getPanelsStorage().getChildren().add(new MedicineCalculationPanel(id++).getRootNode());
         System.out.println("Panel added");
 
     }

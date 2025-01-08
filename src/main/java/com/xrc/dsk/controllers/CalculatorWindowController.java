@@ -1,8 +1,10 @@
 package com.xrc.dsk.controllers;
 
 import com.xrc.dsk.connection.ConnectionService;
-import com.xrc.dsk.dto.RadiationTypeDto;
-import com.xrc.dsk.handlers.ComboBoxHandler;
+import com.xrc.dsk.data.DataStorage;
+import com.xrc.dsk.dto.MedWindowDto;
+import com.xrc.dsk.services.DataService;
+import com.xrc.dsk.services.SaveLoader;
 import com.xrc.dsk.windows.CalculatorWindow;
 import com.xrc.dsk.windows.WindowControl;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -58,6 +60,10 @@ public class CalculatorWindowController extends WindowControl {
 
     private CalculatorWindow window;
 
+    private DataStorage storage = DataStorage.getInstance();
+
+    private SaveLoader saveLoader;
+    private DataService dataService;
 
     @FXML
     void getInfo(MouseEvent event) {
@@ -66,7 +72,6 @@ public class CalculatorWindowController extends WindowControl {
 
     @FXML
     void getRadExit(KeyEvent event) {
-        radExitLabel.setText(String.valueOf(connectionService.getRadExit(Double.parseDouble(voltageField.getText()))));
     }
 
     @FXML
@@ -86,7 +91,10 @@ public class CalculatorWindowController extends WindowControl {
 
     @FXML
     void save(MouseEvent event) {
-
+        if (saveLoader == null) {
+            saveLoader = new SaveLoader(getWindow());
+        }
+        saveLoader.save();
     }
 
     @FXML
@@ -97,11 +105,10 @@ public class CalculatorWindowController extends WindowControl {
     @FXML
     void handleEquipType(ActionEvent event) {
         initialize();
-        ComboBoxHandler<String> handler = new ComboBoxHandler<>(equipmentType);
-        RadiationTypeDto radiationTypeDto= connectionService.getEquipTypeParameters(handler.getElement(), "MED");
-        voltageField.setText(String.valueOf(radiationTypeDto.getVoltage()));
-        workloadField.setText(String.valueOf(radiationTypeDto.getRadiationExit()));
-        radExitLabel.setText(String.valueOf(connectionService.getRadExit(radiationTypeDto.getVoltage())));
+        if (dataService == null) {
+            dataService = new DataService(new MedWindowDto());
+        }
+        dataService.bindMedicineMainWindow(voltageField, workloadField, radExitLabel, type, equipmentType);
     }
 
     private void initialize() {

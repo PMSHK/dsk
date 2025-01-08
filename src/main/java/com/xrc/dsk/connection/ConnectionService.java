@@ -56,6 +56,9 @@ public class ConnectionService {
 
     public Double getRadExit(double voltage) {
         KermaParamDto kParamDto = new KermaParamDto(voltage);
+        if (jsonConverter==null) {
+            jsonConverter = new JsonConverter();
+        }
         String body = jsonConverter.toJson(kParamDto);
 
         requestBuilder = new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/calculation/kerma", body);

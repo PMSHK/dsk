@@ -1,6 +1,6 @@
 package com.xrc.dsk.dto;
 
-public interface PublisherDto {
+public interface Changeable {
     boolean filled();
     boolean changed();
 }

@@ -14,9 +14,11 @@ public class MedicineCalculationPanel extends CalculationPanel {
     private MedicineCalculationPanelController controller;
     private List<MaterialPanel> materialPanels;
     private List<OpeningPanel> openingPanels;
+    private Integer id;
 
-    public MedicineCalculationPanel() {
+    public MedicineCalculationPanel(Integer id) {
         super("/com/xrc/dsk/windows/medicine-calculation-panel.fxml");
+        this.id = id;
         initialize();
     }
 
@@ -40,6 +42,7 @@ public class MedicineCalculationPanel extends CalculationPanel {
         materialPanels.forEach(MaterialPanel::addToParentNode);
         openingPanels.forEach(OpeningPanel::addToParentNode);
         System.out.println("panel initialized");
+        controller.setId(id);
     }
 
     private void fillComboBoxes(){

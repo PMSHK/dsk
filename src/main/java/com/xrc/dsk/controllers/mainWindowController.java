@@ -31,6 +31,7 @@ public class mainWindowController extends WindowControl {
     @FXML
     private AnchorPane leftPane;
 
+
     public void medicineButtonClick(MouseEvent mouseEvent) {
         CalculatorWindow calculatorWindow = new CalculatorWindow(
                 "/com/xrc/dsk/windows/calculator-window.fxml"

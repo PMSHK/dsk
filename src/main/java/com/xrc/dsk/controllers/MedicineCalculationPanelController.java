@@ -14,6 +14,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
@@ -98,6 +99,16 @@ public class MedicineCalculationPanelController  {
             connectionService = new ConnectionService();
         }
         dmd.setText(connectionService.getDmdByCategory(personalCategory.getSelectionModel().getSelectedItem()));
+    }
+
+    @FXML
+    void setAdjacentRoomPurpose(KeyEvent event) {
+
+    }
+
+    @FXML
+    void setWallSign(KeyEvent event) {
+        System.out.println("wall sign" + event.getText());
     }
 
 }

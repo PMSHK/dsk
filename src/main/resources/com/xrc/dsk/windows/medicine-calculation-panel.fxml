@@ -15,19 +15,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 
-<VBox fx:id="calculationPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="200.0" styleClass="vbox" stylesheets="@calculatorStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xrc.dsk.controllers.MedicineCalculationPanelController">
+<VBox fx:id="calculationPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="200.0" styleClass="vbox" stylesheets="@calculatorStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xrc.dsk.controllers.MedicineCalculationPanelController">
    <children>
       <HBox prefHeight="65.0" prefWidth="200.0" VBox.vgrow="NEVER">
          <VBox.margin>
             <Insets bottom="3.0" top="5.0" />
          </VBox.margin>
          <children>
-            <TextArea fx:id="wallName" prefHeight="65.0" prefWidth="76.0" promptText="Стена &quot;А&quot;" styleClass="text-area" stylesheets="@calculatorStyle.css" wrapText="true">
+            <TextArea fx:id="wallName" onKeyPressed="#setWallSign" prefHeight="65.0" prefWidth="76.0" promptText="Стена &quot;А&quot;" styleClass="text-area" stylesheets="@calculatorStyle.css" wrapText="true">
                <HBox.margin>
                   <Insets left="5.0" />
                </HBox.margin>
             </TextArea>
-            <TextArea fx:id="roomAssignment" prefHeight="65.0" prefWidth="112.0" promptText="Назначение смежного помещения" stylesheets="@calculatorStyle.css" wrapText="true">
+            <TextArea fx:id="roomAssignment" onKeyPressed="#setAdjacentRoomPurpose" prefHeight="65.0" prefWidth="112.0" promptText="Назначение смежного помещения" stylesheets="@calculatorStyle.css" wrapText="true">
                <HBox.margin>
                   <Insets left="5.0" right="5.0" />
                </HBox.margin>

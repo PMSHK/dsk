@@ -2,6 +2,8 @@ package com.xrc.dsk.panels;
 
 import com.xrc.dsk.connection.ConnectionService;
 import com.xrc.dsk.controllers.MedicineCalculationPanelController;
+import com.xrc.dsk.services.DataService;
+import com.xrc.dsk.services.MedPanelDataService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.Pane;
@@ -72,5 +74,11 @@ public class MedicineCalculationPanel extends CalculationPanel {
     @Override
     public Pane getOpeningBase() {
         return controller.getOpeningsStorage();
+    }
+
+    private void bind (){
+        MedPanelDataService dataService = new MedPanelDataService();
+        dataService.setPanelId(controller.getId());
+        dataService.bindTextFields(controller.getWallName(),controller.getRoomAssignment(),controller.getPersonalCategory());
     }
 }

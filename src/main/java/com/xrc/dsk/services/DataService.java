@@ -43,8 +43,8 @@ public class DataService {
         }
         ComboBoxHandler<String> handler = new ComboBoxHandler<>(equipmentType);
         RadiationTypeDto radiationTypeDto = connectionService.getEquipTypeParameters(handler.getElement(), "MED");
-        MedWindowDto windowDto = new MedWindowDto();
-        dataStorage.setWindowDto(windowDto);
+        MedWindowDto windowDto = getMedicineMainWindow();
+//        dataStorage.setWindowDto(windowDto);
         MedicineMainWindowBinder medicineBinder = new MedicineMainWindowBinder();
         elements.put("voltage", new Object[]{voltageField, radiationTypeDto.getVoltage()});
         elements.put("workLoad", new Object[]{workloadField, radiationTypeDto.getWorkload()});
@@ -53,5 +53,14 @@ public class DataService {
         elements.put("equipmentType", new Object[]{equipmentType});
         medicineBinder.bind(windowDto, elements);
 
+    }
+
+    private MedWindowDto getMedicineMainWindow() {
+        MedWindowDto medWindowDto = (MedWindowDto) dataStorage.getWindowDto();
+        if (medWindowDto == null) {
+            medWindowDto = new MedWindowDto();
+            dataStorage.setWindowDto(medWindowDto);
+        }
+        return medWindowDto;
     }
 }

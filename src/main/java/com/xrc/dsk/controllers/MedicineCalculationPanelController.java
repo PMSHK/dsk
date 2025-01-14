@@ -4,6 +4,7 @@ import com.xrc.dsk.connection.ConnectionService;
 import com.xrc.dsk.dto.KParamDto;
 import com.xrc.dsk.model.PanelsStorage;
 import com.xrc.dsk.panels.MedicineCalculationPanel;
+import com.xrc.dsk.services.MedPanelDataService;
 import com.xrc.dsk.services.MedicinePanelService;
 import com.xrc.dsk.services.MedicineWindowService;
 import com.xrc.dsk.services.PublisherService;
@@ -83,7 +84,7 @@ public class MedicineCalculationPanelController  {
 
     @FXML
     void addNewPanel(MouseEvent event) {
-        panelsStorage.getPanelsStorage().getChildren().add(new MedicineCalculationPanel(id++).getRootNode());
+        panelsStorage.getPanelsStorage().getChildren().add(new MedicineCalculationPanel(++id).getRootNode());
         System.out.println("Panel added");
 
     }
@@ -99,6 +100,12 @@ public class MedicineCalculationPanelController  {
             connectionService = new ConnectionService();
         }
         dmd.setText(connectionService.getDmdByCategory(personalCategory.getSelectionModel().getSelectedItem()));
+    }
+
+    @FXML
+    void getDirectionCoefficient(ActionEvent event) {
+        MedPanelDataService service = new MedPanelDataService();
+        service.selectElement(directionCoefficient);
     }
 
     @FXML

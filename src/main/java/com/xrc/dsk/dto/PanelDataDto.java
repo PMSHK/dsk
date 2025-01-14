@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -70,26 +71,40 @@ public class PanelDataDto implements Serializable {
     }
 
     public TextFormDto getTextFormDto() {
+        if (textFormDto.get() == null) {
+            textFormDto.set(new TextFormDto());
+        }
         return textFormDtoProperty().get();
     }
 
     public ProtectionDto getProtectionDto() {
+        if (protectionDto.get() == null) {
+            protectionDto.set(new ProtectionDto());
+        }
         return protectionDtoProperty().get();
     }
 
     public ObservableList<MaterialDto> getExistedMaterialDtoList() {
+
         return existedMaterialDtoListProperty().get();
     }
 
     public MaterialDto getRecommendedMaterialDto() {
+        if (recommendedMaterialDto.get() == null) {
+            recommendedMaterialDto.set(new MaterialDto());
+        }
         return recommendedMaterialDtoProperty().get();
     }
 
     public ObservableList<OpeningDto> getOpeningDtoList() {
+
         return openingDtoListProperty().get();
     }
 
     public SourceDataDto getSourceDataDto() {
+        if (sourceDataDto.get() == null) {
+            sourceDataDto.set(new SourceDataDto());
+        }
         return sourceDataDtoProperty().get();
     }
 }

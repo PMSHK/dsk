@@ -13,4 +13,14 @@ public final class AppParameters {
     Load window
       */
     public final static String LOAD_TITLE = "открытие";
+
+        /*
+    calculation panel
+      */
+    public static final String WALL_SIGN = "WALL";
+    public static final String ROOM_PURPOSE = "PURPOSE";
+    public static final String PERSONAL_CATEGORY = "PERSONAL_CATEGORY";
+    public static final String DMD = "DMD";
+    public static final String DIRECTION_COEFFICIENT = "DIRECTION_COEFFICIENT";
+    public static final String DISTANCE = "DISTANCE";
 }

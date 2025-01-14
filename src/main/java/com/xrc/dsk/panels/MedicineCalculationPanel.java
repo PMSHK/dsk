@@ -45,6 +45,8 @@ public class MedicineCalculationPanel extends CalculationPanel {
         openingPanels.forEach(OpeningPanel::addToParentNode);
         System.out.println("panel initialized");
         controller.setId(id);
+
+        bind();
     }
 
     private void fillComboBoxes(){
@@ -79,6 +81,9 @@ public class MedicineCalculationPanel extends CalculationPanel {
     private void bind (){
         MedPanelDataService dataService = new MedPanelDataService();
         dataService.setPanelId(controller.getId());
+        dataService.addNewPanel();
         dataService.bindTextFields(controller.getWallName(),controller.getRoomAssignment(),controller.getPersonalCategory());
+        dataService.bindSourceData(controller.getDmd(),controller.getDirectionCoefficient(),controller.getDistance());
+        System.out.println("panel binding");
     }
 }

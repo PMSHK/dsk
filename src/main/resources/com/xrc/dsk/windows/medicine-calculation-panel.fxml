@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 
-<VBox fx:id="calculationPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="200.0" styleClass="vbox" stylesheets="@calculatorStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xrc.dsk.controllers.MedicineCalculationPanelController">
+<VBox fx:id="calculationPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" styleClass="vbox" stylesheets="@calculatorStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xrc.dsk.controllers.MedicineCalculationPanelController">
    <children>
       <HBox prefHeight="65.0" prefWidth="200.0" VBox.vgrow="NEVER">
          <VBox.margin>
@@ -27,7 +27,7 @@
                   <Insets left="5.0" />
                </HBox.margin>
             </TextArea>
-            <TextArea fx:id="roomAssignment" onKeyPressed="#setAdjacentRoomPurpose" prefHeight="65.0" prefWidth="112.0" promptText="Назначение смежного помещения" stylesheets="@calculatorStyle.css" wrapText="true">
+            <TextArea fx:id="roomAssignment" onKeyPressed="#setAdjacentRoomPurpose" prefHeight="65.0" prefWidth="161.0" promptText="Назначение смежного помещения" stylesheets="@calculatorStyle.css" wrapText="true">
                <HBox.margin>
                   <Insets left="5.0" right="5.0" />
                </HBox.margin>
@@ -36,7 +36,7 @@
       </HBox>
       <VBox prefHeight="50.0" prefWidth="100.0" VBox.vgrow="NEVER">
          <children>
-            <ComboBox fx:id="personalCategory" onAction="#getDmd" prefWidth="190.0" promptText="Категория" VBox.vgrow="NEVER">
+            <ComboBox fx:id="personalCategory" onAction="#getDmd" prefHeight="25.0" prefWidth="241.0" promptText="Категория" VBox.vgrow="NEVER">
                <VBox.margin>
                   <Insets bottom="3.0" left="5.0" right="5.0" top="3.0" />
                </VBox.margin>
@@ -69,12 +69,12 @@
       </VBox>
       <HBox prefHeight="25.0" prefWidth="200.0" VBox.vgrow="NEVER">
          <children>
-            <Label text="Коэфф. направленности:">
+            <Label prefHeight="17.0" prefWidth="161.0" text="Коэфф. направленности:">
                <HBox.margin>
                   <Insets top="6.0" />
                </HBox.margin>
             </Label>
-            <ComboBox fx:id="directionCoefficient" prefWidth="50.0" promptText="1" HBox.hgrow="NEVER">
+            <ComboBox fx:id="directionCoefficient" onAction="#getDirectionCoefficient" prefHeight="25.0" prefWidth="104.0" promptText="1" HBox.hgrow="NEVER">
                <HBox.margin>
                   <Insets left="5.0" top="2.0" />
                </HBox.margin>
@@ -203,13 +203,13 @@
       <GridPane alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="125.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <VBox alignment="CENTER" prefHeight="30.0" prefWidth="157.0">
                <children>
                   <FontAwesomeIconView fx:id="deleteButton" glyphName="MINUS" onMouseClicked="#deleteRecentPanel" size="24" styleClass="symbols" />
                </children>

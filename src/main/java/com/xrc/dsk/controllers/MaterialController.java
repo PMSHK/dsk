@@ -4,6 +4,7 @@ import com.xrc.dsk.panels.MaterialPanel;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -29,6 +30,9 @@ public class MaterialController {
 
     @FXML
     private TextField thicknessField;
+
+    @FXML
+    private Label matEqvLabel;
 
     @FXML
     void addMatLayer(MouseEvent event) {

@@ -6,7 +6,6 @@ import com.xrc.dsk.dto.WindowDto;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 
 import java.util.Map;
 

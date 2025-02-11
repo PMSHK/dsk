@@ -71,6 +71,7 @@ dependencies {
     implementation("org.projectlombok:lombok-mapstruct-binding:0.2.0")
     annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
     implementation("ch.qos.logback:logback-classic:1.5.12")
+    implementation("com.google.guava:guava:33.4.0-jre")
 
     // Test dependencies
     implementation(platform("org.testcontainers:testcontainers-bom:1.20.3"))

@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="openingPlate" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: #FF9900; -fx-border-radius: 5;" styleClass=".vbox" stylesheets="@calculatorStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xrc.dsk.controllers.OpeningController">
+<VBox fx:id="openingPlate" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="245.0" style="-fx-border-color: #FF9900; -fx-border-radius: 5;" styleClass=".vbox" stylesheets="@calculatorStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xrc.dsk.controllers.OpeningController">
    <children>
-      <ComboBox fx:id="openingBox" prefHeight="26.0" prefWidth="216.0" promptText="Вид" styleClass=".combo-box" stylesheets="@calculatorStyle.css" VBox.vgrow="NEVER">
+      <ComboBox fx:id="openingBox" prefHeight="26.0" prefWidth="238.0" promptText="Вид" styleClass=".combo-box" stylesheets="@calculatorStyle.css" VBox.vgrow="NEVER">
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </VBox.margin>

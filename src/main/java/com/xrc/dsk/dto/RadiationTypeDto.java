@@ -14,7 +14,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class RadiationTypeDto implements Serializable {
+public class RadiationTypeDto implements Serializable, Changeable {
     private StringProperty name = new SimpleStringProperty();
     private LongProperty voltage = new SimpleLongProperty();
     private DoubleProperty radiationExit = new SimpleDoubleProperty();
@@ -66,5 +66,10 @@ public class RadiationTypeDto implements Serializable {
 
     public LongProperty workloadProperty() {
         return workload;
+    }
+
+    @Override
+    public boolean filled() {
+        return voltage.get()!=0 && radiationExit.get()!=0 && workload.get()!=0;
     }
 }

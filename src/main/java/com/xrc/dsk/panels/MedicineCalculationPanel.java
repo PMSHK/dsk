@@ -2,7 +2,6 @@ package com.xrc.dsk.panels;
 
 import com.xrc.dsk.connection.ConnectionService;
 import com.xrc.dsk.controllers.MedicineCalculationPanelController;
-import com.xrc.dsk.services.DataService;
 import com.xrc.dsk.services.MedPanelDataService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -49,7 +48,7 @@ public class MedicineCalculationPanel extends CalculationPanel {
         bind();
     }
 
-    private void fillComboBoxes(){
+    private void fillComboBoxes() {
         ConnectionService connectionService = new ConnectionService();
         ObservableList<String> categories = FXCollections.observableList(connectionService.getPersonalCategories());
         ObservableList<Double> directionCoefficients = FXCollections.observableList(connectionService.getDirectionCoefficients());
@@ -78,12 +77,12 @@ public class MedicineCalculationPanel extends CalculationPanel {
         return controller.getOpeningsStorage();
     }
 
-    private void bind (){
+    private void bind() {
         MedPanelDataService dataService = new MedPanelDataService();
         dataService.setPanelId(controller.getId());
         dataService.addNewPanel();
-        dataService.bindTextFields(controller.getWallName(),controller.getRoomAssignment(),controller.getPersonalCategory());
-        dataService.bindSourceData(controller.getDmd(),controller.getDirectionCoefficient(),controller.getDistance());
+        dataService.bindTextFields(controller.getWallName(), controller.getRoomAssignment(), controller.getPersonalCategory());
+        dataService.bindSourceData(controller.getDmd(), controller.getDirectionCoefficient(), controller.getDistance());
         System.out.println("panel binding");
     }
 }

@@ -111,9 +111,9 @@ public class ConnectionService {
     }
 
     public ProtectionDto getDemandedLeadEquivalent(KParamDto dto){
-
-        requestBuilder =  new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/calculation/protection",jsonConverter.toJson(dto));
         jsonConverter = new JsonConverter();
+        requestBuilder =  new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/calculation/protection",jsonConverter.toJson(dto));
+
         return httpClient.sendAsync(requestBuilder.createRequest("POST"), HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body)
                 .thenApply(json->jsonConverter.fromJson(json, ProtectionDto.class))

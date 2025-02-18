@@ -4,6 +4,7 @@ import com.xrc.dsk.connection.ConnectionService;
 import com.xrc.dsk.data.DataStorage;
 import com.xrc.dsk.data.MedicineSourceDataBinder;
 import com.xrc.dsk.data.MedicineTextFormsBinder;
+import com.xrc.dsk.data.ProtectionDataBinder;
 import com.xrc.dsk.dto.MedWindowDto;
 import com.xrc.dsk.dto.PanelDataDto;
 import com.xrc.dsk.handlers.ComboBoxHandler;
@@ -16,9 +17,11 @@ import lombok.Setter;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.xrc.dsk.data.AppParameters.ATTENUATION_FREQUENCY;
 import static com.xrc.dsk.data.AppParameters.DIRECTION_COEFFICIENT;
 import static com.xrc.dsk.data.AppParameters.DISTANCE;
 import static com.xrc.dsk.data.AppParameters.DMD;
+import static com.xrc.dsk.data.AppParameters.LEAD_EQUIVALENT;
 import static com.xrc.dsk.data.AppParameters.PERSONAL_CATEGORY;
 import static com.xrc.dsk.data.AppParameters.ROOM_PURPOSE;
 import static com.xrc.dsk.data.AppParameters.WALL_SIGN;
@@ -56,6 +59,15 @@ public class MedPanelDataService {
         elements.put(DIRECTION_COEFFICIENT, new Object[]{attenuationCoefficientBox, panelId});
         elements.put(DISTANCE, new Object[]{distanceField, panelId});
         MedicineSourceDataBinder binder = new MedicineSourceDataBinder();
+        binder.bind(dto, elements);
+    }
+
+    public void bindProtectionData(Label attenuationFrequencyLabel, Label leadEquivalentLabel){
+        MedWindowDto dto = getMedWindowDto();
+        elements = getElements();
+        elements.put(ATTENUATION_FREQUENCY, new Object[]{attenuationFrequencyLabel,panelId});
+        elements.put(LEAD_EQUIVALENT, new Object[]{leadEquivalentLabel,panelId});
+        ProtectionDataBinder binder = new ProtectionDataBinder();
         binder.bind(dto, elements);
     }
 

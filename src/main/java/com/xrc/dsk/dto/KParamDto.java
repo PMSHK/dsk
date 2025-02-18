@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class KParamDto implements Changeable {
+public class KParamDto implements Filled {
     private Double workLoad;
     private Double directionCoefficient;
     private Double distance;

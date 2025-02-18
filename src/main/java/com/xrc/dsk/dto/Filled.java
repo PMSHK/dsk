@@ -1,5 +1,5 @@
 package com.xrc.dsk.dto;
 
-public interface Changeable {
+public interface Filled {
     boolean filled();
 }

@@ -3,11 +3,11 @@ package com.xrc.dsk.events;
 import com.google.common.eventbus.EventBus;
 
 public class EventManager {
-    private final EventBus bus = new EventBus();
-    public void post(final Object event) {
+    private static final EventBus bus = new EventBus();
+    public static void post(final Object event) {
         bus.post(event);
     }
-    public void register(final Object event) {
+    public static void register(final Object event) {
         bus.register(event);
     }
 }

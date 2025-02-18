@@ -1,12 +1,9 @@
 package com.xrc.dsk.services;
 
-import com.xrc.dsk.dto.Changeable;
 import com.xrc.dsk.dto.WindowDto;
-import com.xrc.dsk.listeners.Observable;
 import com.xrc.dsk.listeners.Observer;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor

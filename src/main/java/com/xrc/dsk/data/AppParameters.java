@@ -23,4 +23,6 @@ public final class AppParameters {
     public static final String DMD = "DMD";
     public static final String DIRECTION_COEFFICIENT = "DIRECTION_COEFFICIENT";
     public static final String DISTANCE = "DISTANCE";
+    public static final String ATTENUATION_FREQUENCY = "ATTENUATION_FREQUENCY";
+    public static final String LEAD_EQUIVALENT = "LEAD_EQUIVALENT";
 }

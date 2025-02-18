@@ -2,8 +2,11 @@ package com.xrc.dsk.data;
 
 import com.xrc.dsk.dto.MedWindowDto;
 import com.xrc.dsk.dto.PanelDataDto;
+import com.xrc.dsk.dto.RadiationTypeDto;
 import com.xrc.dsk.dto.WindowDto;
-import com.xrc.dsk.handlers.ComboBoxHandler;
+import com.xrc.dsk.events.EventManager;
+import com.xrc.dsk.listeners.PanelProtectionUpdateService;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -20,6 +23,7 @@ public class MedicineSourceDataBinder implements Bindable {
     private MedWindowDto medWindowDto;
     private Integer panelId;
     private PanelDataDto panelDataDto;
+    private PanelProtectionUpdateService panelProtectionUpdateService;
 
     public MedicineSourceDataBinder() {
         binder = new Binder();
@@ -30,6 +34,7 @@ public class MedicineSourceDataBinder implements Bindable {
         medWindowDto = (MedWindowDto) dto;
         this.panelId = (Integer) components.get(DMD)[1];
         this.panelDataDto = medWindowDto.getPanelDataProperty().get(panelId);
+        this.panelProtectionUpdateService = new PanelProtectionUpdateService(panelDataDto, medWindowDto.getRadiationType());
         Label dmdLabel = (Label) components.get(DMD)[0];
         ComboBox<Double> directionCoefficientBox = (ComboBox<Double>) components.get(DIRECTION_COEFFICIENT)[0];
         TextField distanceField = (TextField) components.get(DISTANCE)[0];
@@ -44,11 +49,12 @@ public class MedicineSourceDataBinder implements Bindable {
                     System.out.println("dmd: " + val + " has been saved");
                 });
 
-        binder.bindDoublePropertyToDouble(directionCoefficientBox.valueProperty(), directionCoefficientProperty, directionCoefficientBox.getValue(),
-                (val) -> {
-                    panelDataDto.getSourceDataDto().setDirectionCoefficient(val);
-                    System.out.println("direction coefficient: " + val + " has been saved");
-                });
+        directionCoefficientBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                directionCoefficientProperty.set((Double) newValue);
+                System.out.println("direction coefficient: " + newValue + " has been saved");
+            }
+        });
 
         Double distance = 0d;
         if (!distanceField.getText().isEmpty()) {
@@ -59,7 +65,5 @@ public class MedicineSourceDataBinder implements Bindable {
                     panelDataDto.getSourceDataDto().setDistance(val);
                     System.out.println("distance: " + val + " has been saved");
                 });
-
-
     }
 }

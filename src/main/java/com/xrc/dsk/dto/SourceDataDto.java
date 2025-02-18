@@ -10,7 +10,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class SourceDataDto implements Serializable {
+public class SourceDataDto implements Serializable, Filled {
     private DoubleProperty dmd = new SimpleDoubleProperty();
     private DoubleProperty directionCoefficient = new SimpleDoubleProperty();
     private DoubleProperty distance = new SimpleDoubleProperty();
@@ -49,5 +49,10 @@ public class SourceDataDto implements Serializable {
 
     public double getDistance() {
         return distance.get();
+    }
+
+    @Override
+    public boolean filled() {
+        return dmd.get()>0 && directionCoefficient.get()>0 && distance.get()>0;
     }
 }

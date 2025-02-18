@@ -23,5 +23,6 @@ module com.xrc.dsk {
     exports com.xrc.dsk.controllers;
     exports com.xrc.dsk.dto;
     exports com.xrc.dsk.listeners;
+    exports com.xrc.dsk.events;
 
 }

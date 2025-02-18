@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class PanelDataDto implements Serializable {
+public class PanelDataDto implements Serializable, Filled {
     private ObjectProperty<TextFormDto> textFormDto = new SimpleObjectProperty<>();
     private ObjectProperty<ProtectionDto> protectionDto = new SimpleObjectProperty<>();
     private ListProperty<MaterialDto> existedMaterialDtoList = new SimpleListProperty<>(FXCollections.observableArrayList());
@@ -106,5 +106,10 @@ public class PanelDataDto implements Serializable {
             sourceDataDto.set(new SourceDataDto());
         }
         return sourceDataDtoProperty().get();
+    }
+
+    @Override
+    public boolean filled() {
+        return sourceDataDto.get()!=null && sourceDataDto.get().filled();
     }
 }

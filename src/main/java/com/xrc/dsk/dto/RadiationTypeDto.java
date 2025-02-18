@@ -14,7 +14,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class RadiationTypeDto implements Serializable, Changeable {
+public class RadiationTypeDto implements Serializable, Filled {
     private StringProperty name = new SimpleStringProperty();
     private LongProperty voltage = new SimpleLongProperty();
     private DoubleProperty radiationExit = new SimpleDoubleProperty();

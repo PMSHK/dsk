@@ -3,6 +3,8 @@ package com.xrc.dsk.data;
 import com.xrc.dsk.connection.ConnectionService;
 import com.xrc.dsk.dto.MedWindowDto;
 import com.xrc.dsk.dto.WindowDto;
+import com.xrc.dsk.events.EventManager;
+import com.xrc.dsk.events.RadiationTypeEvent;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.StringProperty;
@@ -70,6 +72,9 @@ public class MedicineMainWindowBinder implements Bindable {
 //        typeLabel.textProperty().bindBidirectional(
 //                (typeName)
 //        );
+        if (medWindowDto.getRadiationType().filled()){
+            EventManager.post(new RadiationTypeEvent(medWindowDto.getRadiationType()));
+        }
     }
 
     private void addEquipmentTypeListener(ComboBox<String> equipmentType) {

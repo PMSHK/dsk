@@ -48,6 +48,11 @@ public class MedicineCalculationPanel extends CalculationPanel {
         bind();
     }
 
+    @Override
+    public int getPanelId() {
+        return id;
+    }
+
     private void fillComboBoxes() {
         ConnectionService connectionService = new ConnectionService();
         ObservableList<String> categories = FXCollections.observableList(connectionService.getPersonalCategories());

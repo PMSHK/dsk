@@ -2,84 +2,91 @@ package com.xrc.dsk.data;
 
 import com.xrc.dsk.connection.ConnectionService;
 import com.xrc.dsk.dto.MedWindowDto;
+import com.xrc.dsk.dto.RadiationTypeDto;
 import com.xrc.dsk.dto.WindowDto;
 import com.xrc.dsk.events.EventManager;
 import com.xrc.dsk.events.RadiationTypeEvent;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.LongProperty;
-import javafx.beans.property.StringProperty;
-import javafx.event.ActionEvent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-
-import java.util.Map;
 
 public class MedicineMainWindowBinder implements Bindable {
     private final Binder binder;
     private final ConnectionService connectionService;
     private MedWindowDto medWindowDto;
+    private TextField voltageField;
+    private TextField workLoadField;
+    private Label radExitLabel;
+    private Label typeLabel;
+    private ComboBox<String> equipmentType;
+    private RadiationTypeDto radiationTypeDto;
 
     public MedicineMainWindowBinder() {
         this.binder = new Binder();
         this.connectionService = new ConnectionService();
     }
 
+    public MedicineMainWindowBinder(TextField voltageField,
+                                    TextField workLoadField,
+                                    Label radExitLabel,
+                                    Label typeLabel,
+                                    ComboBox<String> equipmentType,
+                                    RadiationTypeDto radiationTypeDto
+    ) {
+        this();
+        this.voltageField = voltageField;
+        this.workLoadField = workLoadField;
+        this.radExitLabel = radExitLabel;
+        this.typeLabel = typeLabel;
+        this.equipmentType = equipmentType;
+        this.radiationTypeDto = radiationTypeDto;
+    }
+
     @Override
-    public void bind(WindowDto dto, Map<String, Object[]> components) {
-        medWindowDto = (MedWindowDto) dto;
-        TextField voltageField = (TextField) components.get("voltage")[0];
-        TextField workLoadField = (TextField) components.get("workLoad")[0];
-        Label radExitLabel = (Label) components.get("radExit")[0];
-        Label typeLabel = (Label) components.get("type")[0];
-        ComboBox<String> equipmentType = (ComboBox<String>) components.get("equipmentType")[0];
+    public void bind(WindowDto dto) {
+        this.medWindowDto = (MedWindowDto) dto;
 
         LongProperty voltageProperty = medWindowDto
                 .getRadiationType()
                 .voltageProperty();
 
-        synchronized (binder) {
-            binder.bindLongPropertyToString(voltageField.textProperty(), voltageProperty, (Long) components.get("voltage")[1],
-                    (val) -> {
-                        medWindowDto.getRadiationType().setVoltage(val);
-                        System.out.println("voltage: " + val + " has been saved");
-                        double radExit = connectionService.getRadExit(val);
-                        radExitLabel.setText(String.valueOf(radExit));
-                        System.out.println("rExit: " + radExit + " has been saved");
-                    });
-            radExitLabel.setText(String.valueOf((Double) components.get("radExit")[1]));
-            medWindowDto.getRadiationType().setRadiationExit(Double.parseDouble(radExitLabel.getText()));
-            medWindowDto.getRadiationType().setName(equipmentType.getValue());
-            binder.notify();
-        }
+
+        binder.bindLongPropertyToString(voltageField.textProperty(), voltageProperty, radiationTypeDto.getVoltage(),
+                (val) -> {
+                    medWindowDto.getRadiationType().setVoltage(val);
+                    System.out.println("voltage: " + val + " has been saved");
+                    double radExit = connectionService.getRadExit(val);
+                    radExitLabel.setText(String.valueOf(radExit));
+                    System.out.println("rExit: " + radExit + " has been saved");
+//                    updatePanelsProtection();
+                });
+        radExitLabel.setText(String.valueOf(connectionService.getRadExit(radiationTypeDto.getVoltage())));
+        medWindowDto.getRadiationType().setRadiationExit(Double.parseDouble(radExitLabel.getText()));
+        medWindowDto.getRadiationType().setName(equipmentType.getValue());
+
 
         LongProperty workloadProperty = medWindowDto
                 .getRadiationType().workloadProperty();
-        synchronized (binder) {
-            binder.bindLongPropertyToString(workLoadField.textProperty(), workloadProperty, (Long) components.get("workLoad")[1],
-                    (val) -> {
-                        medWindowDto.getRadiationType().setWorkload(val);
-                        System.out.println("workload: " + val + " has been saved");
 
-                    });
-            binder.notify();
-        }
+        binder.bindLongPropertyToString(workLoadField.textProperty(), workloadProperty, radiationTypeDto.getWorkload(),
+                (val) -> {
+                    medWindowDto.getRadiationType().setWorkload(val);
+                    System.out.println("workload: " + val + " has been saved");
+//                    updatePanelsProtection();
+                });
+        updatePanelsProtection();
+    }
 
-//        StringProperty typeName = medWindowDto
-//                .getRadiationType()
-//                .nameProperty();
-//        typeLabel.textProperty().bindBidirectional(
-//                (typeName)
-//        );
-        if (medWindowDto.getRadiationType().filled()){
+    private void updatePanelsProtection() {
+        if (medWindowDto.getRadiationType().filled()) {
             EventManager.post(new RadiationTypeEvent(medWindowDto.getRadiationType()));
         }
     }
 
     private void addEquipmentTypeListener(ComboBox<String> equipmentType) {
         equipmentType.selectionModelProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == oldValue){
+            if (newValue == oldValue) {
                 String selected = equipmentType.getValue();
                 equipmentType.getSelectionModel().clearSelection();
                 equipmentType.getSelectionModel().select(selected);

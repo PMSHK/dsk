@@ -7,7 +7,6 @@ import com.xrc.dsk.dto.MedWindowDto;
 import com.xrc.dsk.dto.RadiationTypeDto;
 import com.xrc.dsk.dto.WindowDto;
 import com.xrc.dsk.handlers.ComboBoxHandler;
-import javafx.event.ActionEvent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -44,14 +43,13 @@ public class DataService {
         ComboBoxHandler<String> handler = new ComboBoxHandler<>(equipmentType);
         RadiationTypeDto radiationTypeDto = connectionService.getEquipTypeParameters(handler.getElement(), "MED");
         MedWindowDto windowDto = getMedicineMainWindow();
-//        dataStorage.setWindowDto(windowDto);
-        MedicineMainWindowBinder medicineBinder = new MedicineMainWindowBinder();
-        elements.put("voltage", new Object[]{voltageField, radiationTypeDto.getVoltage()});
-        elements.put("workLoad", new Object[]{workloadField, radiationTypeDto.getWorkload()});
-        elements.put("radExit", new Object[]{radExitLabel, connectionService.getRadExit(radiationTypeDto.getVoltage())});
-        elements.put("type", new Object[]{type});
-        elements.put("equipmentType", new Object[]{equipmentType});
-        medicineBinder.bind(windowDto, elements);
+        MedicineMainWindowBinder medicineBinder = new MedicineMainWindowBinder(voltageField,
+                workloadField,
+                radExitLabel,
+                type,
+                equipmentType,
+                radiationTypeDto);
+        medicineBinder.bind(windowDto);
 
     }
 

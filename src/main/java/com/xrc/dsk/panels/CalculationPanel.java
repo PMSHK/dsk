@@ -23,4 +23,6 @@ public abstract class CalculationPanel extends Panel implements Initializable {
 
     public abstract void initialize();
 
+    public abstract int getPanelId();
+
 }

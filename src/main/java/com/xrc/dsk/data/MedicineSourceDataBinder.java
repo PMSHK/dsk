@@ -2,42 +2,40 @@ package com.xrc.dsk.data;
 
 import com.xrc.dsk.dto.MedWindowDto;
 import com.xrc.dsk.dto.PanelDataDto;
-import com.xrc.dsk.dto.RadiationTypeDto;
 import com.xrc.dsk.dto.WindowDto;
-import com.xrc.dsk.events.EventManager;
 import com.xrc.dsk.listeners.PanelProtectionUpdateService;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-import java.util.Map;
-
-import static com.xrc.dsk.data.AppParameters.DIRECTION_COEFFICIENT;
-import static com.xrc.dsk.data.AppParameters.DISTANCE;
-import static com.xrc.dsk.data.AppParameters.DMD;
-
-public class MedicineSourceDataBinder implements Bindable {
+public class MedicineSourceDataBinder implements Bindable{
     private final Binder binder;
     private MedWindowDto medWindowDto;
     private Integer panelId;
     private PanelDataDto panelDataDto;
     private PanelProtectionUpdateService panelProtectionUpdateService;
+    private Label dmdLabel;
+    private ComboBox<Double> directionCoefficientBox;
+    private TextField distanceField;
 
     public MedicineSourceDataBinder() {
         binder = new Binder();
     }
 
+    public MedicineSourceDataBinder(Label dmdLabel, ComboBox<Double> directionCoefficientBox, TextField distanceField, int panelId) {
+        this.dmdLabel = dmdLabel;
+        this.directionCoefficientBox = directionCoefficientBox;
+        this.distanceField = distanceField;
+        this.panelId = panelId;
+        binder = new Binder();
+    }
+
     @Override
-    public void bind(WindowDto dto, Map<String, Object[]> components) {
+    public void bind(WindowDto dto) {
         medWindowDto = (MedWindowDto) dto;
-        this.panelId = (Integer) components.get(DMD)[1];
         this.panelDataDto = medWindowDto.getPanelDataProperty().get(panelId);
         this.panelProtectionUpdateService = new PanelProtectionUpdateService(panelDataDto, medWindowDto.getRadiationType());
-        Label dmdLabel = (Label) components.get(DMD)[0];
-        ComboBox<Double> directionCoefficientBox = (ComboBox<Double>) components.get(DIRECTION_COEFFICIENT)[0];
-        TextField distanceField = (TextField) components.get(DISTANCE)[0];
 
         DoubleProperty dmdProperty = panelDataDto.getSourceDataDto().dmdProperty();
         DoubleProperty directionCoefficientProperty = panelDataDto.getSourceDataDto().directionCoefficientProperty();

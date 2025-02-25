@@ -10,15 +10,14 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 @AllArgsConstructor
 @NoArgsConstructor
 public class PanelDataDto implements Serializable, Filled {
     private ObjectProperty<TextFormDto> textFormDto = new SimpleObjectProperty<>();
     private ObjectProperty<ProtectionDto> protectionDto = new SimpleObjectProperty<>();
-    private ListProperty<MaterialDto> existedMaterialDtoList = new SimpleListProperty<>(FXCollections.observableArrayList());
-    private ObjectProperty<MaterialDto> recommendedMaterialDto = new SimpleObjectProperty<>();
+    private ListProperty<MaterialCharacteristicsDto> existedMaterialCharacteristicsDtoList = new SimpleListProperty<>(FXCollections.observableArrayList());
+    private ObjectProperty<MaterialCharacteristicsDto> recommendedMaterialDto = new SimpleObjectProperty<>();
     private ListProperty<OpeningDto> openingDtoList = new SimpleListProperty<>(FXCollections.observableArrayList());
     private ObjectProperty<SourceDataDto> sourceDataDto = new SimpleObjectProperty<>();
 
@@ -30,11 +29,11 @@ public class PanelDataDto implements Serializable, Filled {
         return protectionDto;
     }
 
-    public ListProperty<MaterialDto> existedMaterialDtoListProperty() {
-        return existedMaterialDtoList;
+    public ListProperty<MaterialCharacteristicsDto> existedMaterialDtoListProperty() {
+        return existedMaterialCharacteristicsDtoList;
     }
 
-    public ObjectProperty<MaterialDto> recommendedMaterialDtoProperty() {
+    public ObjectProperty<MaterialCharacteristicsDto> recommendedMaterialDtoProperty() {
         return recommendedMaterialDto;
     }
 
@@ -54,12 +53,12 @@ public class PanelDataDto implements Serializable, Filled {
         this.protectionDtoProperty().set(protectionDto);
     }
 
-    public void setExistedMaterialDtoList(ListProperty<MaterialDto> existedMaterialDtoList) {
-        this.existedMaterialDtoListProperty().set(existedMaterialDtoList);
+    public void setExistedMaterialCharacteristicsDtoList(ListProperty<MaterialCharacteristicsDto> existedMaterialCharacteristicsDtoList) {
+        this.existedMaterialDtoListProperty().set(existedMaterialCharacteristicsDtoList);
     }
 
-    public void setRecommendedMaterialDto(MaterialDto recommendedMaterialDto) {
-        this.recommendedMaterialDtoProperty().set(recommendedMaterialDto);
+    public void setRecommendedMaterialDto(MaterialCharacteristicsDto recommendedMaterialCharacteristicsDto) {
+        this.recommendedMaterialDtoProperty().set(recommendedMaterialCharacteristicsDto);
     }
 
     public void setOpeningDtoList(ListProperty<OpeningDto> openingDtoList) {
@@ -84,14 +83,14 @@ public class PanelDataDto implements Serializable, Filled {
         return protectionDtoProperty().get();
     }
 
-    public ObservableList<MaterialDto> getExistedMaterialDtoList() {
+    public ObservableList<MaterialCharacteristicsDto> getExistedMaterialCharacteristicsDtoList() {
 
         return existedMaterialDtoListProperty().get();
     }
 
-    public MaterialDto getRecommendedMaterialDto() {
+    public MaterialCharacteristicsDto getRecommendedMaterialDto() {
         if (recommendedMaterialDto.get() == null) {
-            recommendedMaterialDto.set(new MaterialDto());
+            recommendedMaterialDto.set(new MaterialCharacteristicsDto());
         }
         return recommendedMaterialDtoProperty().get();
     }

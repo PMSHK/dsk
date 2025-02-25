@@ -1,7 +1,9 @@
 package com.xrc.dsk.controllers;
 
 import com.xrc.dsk.panels.MaterialPanel;
+import com.xrc.dsk.services.MaterialPanelDataService;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -13,6 +15,8 @@ import lombok.Getter;
 import lombok.Setter;
 @Getter
 public class MaterialController {
+
+    private MaterialPanelDataService service;
 
     @Setter
     private MaterialPanel materialPanel;
@@ -49,5 +53,10 @@ public class MaterialController {
     @FXML
     void getLeadEquivalent(KeyEvent event) {
 
+    }
+
+    @FXML
+    void selectMaterial(ActionEvent event) {
+//        service = new MaterialPanelDataService(materialBox,thicknessField,matEqvLabel);
     }
 }

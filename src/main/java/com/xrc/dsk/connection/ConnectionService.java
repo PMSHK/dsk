@@ -4,7 +4,7 @@ package com.xrc.dsk.connection;
 import com.xrc.dsk.converters.JsonConverter;
 import com.xrc.dsk.dto.KParamDto;
 import com.xrc.dsk.dto.KermaParamDto;
-import com.xrc.dsk.dto.MaterialCharacteristicsDto;
+import com.xrc.dsk.dto.MaterialDto;
 import com.xrc.dsk.dto.MaterialInfoDto;
 import com.xrc.dsk.dto.ProtectionDto;
 import com.xrc.dsk.dto.RadiationTypeDto;
@@ -121,16 +121,17 @@ public class ConnectionService {
                 .join();
     }
 
-    public MaterialCharacteristicsDto getMaterialCharacteristics(
+    public double getMaterialCharacteristics(
             String name, double density, double voltage, double thickness, double leadEquivalent
     ) {
-        MaterialCharacteristicsDto dto = new MaterialCharacteristicsDto(name,density,voltage,thickness,leadEquivalent);
+
+        MaterialDto dto = new MaterialDto(name,density,voltage,thickness,leadEquivalent);
         jsonConverter = new JsonConverter();
-        requestBuilder =  new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "protection/material_lead_equivalent",jsonConverter.toJson(dto));
+        requestBuilder =  new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/protection/material_lead_equivalent",jsonConverter.toJson(dto));
 
         return httpClient.sendAsync(requestBuilder.createRequest("POST"), HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body)
-                .thenApply(json->jsonConverter.fromJson(json, MaterialCharacteristicsDto.class))
+                .thenApply(json->jsonConverter.fromJson(json, Double.class))
                 .join();
     }
 }

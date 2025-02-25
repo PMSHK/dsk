@@ -10,7 +10,8 @@ module com.xrc.dsk {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires static lombok;
-    requires static org.slf4j;
+    requires org.slf4j;
+    requires ch.qos.logback.classic;
     requires de.jensd.fx.glyphs.fontawesome;
     requires java.net.http;
     requires com.fasterxml.jackson.databind;

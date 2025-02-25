@@ -11,12 +11,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Getter
+@Slf4j
 public class MedicineWindowService {
     private final CalculatorWindow window;
     private List<MedicineCalculationPanel> panels;
@@ -35,6 +37,7 @@ public class MedicineWindowService {
     }
 
     public void initialize(String type) {
+        log.info("Initializing Medicine Window");
         ConnectionService connectionService = new ConnectionService();
         ObservableList<String> equipmentTypes = FXCollections.observableList(connectionService.getEquipmentType());
         calculatorWindowController = ((CalculatorWindowController) window.getController());

@@ -5,7 +5,6 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;
-import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.NumberStringConverter;
 import lombok.NoArgsConstructor;
 
@@ -39,8 +38,8 @@ public class Binder {
 
     public void bindTextPropertyToString(
             Property<String> firstProperty,
-            Property<String> secondProperty){
-        Bindings.bindBidirectional(firstProperty,secondProperty);
+            Property<String> secondProperty) {
+        Bindings.bindBidirectional(firstProperty, secondProperty);
     }
 
     public void bindDoublePropertyToString(
@@ -48,10 +47,14 @@ public class Binder {
             , DoubleProperty secondProperty
             , Double value
             , Consumer<Double> consumer) {
-        secondProperty.setValue(value);
-        Bindings.bindBidirectional(firstProperty, secondProperty, new NumberStringConverter());
-        secondProperty.addListener((observable, oldValue, newValue) -> {
-            consumer.accept(newValue.doubleValue());
-        });
+        if (value != null) {
+            secondProperty.setValue(value);
+            Bindings.bindBidirectional(firstProperty, secondProperty, new NumberStringConverter());
+            secondProperty.addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+                    consumer.accept(newValue.doubleValue());
+                }
+            });
+        }
     }
 }

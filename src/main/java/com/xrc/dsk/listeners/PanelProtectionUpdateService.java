@@ -49,7 +49,7 @@ public class PanelProtectionUpdateService {
         System.out.println("RadiationTypeEvent has been caught: " + event);
         this.connectionService = new ConnectionService();
         for (PanelDataDto panel : panels) {
-            if (panel.filled()) {
+            if (panel.filled() && radiationType.filled()) {
                 KParamDto dto = new KParamDto();
                 dto.setDmd(panel.getSourceDataDto().getDmd());
                 dto.setDistance(panel.getSourceDataDto().getDistance());

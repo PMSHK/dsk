@@ -4,6 +4,8 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.AllArgsConstructor;
@@ -20,6 +22,7 @@ public class PanelDataDto implements Serializable, Filled {
     private ObjectProperty<MaterialCharacteristicsDto> recommendedMaterialDto = new SimpleObjectProperty<>();
     private ListProperty<OpeningDto> openingDtoList = new SimpleListProperty<>(FXCollections.observableArrayList());
     private ObjectProperty<SourceDataDto> sourceDataDto = new SimpleObjectProperty<>();
+    private StringProperty additionalLead = new SimpleStringProperty();
 
     public ObjectProperty<TextFormDto> textFormDtoProperty() {
         return textFormDto;
@@ -98,6 +101,13 @@ public class PanelDataDto implements Serializable, Filled {
     public ObservableList<OpeningDto> getOpeningDtoList() {
 
         return openingDtoListProperty().get();
+    }
+
+    public StringProperty getAdditionalLead() {
+        return additionalLead;
+    }
+    public void setAdditionalLead(String additionalLead) {
+        this.additionalLead.set(additionalLead);
     }
 
     public SourceDataDto getSourceDataDto() {

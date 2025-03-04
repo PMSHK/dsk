@@ -3,6 +3,8 @@ package com.xrc.dsk.data;
 import com.xrc.dsk.dto.MedWindowDto;
 import com.xrc.dsk.dto.PanelDataDto;
 import com.xrc.dsk.dto.WindowDto;
+import com.xrc.dsk.events.EventManager;
+import com.xrc.dsk.events.RadiationTypeEvent;
 import com.xrc.dsk.listeners.PanelProtectionUpdateService;
 import javafx.beans.property.DoubleProperty;
 import javafx.scene.control.ComboBox;
@@ -41,15 +43,19 @@ public class MedicineSourceDataBinder implements Bindable{
         DoubleProperty directionCoefficientProperty = panelDataDto.getSourceDataDto().directionCoefficientProperty();
         DoubleProperty distanceProperty = panelDataDto.getSourceDataDto().distanceProperty();
 
+
+
         binder.bindDoublePropertyToString(dmdLabel.textProperty(), dmdProperty, Double.parseDouble(dmdLabel.getText()),
                 (val) -> {
                     panelDataDto.getSourceDataDto().setDmd(val);
+                    EventManager.post(new RadiationTypeEvent(medWindowDto.getRadiationType()));
                     System.out.println("dmd: " + val + " has been saved");
                 });
 
         directionCoefficientBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 directionCoefficientProperty.set((Double) newValue);
+                EventManager.post(new RadiationTypeEvent(medWindowDto.getRadiationType()));
                 System.out.println("direction coefficient: " + newValue + " has been saved");
             }
         });
@@ -61,6 +67,7 @@ public class MedicineSourceDataBinder implements Bindable{
         binder.bindDoublePropertyToString(distanceField.textProperty(), distanceProperty, distance,
                 (val) -> {
                     panelDataDto.getSourceDataDto().setDistance(val);
+                    EventManager.post(new RadiationTypeEvent(medWindowDto.getRadiationType()));
                     System.out.println("distance: " + val + " has been saved");
                 });
     }

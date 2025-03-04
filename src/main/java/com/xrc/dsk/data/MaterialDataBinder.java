@@ -5,8 +5,10 @@ import com.xrc.dsk.dto.MaterialCharacteristicsDto;
 import com.xrc.dsk.dto.MedWindowDto;
 import com.xrc.dsk.dto.PanelDataDto;
 import com.xrc.dsk.dto.WindowDto;
+import com.xrc.dsk.events.AdditionalMatEvent;
 import com.xrc.dsk.events.EventManager;
 import com.xrc.dsk.events.MaterialEvent;
+import com.xrc.dsk.listeners.AdditionalMatUpdateService;
 import com.xrc.dsk.listeners.MaterialPanelUpdateService;
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.ComboBox;
@@ -24,6 +26,7 @@ public class MaterialDataBinder implements Bindable {
     private MaterialCharacteristicsDto materialCharacteristicsDto;
     private final ConnectionService connectionService;
     private int panelId;
+    private Long voltage;
 
     public MaterialDataBinder(ComboBox<String> matBox,
                               TextField thicknessField,
@@ -45,11 +48,12 @@ public class MaterialDataBinder implements Bindable {
         log.info("Starting binding for material data");
         this.medWindowDto = (MedWindowDto) dto;
         PanelDataDto panelDataDto = medWindowDto.getPanelData().get(panelId);
-        Long voltage = medWindowDto.getRadiationType().getVoltage();
+        voltage = medWindowDto.getRadiationType().getVoltage();
             log.info("got voltage: {} kV", voltage);
-        MaterialPanelUpdateService service = new MaterialPanelUpdateService(panelId,matBox,thicknessField,leadEquivalendLabel);
+        MaterialPanelUpdateService service = new MaterialPanelUpdateService(panelDataDto,matBox,thicknessField,leadEquivalendLabel);
         binder.bindDoublePropertyToString(thicknessField.textProperty(), materialCharacteristicsDto.thicknessProperty(), materialCharacteristicsDto.getThickness(),
                 (val) -> {
+                    this.voltage = medWindowDto.getRadiationType().getVoltage();
                     materialCharacteristicsDto.setThickness(val);
                     System.out.println("thickness: " + val + " has been saved");
                     MaterialEvent event = new MaterialEvent(materialCharacteristicsDto,voltage);
@@ -74,6 +78,7 @@ public class MaterialDataBinder implements Bindable {
         matBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 if (!thicknessField.getText().isEmpty()) {
+                    this.voltage = medWindowDto.getRadiationType().getVoltage();
                     String[] matParameters = newVal.split(" ");
                     String name = matParameters[0];
                     double density = Double.parseDouble(matParameters[1]);

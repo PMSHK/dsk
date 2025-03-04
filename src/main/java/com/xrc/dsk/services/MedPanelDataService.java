@@ -1,6 +1,7 @@
 package com.xrc.dsk.services;
 
 import com.xrc.dsk.connection.ConnectionService;
+import com.xrc.dsk.data.AdditionalMatBinder;
 import com.xrc.dsk.data.DataStorage;
 import com.xrc.dsk.data.MedicineSourceDataBinder;
 import com.xrc.dsk.data.MedicineTextFormsBinder;
@@ -43,6 +44,12 @@ public class MedPanelDataService {
     public void bindProtectionData(Label attenuationFrequencyLabel, Label leadEquivalentLabel) {
         MedWindowDto dto = getMedWindowDto();
         ProtectionDataBinder binder = new ProtectionDataBinder(attenuationFrequencyLabel, leadEquivalentLabel, panelId);
+        binder.bind(dto);
+    }
+
+    public void bindAdditionalLeadEquivalent(Label leadEquivalentLabel) {
+        MedWindowDto dto = getMedWindowDto();
+        AdditionalMatBinder binder = new AdditionalMatBinder(leadEquivalentLabel, panelId);
         binder.bind(dto);
     }
 

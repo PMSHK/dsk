@@ -5,10 +5,8 @@ import com.xrc.dsk.dto.MaterialCharacteristicsDto;
 import com.xrc.dsk.dto.MedWindowDto;
 import com.xrc.dsk.dto.PanelDataDto;
 import com.xrc.dsk.dto.WindowDto;
-import com.xrc.dsk.events.AdditionalMatEvent;
 import com.xrc.dsk.events.EventManager;
 import com.xrc.dsk.events.MaterialEvent;
-import com.xrc.dsk.listeners.AdditionalMatUpdateService;
 import com.xrc.dsk.listeners.MaterialPanelUpdateService;
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.ComboBox;
@@ -49,25 +47,18 @@ public class MaterialDataBinder implements Bindable {
         this.medWindowDto = (MedWindowDto) dto;
         PanelDataDto panelDataDto = medWindowDto.getPanelData().get(panelId);
         voltage = medWindowDto.getRadiationType().getVoltage();
-            log.info("got voltage: {} kV", voltage);
-        MaterialPanelUpdateService service = new MaterialPanelUpdateService(panelDataDto,matBox,thicknessField,leadEquivalendLabel);
+        log.info("got voltage: {} kV", voltage);
+        MaterialPanelUpdateService service = new MaterialPanelUpdateService(panelDataDto, matBox, thicknessField, leadEquivalendLabel);
         binder.bindDoublePropertyToString(thicknessField.textProperty(), materialCharacteristicsDto.thicknessProperty(), materialCharacteristicsDto.getThickness(),
                 (val) -> {
                     this.voltage = medWindowDto.getRadiationType().getVoltage();
                     materialCharacteristicsDto.setThickness(val);
                     System.out.println("thickness: " + val + " has been saved");
-                    MaterialEvent event = new MaterialEvent(materialCharacteristicsDto,voltage);
-                    EventManager.post(event);
-                    log.info("Material event posted");
-//                    MaterialCharacteristicsDto materialInfoDto = connectionService.getMaterialCharacteristics(
-//                            materialDto.getInfo().getName(), materialDto.getInfo().getDensity(),
-//                            medWindowDto.getRadiationType().getVoltage(), materialDto.getThickness(), 0
-//                    );
-//                    double leadEquivalent = materialInfoDto.getLeadEquivalent();
-//                    materialDto.setLeadEquivalent(leadEquivalent);
-//                    leadEquivalendLabel.setText(String.valueOf(leadEquivalent));
-//                    System.out.println("lead equivalent: " + leadEquivalent + " has been saved");
-//                    updatePanelsProtection();
+                    if (voltage != null && voltage >= 50 && !materialCharacteristicsDto.getInfo().getName().isEmpty()) {
+                        MaterialEvent event = new MaterialEvent(materialCharacteristicsDto, voltage);
+                        EventManager.post(event);
+                        log.info("Material event posted");
+                    }
                 });
 
         leadEquivalendLabel.textProperty().bind(Bindings.createStringBinding(
@@ -85,8 +76,10 @@ public class MaterialDataBinder implements Bindable {
                     materialCharacteristicsDto.getInfo().setName(name);
                     materialCharacteristicsDto.getInfo().setDensity((float) density);
                     materialCharacteristicsDto.setThickness(Double.parseDouble(thicknessField.getText()));
-                    MaterialEvent event = new MaterialEvent(materialCharacteristicsDto,voltage);
-                    EventManager.post(event);
+                    if (voltage != null && voltage >= 50 && !materialCharacteristicsDto.getInfo().getName().isEmpty()) {
+                        MaterialEvent event = new MaterialEvent(materialCharacteristicsDto, voltage);
+                        EventManager.post(event);
+                    }
                 }
             }
         });

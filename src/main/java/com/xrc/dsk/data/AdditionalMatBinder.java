@@ -38,12 +38,12 @@ public class AdditionalMatBinder implements Bindable {
         log.info("Starting binding for additional material data");
         this.medWindowDto = (MedWindowDto) dto;
         PanelDataDto panelDataDto = medWindowDto.getPanelData().get(panelId);
-        AdditionalMatUpdateService service = new AdditionalMatUpdateService(additionalMatLeadLabel, panelDataDto.getAdditionalLead());
+        AdditionalMatUpdateService service = new AdditionalMatUpdateService(additionalMatLeadLabel, panelDataDto, panelId);
         panelDataDto.existedMaterialDtoListProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 Double leadEquivalent = panelDataDto.getExistedMaterialCharacteristicsDtoList().stream().
                         map(MaterialCharacteristicsDto::getLeadEquivalent).reduce(0d, Double::sum);
-                AdditionalMatEvent event = new AdditionalMatEvent(panelDataDto.getProtectionDto().getLeadEqv(), leadEquivalent);
+                AdditionalMatEvent event = new AdditionalMatEvent(panelDataDto.getProtectionDto().getLeadEqv(), leadEquivalent, panelId);
                 log.info("Adding additional material characteristics to panel {}", panelId);
                 EventManager.post(event);
             }
@@ -58,7 +58,7 @@ public class AdditionalMatBinder implements Bindable {
             if (newVal != null) {
                 Double leadEquivalent = panelDataDto.getExistedMaterialCharacteristicsDtoList().stream().
                         map(MaterialCharacteristicsDto::getLeadEquivalent).reduce(0d, Double::sum);
-                AdditionalMatEvent event = new AdditionalMatEvent(panelDataDto.getProtectionDto().getLeadEqv(), leadEquivalent);
+                AdditionalMatEvent event = new AdditionalMatEvent(panelDataDto.getProtectionDto().getLeadEqv(), leadEquivalent, panelId);
                 log.info("Adding additional material characteristics to panel {}", panelId);
                 EventManager.post(event);
             }

@@ -2,31 +2,45 @@ package com.xrc.dsk.listeners;
 
 import com.google.common.eventbus.Subscribe;
 import com.xrc.dsk.connection.ConnectionService;
+import com.xrc.dsk.dto.PanelDataDto;
 import com.xrc.dsk.events.AdditionalMatEvent;
 import com.xrc.dsk.events.EventManager;
-import javafx.beans.property.StringProperty;
 import javafx.scene.control.Label;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Objects;
+
 @Slf4j
 public class AdditionalMatUpdateService {
-    private Label leadEquivalentLabel;
-    private StringProperty leadEquivalentProperty;
-    private ConnectionService connectionService;
+    private final Label leadEquivalentLabel;
+    private final PanelDataDto panelDataDto;
+    private final ConnectionService connectionService;
+    private final Integer panelId;
 
-    public AdditionalMatUpdateService(Label label, StringProperty leadEquivalentProperty) {
+    public AdditionalMatUpdateService(Label label, PanelDataDto panelDataDto, Integer panelId) {
         this.leadEquivalentLabel = label;
-        this.leadEquivalentProperty = leadEquivalentProperty;
+        this.panelDataDto = panelDataDto;
+        this.panelId = panelId;
+        this.connectionService = new ConnectionService();
         EventManager.register(this);
         log.info("Initializing AdditionalMatUpdateService");
     }
 
     @Subscribe
     public void onAdditionalEvent(AdditionalMatEvent additionalMatEvent) {
+        if (!Objects.equals(this.panelId, additionalMatEvent.getPanelId())) {
+            return;
+        }
         log.info("Received Additional MatEvent: " + additionalMatEvent);
-        connectionService = new ConnectionService();
         String demandedLeadEquivalent = connectionService.getAdditionalProtection(additionalMatEvent.getDemandedEquivalent(), additionalMatEvent.getExistedEquivalent());
-        leadEquivalentLabel.setText(demandedLeadEquivalent);
-        leadEquivalentProperty.set(demandedLeadEquivalent);
+        try {
+            double leadEquivalent = Double.parseDouble(demandedLeadEquivalent);
+            String formattedLeadEquivalent = String.format("%.2f", leadEquivalent);
+            panelDataDto.setAdditionalLead(formattedLeadEquivalent);
+            leadEquivalentLabel.setText(formattedLeadEquivalent);
+        } catch (NumberFormatException e) {
+            panelDataDto.setAdditionalLead(demandedLeadEquivalent);
+            leadEquivalentLabel.setText(demandedLeadEquivalent);
+        }
     }
 }

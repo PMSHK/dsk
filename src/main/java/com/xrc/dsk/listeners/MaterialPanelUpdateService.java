@@ -32,6 +32,10 @@ public class MaterialPanelUpdateService {
 
     @Subscribe
     public void onMaterialEvent(MaterialEvent event) {
+//        if (event.getVoltage() != null && event.getVoltage()>=50 &&
+//                !event.getMaterialCharacteristicsDto().getInfo().getName().isEmpty()){
+//            return;
+//        }
         log.info("RadiationTypeEvent has been caught: {}", event);
         MaterialCharacteristicsDto dto = event.getMaterialCharacteristicsDto();
         Long voltage = event.getVoltage();

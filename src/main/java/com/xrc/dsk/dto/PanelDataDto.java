@@ -10,12 +10,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 
 @AllArgsConstructor
 @NoArgsConstructor
 public class PanelDataDto implements Serializable, Filled {
+    private static final Logger log = LoggerFactory.getLogger(PanelDataDto.class);
     private ObjectProperty<TextFormDto> textFormDto = new SimpleObjectProperty<>();
     private ObjectProperty<ProtectionDto> protectionDto = new SimpleObjectProperty<>();
     private ListProperty<MaterialCharacteristicsDto> existedMaterialCharacteristicsDtoList = new SimpleListProperty<>(FXCollections.observableArrayList());
@@ -104,9 +107,14 @@ public class PanelDataDto implements Serializable, Filled {
     }
 
     public StringProperty getAdditionalLead() {
+        log.info("getAdditionalLead: {}", additionalLead.get());
         return additionalLead;
     }
+
     public void setAdditionalLead(String additionalLead) {
+        log.info("Setting additionalLead in panel {} (hashCode={}): value={}, additionalLeadHash={}",
+                this.hashCode(), System.identityHashCode(this),
+                additionalLead, System.identityHashCode(additionalLead));
         this.additionalLead.set(additionalLead);
     }
 
@@ -119,6 +127,6 @@ public class PanelDataDto implements Serializable, Filled {
 
     @Override
     public boolean filled() {
-        return sourceDataDto.get()!=null && sourceDataDto.get().filled();
+        return sourceDataDto.get() != null && sourceDataDto.get().filled();
     }
 }

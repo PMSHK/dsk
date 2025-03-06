@@ -8,4 +8,5 @@ import lombok.Getter;
 public class AdditionalMatEvent {
     private Double demandedEquivalent;
     private Double existedEquivalent;
+    private Integer panelId;
 }

@@ -33,6 +33,7 @@ public class AdditionalMatUpdateService {
         }
         log.info("Received Additional MatEvent: " + additionalMatEvent);
         String demandedLeadEquivalent = connectionService.getAdditionalProtection(additionalMatEvent.getDemandedEquivalent(), additionalMatEvent.getExistedEquivalent());
+
         try {
             double leadEquivalent = Double.parseDouble(demandedLeadEquivalent);
             String formattedLeadEquivalent = String.format("%.2f", leadEquivalent);

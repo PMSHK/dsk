@@ -111,6 +111,17 @@ public class PanelDataDto implements Serializable, Filled {
         return additionalLead;
     }
 
+    public double getDoubleValueAdditionalLead() {
+        log.info("getDoubleValueAdditionalLead: {}", additionalLead.get());
+        try {
+            String value = additionalLead.get().split(" мм")[0];
+            return Double.parseDouble(value);
+        } catch (Exception e) {
+            log.info("Additional lead value is String: {}", additionalLead.get());
+            return -1;
+        }
+    }
+
     public void setAdditionalLead(String additionalLead) {
         log.info("Setting additionalLead in panel {} (hashCode={}): value={}, additionalLeadHash={}",
                 this.hashCode(), System.identityHashCode(this),

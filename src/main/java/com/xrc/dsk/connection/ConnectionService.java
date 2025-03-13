@@ -60,7 +60,7 @@ public class ConnectionService {
 
     public Double getRadExit(double voltage) {
         KermaParamDto kParamDto = new KermaParamDto(voltage);
-        if (jsonConverter==null) {
+        if (jsonConverter == null) {
             jsonConverter = new JsonConverter();
         }
         String body = jsonConverter.toJson(kParamDto);
@@ -114,13 +114,13 @@ public class ConnectionService {
                 .thenApply(String::valueOf).join();
     }
 
-    public ProtectionDto getDemandedLeadEquivalent(KParamDto dto){
+    public ProtectionDto getDemandedLeadEquivalent(KParamDto dto) {
         jsonConverter = new JsonConverter();
-        requestBuilder =  new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/calculation/protection",jsonConverter.toJson(dto));
+        requestBuilder = new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/calculation/protection", jsonConverter.toJson(dto));
 
         return httpClient.sendAsync(requestBuilder.createRequest("POST"), HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body)
-                .thenApply(json->jsonConverter.fromJson(json, ProtectionDto.class))
+                .thenApply(json -> jsonConverter.fromJson(json, ProtectionDto.class))
                 .join();
     }
 
@@ -128,25 +128,36 @@ public class ConnectionService {
             String name, double density, double voltage, double thickness, double leadEquivalent
     ) {
 
-        MaterialDto dto = new MaterialDto(name,density,voltage,thickness,leadEquivalent);
+        MaterialDto dto = new MaterialDto(name, density, voltage, thickness, leadEquivalent);
         jsonConverter = new JsonConverter();
-        requestBuilder =  new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/protection/material_lead_equivalent",jsonConverter.toJson(dto));
+        if (thickness == 0 && leadEquivalent != 0) {
+            requestBuilder = new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/protection/material_thickness_equivalent", jsonConverter.toJson(dto));
+        } else if (thickness != 0 && leadEquivalent == 0) {
+            requestBuilder = new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/protection/material_lead_equivalent", jsonConverter.toJson(dto));
+        } else {
+            log.warn("wasn't able to generate request builder because thickness and lead equivalent are both zero");
+            return 0;
+        }
+
 
         return httpClient.sendAsync(requestBuilder.createRequest("POST"), HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body)
-                .thenApply(json->jsonConverter.fromJson(json, Double.class))
+                .thenApply(json -> jsonConverter.fromJson(json, Double.class))
                 .join();
     }
 
     public String getAdditionalProtection(Double demandedLeadEquivalent, Double existedLeadEquivalent) {
         jsonConverter = new JsonConverter();
-        ResultLeadEquivalentDto dto = new ResultLeadEquivalentDto(demandedLeadEquivalent,existedLeadEquivalent);
-        requestBuilder =  new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/protection/additional_protection",jsonConverter.toJson(dto));
+        ResultLeadEquivalentDto dto = new ResultLeadEquivalentDto(demandedLeadEquivalent, existedLeadEquivalent);
+        requestBuilder = new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/protection/additional_protection", jsonConverter.toJson(dto));
 
         return httpClient.sendAsync(requestBuilder.createRequest("POST"), HttpResponse.BodyHandlers.ofString())
-                .thenApply((http)-> {if(http.statusCode()/100 == 2){
-                return http.body();}
-                    else { return dto.getCalculatedLeadEquivalent() + " мм";}
+                .thenApply((http) -> {
+                    if (http.statusCode() / 100 == 2) {
+                        return http.body();
+                    } else {
+                        return dto.getCalculatedLeadEquivalent() + " мм";
+                    }
                 }).
                 exceptionally(e -> {
                     log.info("Exception occurred withing getting additional lead equivalent ", e);

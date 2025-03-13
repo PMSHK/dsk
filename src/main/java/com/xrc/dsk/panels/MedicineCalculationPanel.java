@@ -90,6 +90,7 @@ public class MedicineCalculationPanel extends CalculationPanel {
         dataService.bindSourceData(controller.getDmd(), controller.getDirectionCoefficient(), controller.getDistance());
         dataService.bindProtectionData(controller.getAttenuationCoefficient(),controller.getLeadEquivalent());
         dataService.bindAdditionalLeadEquivalent(controller.getAdditionalProtection());
+        dataService.bindAdditionalMaterial(controller.getAnalogMaterial(), controller.getAnalogMaterialThickness());
         System.out.println("panel binding");
     }
 }

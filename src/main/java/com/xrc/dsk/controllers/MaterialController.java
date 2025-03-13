@@ -47,6 +47,7 @@ public class MaterialController {
     @FXML
     void deleteMatLayer(MouseEvent event) {
         materialPanel.getParentPanel().getMaterialBase().getChildren().remove(materialPlate);
+        materialPanel.deletePanel();
         System.out.println("deleting material layer");
     }
 

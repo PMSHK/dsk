@@ -50,25 +50,6 @@ public class MaterialPanelDataService {
         log.info("Bindings for material panel data from service has accomplished");
     }
 
-
-//    public void bind() {
-//        MedWindowDto dto = getMedWindowDto();
-//        String[] matParameters = materialComboBox.getSelectionModel().getSelectedItem().split(" ");
-//        String name = matParameters[0];
-//        double density = Double.parseDouble(matParameters[1]);
-//        double thickness = Double.parseDouble(thicknessTextField.getText());
-//        MaterialCharacteristicsDto materialInfoDto = connectionService.getMaterialCharacteristics(
-//                name, density, dto.getRadiationType().getVoltage().doubleValue(), thickness, 0
-//        );
-//        materialDto.setThickness(materialInfoDto.getThickness());
-//        materialDto.setLeadEquivalent(materialInfoDto.getLeadEquivalent());
-//        materialDto.getInfo().setDensity((float) density);
-//        materialDto.getInfo().setName(name);
-//        addNewMaterial(materialDto);
-//        MaterialDataBinder binder = new MaterialDataBinder(thicknessTextField, leadEquivalentLabel, materialDto);
-//        binder.bind(dto);
-//    }
-
     public void addNewMaterial(MaterialCharacteristicsDto newMaterialCharacteristicsDto) {
         log.info("Adding new material to material panel data from service");
         MedWindowDto dto = getMedWindowDto();

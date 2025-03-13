@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public class MaterialEvent implements Materiable {
+public class UpdateMatEvent implements Materiable {
     private final MaterialCharacteristicsDto materialCharacteristicsDto;
     private final Long voltage;
     private final Boolean basedOnThickness;

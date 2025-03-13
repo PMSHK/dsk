@@ -3,6 +3,7 @@ package com.xrc.dsk.services;
 import com.xrc.dsk.connection.ConnectionService;
 import com.xrc.dsk.data.AdditionalMatBinder;
 import com.xrc.dsk.data.DataStorage;
+import com.xrc.dsk.data.MaterialDataBinder;
 import com.xrc.dsk.data.MedicineSourceDataBinder;
 import com.xrc.dsk.data.MedicineTextFormsBinder;
 import com.xrc.dsk.data.ProtectionDataBinder;
@@ -50,6 +51,12 @@ public class MedPanelDataService {
     public void bindAdditionalLeadEquivalent(Label leadEquivalentLabel) {
         MedWindowDto dto = getMedWindowDto();
         AdditionalMatBinder binder = new AdditionalMatBinder(leadEquivalentLabel, panelId);
+        binder.bind(dto);
+    }
+
+    public void bindAdditionalMaterial(ComboBox<String> materialComboBox, Label thicknessLabel) {
+        MedWindowDto dto = getMedWindowDto();
+        MaterialDataBinder binder = new MaterialDataBinder(materialComboBox, thicknessLabel, panelId);
         binder.bind(dto);
     }
 

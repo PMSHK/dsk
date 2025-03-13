@@ -14,20 +14,14 @@ import lombok.extern.slf4j.Slf4j;
 public class AdditionalMatBinder implements Bindable {
     private final Binder binder;
     private WindowDto window;
-    //    private Label additionalLeadLabel;
-//    private ComboBox<String> matBox;
     private Label additionalMatLeadLabel;
     private int panelId;
     private MedWindowDto medWindowDto;
 
     public AdditionalMatBinder(
-//            Label additionalLeadLabel,
-//                               ComboBox<String> matBox,
             Label additionalMatLeadLabel,
             int panelId) {
         this.binder = new Binder();
-//        this.additionalLeadLabel = additionalLeadLabel;
-//        this.matBox = matBox;
         this.additionalMatLeadLabel = additionalMatLeadLabel;
         this.panelId = panelId;
         log.info("addMatBinder has been created");

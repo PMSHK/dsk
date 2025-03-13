@@ -49,6 +49,10 @@ public class MaterialPanel extends Panel {
         log.info("Material panel bound");
     }
 
+    public void deletePanel(){
+        service.deleteMaterial(dto);
+    }
+
     private void bind() {
         service = new MaterialPanelDataService(
                 materialController.getMaterialBox(),

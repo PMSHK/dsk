@@ -7,9 +7,9 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.xrc.dsk.data.AppParameters.EXTENSION;
-import static com.xrc.dsk.data.AppParameters.LOAD_TITLE;
-import static com.xrc.dsk.data.AppParameters.SAVE_TITLE;
+import static com.xrc.dsk.settings.AppParameters.EXTENSION;
+import static com.xrc.dsk.settings.AppParameters.LOAD_TITLE;
+import static com.xrc.dsk.settings.AppParameters.SAVE_TITLE;
 
 public class FileManager {
     private final FileChooser fileChooser;

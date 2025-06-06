@@ -3,23 +3,19 @@ package com.xrc.dsk.connection;
 
 import com.xrc.dsk.converters.JsonConverter;
 import com.xrc.dsk.dto.KParamDto;
-import com.xrc.dsk.dto.KermaParamDto;
-import com.xrc.dsk.dto.MaterialDto;
 import com.xrc.dsk.dto.MaterialInfoDto;
 import com.xrc.dsk.dto.ProtectionDto;
 import com.xrc.dsk.dto.RadiationTypeDto;
 import com.xrc.dsk.dto.ResultLeadEquivalentDto;
 import lombok.extern.slf4j.Slf4j;
 
-import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import static com.xrc.dsk.data.AppParameters.MCS_HOST;
-import static com.xrc.dsk.data.AppParameters.MCS_PORT;
+import static com.xrc.dsk.settings.AppParameters.MCS_HOST;
+import static com.xrc.dsk.settings.AppParameters.MCS_PORT;
 
 @Slf4j
 public class ConnectionService {
@@ -33,117 +29,59 @@ public class ConnectionService {
     }
 
     public List<String> getAllMaterials() {
-        requestBuilder = new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/protection/all_materials");
-        jsonConverter = new JsonConverter();
-        return httpClient.sendAsync(requestBuilder.createRequest("GET"), HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
-                .thenApply(json -> {
-                    return jsonConverter.listFromJson(json, MaterialInfoDto.class)
-                            .stream()
-                            .map(dto -> dto.getName() + " " + dto.getDensity())
-                            .toList();
-                }).join();
+        AllMaterialsRequestBuilder allMatBuilder = new AllMaterialsRequestBuilder("GET");
+        return allMatBuilder.constructRequest(MaterialInfoDto.class).join();
     }
 
     public RadiationTypeDto getEquipTypeParameters(String typeName, String type) {
-        String encodedTypeName = URLEncoder.encode(typeName, StandardCharsets.UTF_8);
-        encodedTypeName = encodedTypeName.replace("+", "%20");
-        String encodedType = URLEncoder.encode(type, StandardCharsets.UTF_8);
-        requestBuilder = new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/radiation_type/" + encodedTypeName + "?type=" + encodedType);
-        jsonConverter = new JsonConverter();
-        return httpClient.sendAsync(requestBuilder.createRequest("GET"), HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
-                .thenApply(json -> {
-                    return jsonConverter.fromJson(json, RadiationTypeDto.class);
-                }).join();
+        EquipTypeRequestBuilder equipTypeBuilder = new EquipTypeRequestBuilder("GET", typeName, type);
+        return equipTypeBuilder.constructRequest(RadiationTypeDto.class).join();
     }
 
     public Double getRadExit(double voltage) {
-        KermaParamDto kParamDto = new KermaParamDto(voltage);
-        if (jsonConverter == null) {
-            jsonConverter = new JsonConverter();
-        }
-        String body = jsonConverter.toJson(kParamDto);
-
-        requestBuilder = new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/calculation/kerma", body);
-        return httpClient.sendAsync(requestBuilder.createRequest("POST"), HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
-                .thenApply(json -> {
-                    return jsonConverter.fromJson(json, Double.class);
-                }).join();
+        RadExitRequestBuilder radExitBuilder = new RadExitRequestBuilder("POST", voltage);
+        return radExitBuilder.constructRequest(Double.class).join();
     }
 
     public List<String> getEquipmentType() {
-        requestBuilder = new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/radiation_type/types", "{}");
-        jsonConverter = new JsonConverter();
-        return httpClient.sendAsync(requestBuilder.createRequest("POST"), HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
-                .thenApply(json -> {
-                    return jsonConverter.listFromJson(json, String.class);
-                }).join();
+        RadTypeRequestBuilder radTypeBuilder = new RadTypeRequestBuilder("POST");
+        return radTypeBuilder.constructRequest(String.class).join();
     }
 
     public List<String> getPersonalCategories() {
-        requestBuilder = new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/calculation_info/room_categories");
-        jsonConverter = new JsonConverter();
-        return httpClient.sendAsync(requestBuilder.createRequest("GET"), HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
-                .thenApply(json -> {
-                    return jsonConverter.listFromJson(json, String.class);
-                }).join();
+        PersonalCategoriesRequestBuilder personalCategoriesBuilder = new PersonalCategoriesRequestBuilder("GET");
+        return personalCategoriesBuilder.constructRequest(String.class).join();
     }
 
     public List<Double> getDirectionCoefficients() {
-        requestBuilder = new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/calculation_info/direction_coefficient");
-        jsonConverter = new JsonConverter();
-        return httpClient.sendAsync(requestBuilder.createRequest("GET"), HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
-                .thenApply(json -> {
-                    return jsonConverter.listFromJson(json, Double.class);
-                }).join();
+        DirectionCoefficientsRequestBuilder directionCoefficientsBuilder = new DirectionCoefficientsRequestBuilder("GET");
+        return directionCoefficientsBuilder.constructRequest(Double.class).join();
     }
 
     public String getDmdByCategory(String category) {
-        String categoryEncoded = URLEncoder.encode(category, StandardCharsets.UTF_8);
-        categoryEncoded = categoryEncoded.replace("+", "%20");
-        requestBuilder = new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/calculation_info/dmd?room_category=" + categoryEncoded);
-        jsonConverter = new JsonConverter();
-        return httpClient.sendAsync(requestBuilder.createRequest("GET"), HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
-                .thenApply(json -> jsonConverter.fromJson(json, Double.class))
-                .thenApply(String::valueOf).join();
+        DMDRequestBuilder dmdBuilder = new DMDRequestBuilder("GET", category);
+        return dmdBuilder.constructRequest(String.class).join();
     }
 
     public ProtectionDto getDemandedLeadEquivalent(KParamDto dto) {
-        jsonConverter = new JsonConverter();
-        requestBuilder = new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/calculation/protection", jsonConverter.toJson(dto));
-
-        return httpClient.sendAsync(requestBuilder.createRequest("POST"), HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
-                .thenApply(json -> jsonConverter.fromJson(json, ProtectionDto.class))
-                .join();
+        DemandedLeadRequestBuilder demandedLeadRequestBuilder = new DemandedLeadRequestBuilder("POST", dto);
+        return demandedLeadRequestBuilder.constructRequest(ProtectionDto.class).join();
     }
 
     public double getMaterialCharacteristics(
-            String name, double density, double voltage, double thickness, double leadEquivalent
-    ) {
-
-        MaterialDto dto = new MaterialDto(name, density, voltage, thickness, leadEquivalent);
-        jsonConverter = new JsonConverter();
-        if (thickness == 0 && leadEquivalent != 0) {
-            requestBuilder = new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/protection/material_thickness_equivalent", jsonConverter.toJson(dto));
-        } else if (thickness != 0 && leadEquivalent == 0) {
-            requestBuilder = new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/protection/material_lead_equivalent", jsonConverter.toJson(dto));
-        } else {
-            log.warn("wasn't able to generate request builder because thickness and lead equivalent are both zero");
-            return 0;
-        }
-
-
-        return httpClient.sendAsync(requestBuilder.createRequest("POST"), HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
-                .thenApply(json -> jsonConverter.fromJson(json, Double.class))
-                .join();
+            String name,
+            double density,
+            double voltage,
+            double thickness,
+            double leadEquivalent) {
+        MaterialCharacteristicsRequestBuilder builder = new MaterialCharacteristicsRequestBuilder("POST",
+                name,
+                density,
+                voltage,
+                thickness,
+                leadEquivalent
+        );
+        return builder.constructRequest(Double.class).join();
     }
 
     public String getAdditionalProtection(Double demandedLeadEquivalent, Double existedLeadEquivalent) {
@@ -163,8 +101,11 @@ public class ConnectionService {
                     log.info("Exception occurred withing getting additional lead equivalent ", e);
                     return dto.getCalculatedLeadEquivalent() + " мм";
                 })
-//                .thenApply(HttpResponse::body)
-//                .thenApply(json->jsonConverter.fromJson(json, String.class))
                 .join();
+    }
+
+    public String getOpeningsProtection(Double demandedLeadEquivalent) {
+        OpeningsRequestBuilder openingsBuilder = new OpeningsRequestBuilder("GET");
+        return openingsBuilder.constructRequest(String.class).join();
     }
 }

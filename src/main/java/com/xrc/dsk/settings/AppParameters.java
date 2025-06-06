@@ -1,4 +1,4 @@
-package com.xrc.dsk.data;
+package com.xrc.dsk.settings;
 
 public final class AppParameters {
     public final static String MCS_HOST = "http://localhost";

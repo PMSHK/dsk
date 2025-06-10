@@ -1,5 +1,6 @@
 package com.xrc.dsk.dto;
 
+import com.xrc.dsk.data.bin.AppData;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -17,7 +18,7 @@ import java.io.Serializable;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class PanelDataDto implements Serializable, Filled {
+public class PanelDataDto implements Serializable, Filled, AppData {
     private static final Logger log = LoggerFactory.getLogger(PanelDataDto.class);
     private ObjectProperty<TextFormDto> textFormDto = new SimpleObjectProperty<>();
     private ObjectProperty<ProtectionDto> protectionDto = new SimpleObjectProperty<>();
@@ -29,6 +30,11 @@ public class PanelDataDto implements Serializable, Filled {
 
     public ObjectProperty<TextFormDto> textFormDtoProperty() {
         return textFormDto;
+    }
+
+    @Override
+    public String getType() {
+        return "MEDICINE";
     }
 
     public ObjectProperty<ProtectionDto> protectionDtoProperty() {

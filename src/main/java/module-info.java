@@ -25,5 +25,7 @@ module com.xrc.dsk {
     exports com.xrc.dsk.dto;
     exports com.xrc.dsk.listeners;
     exports com.xrc.dsk.events;
+    exports com.xrc.dsk.dto.medicine;
+    opens com.xrc.dsk.dto.medicine to com.fasterxml.jackson.databind;
 
 }

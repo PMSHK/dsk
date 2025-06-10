@@ -14,8 +14,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 
-import static com.xrc.dsk.settings.AppParameters.MCS_HOST;
-import static com.xrc.dsk.settings.AppParameters.MCS_PORT;
+import static com.xrc.dsk.settings.ApiEndpoints.ADDITIONAL_PROTECTION;
 
 @Slf4j
 public class ConnectionService {
@@ -87,7 +86,7 @@ public class ConnectionService {
     public String getAdditionalProtection(Double demandedLeadEquivalent, Double existedLeadEquivalent) {
         jsonConverter = new JsonConverter();
         ResultLeadEquivalentDto dto = new ResultLeadEquivalentDto(demandedLeadEquivalent, existedLeadEquivalent);
-        requestBuilder = new RequestBuilder(MCS_HOST + ":" + MCS_PORT + "/protection/additional_protection", jsonConverter.toJson(dto));
+        requestBuilder = new RequestBuilder(ADDITIONAL_PROTECTION, jsonConverter.toJson(dto));
 
         return httpClient.sendAsync(requestBuilder.createRequest("POST"), HttpResponse.BodyHandlers.ofString())
                 .thenApply((http) -> {

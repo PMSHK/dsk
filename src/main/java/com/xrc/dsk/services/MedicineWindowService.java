@@ -2,15 +2,15 @@ package com.xrc.dsk.services;
 
 import com.xrc.dsk.connection.ConnectionService;
 import com.xrc.dsk.controllers.CalculatorWindowController;
+import com.xrc.dsk.viewModels.DataViewModel;
+import com.xrc.dsk.dto.medicine.MedicineDataDto;
 import com.xrc.dsk.model.PanelsStorage;
-import com.xrc.dsk.panels.CalculationPanel;
 import com.xrc.dsk.panels.MedicineCalculationPanel;
+import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
 import com.xrc.dsk.windows.CalculatorWindow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.layout.VBox;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -43,6 +43,7 @@ public class MedicineWindowService {
         calculatorWindowController = ((CalculatorWindowController) window.getController());
         calculatorWindowController.setWindow(window);
         calculatorWindowController.getType().setText(type);
+//        calculatorWindowController.setDataViewModel(new MedicineDataViewModel(new MedicineDataDto()));
         calculatorWindowController.getEquipmentType().setItems(equipmentTypes);
         if (panels == null) {
             panels = new ArrayList<>();

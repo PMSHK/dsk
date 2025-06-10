@@ -14,9 +14,9 @@ public final class AppParameters {
       */
     public final static String LOAD_TITLE = "открытие";
 
-        /*
-    calculation panel
-      */
+    /*
+calculation panel
+  */
     public static final String WALL_SIGN = "WALL";
     public static final String ROOM_PURPOSE = "PURPOSE";
     public static final String PERSONAL_CATEGORY = "PERSONAL_CATEGORY";
@@ -25,4 +25,11 @@ public final class AppParameters {
     public static final String DISTANCE = "DISTANCE";
     public static final String ATTENUATION_FREQUENCY = "ATTENUATION_FREQUENCY";
     public static final String LEAD_EQUIVALENT = "LEAD_EQUIVALENT";
+
+    /*
+Windows
+ */
+    public final static String MEDICINE = "MEDICINE";
+    public final static String DENTAL = "DENTAL";
+    public final static String FLAW = "FLAW";
 }

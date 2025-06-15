@@ -1,5 +1,7 @@
 package com.xrc.dsk.viewModels.medicine;
 
+import com.xrc.dsk.converters.FX;
+import com.xrc.dsk.converters.NullChecker;
 import com.xrc.dsk.data.bin.AppData;
 import com.xrc.dsk.dto.medicine.MatCharacteristicsDataDto;
 import com.xrc.dsk.dto.medicine.OpeningsDataDto;
@@ -15,10 +17,15 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
+@Getter
+@Setter
 public class PanelDataViewModel implements DataViewModel<PanelDataDto> {
 
     private ObjectProperty<TextFormDataViewModel> textFormViewModel = new SimpleObjectProperty<>();
@@ -30,19 +37,23 @@ public class PanelDataViewModel implements DataViewModel<PanelDataDto> {
     private StringProperty additionalLeadViewModel = new SimpleStringProperty();
 
     public PanelDataViewModel(PanelDataDto dto) {
-
+        if (dto != null) {
+            this.fromDto(dto);
+        }
     }
 
     @Override
     public PanelDataDto toDto() {
-        TextFormDataDto textFormDataDto = textFormViewModel.get() != null ? textFormViewModel.get().toDto() : new TextFormDataDto();
-        ProtectionDataDto protectionDataDto = protectionViewModel.get() != null ? protectionViewModel.get().toDto() : new ProtectionDataDto();
+        TextFormDataDto textFormDataDto = NullChecker.getDtoOrDefault(textFormViewModel,TextFormDataViewModel::toDto, new TextFormDataDto());
+        ProtectionDataDto protectionDataDto = protectionViewModel.get() != null ? protectionViewModel.get().toDto() : null;
         List<MatCharacteristicsDataDto> existedMatCharacteristicsDtolList = existedMatCharacteristicsViewModelList.stream().
+                filter(Objects::nonNull).
                 map(MatCharacteristicsDataViewModel::toDto).toList();
-        MatCharacteristicsDataDto recommendedMatDto = recommendedMatViewModel.get() != null ? recommendedMatViewModel.get().toDto() : new MatCharacteristicsDataDto();
+        MatCharacteristicsDataDto recommendedMatDto = recommendedMatViewModel.get() != null ? recommendedMatViewModel.get().toDto() : null;
         List<OpeningsDataDto> openingsDtolList = openingViewModelList.stream().
+                filter(Objects::nonNull).
                 map(OpeningsViewModel::toDto).toList();
-        SourceDataDto sourceDataDto = sourceDataViewModel.get() != null ? sourceDataViewModel.get().toDto() : new SourceDataDto();
+        SourceDataDto sourceDataDto = sourceDataViewModel.get() != null ? sourceDataViewModel.get().toDto() : null;
         return new PanelDataDto(textFormDataDto, protectionDataDto, existedMatCharacteristicsDtolList,
                 recommendedMatDto, openingsDtolList, sourceDataDto, additionalLeadViewModel.get());
     }
@@ -50,25 +61,20 @@ public class PanelDataViewModel implements DataViewModel<PanelDataDto> {
     @Override
     public void fromDto(AppData dto) {
         PanelDataDto data = (PanelDataDto) dto;
-        this.textFormViewModel.set(Optional.ofNullable(data.getTextFormDto()).
-                map(TextFormDataViewModel::new).orElse(new TextFormDataViewModel()));
-        this.protectionViewModel.set(Optional.ofNullable(data.getProtectionDto()).
-                map(ProtectionDataViewModel::new).orElse(new ProtectionDataViewModel())
+        this.textFormViewModel.set(
+                NullChecker.getValueOrDefault(data.getTextFormDto(), TextFormDataViewModel::new, new TextFormDataViewModel(new TextFormDataDto()))
         );
-        this.existedMatCharacteristicsViewModelList.set(FXCollections.observableArrayList(
-                Optional.ofNullable(data.getExistedMaterialCharacteristicsDtoList()).
-                        stream().flatMap(List::stream).
-                        map(MatCharacteristicsDataViewModel::new).toList()
-        ));
-        this.recommendedMatViewModel.set(Optional.ofNullable(data.getRecommendedMaterialDto()).
-                map(MatCharacteristicsDataViewModel::new).orElse(new MatCharacteristicsDataViewModel()));
-        this.openingViewModelList.set(FXCollections.observableArrayList(
-                Optional.ofNullable(data.getOpeningDtoList()).stream()
-                        .flatMap(List::stream)
-                        .map(OpeningsViewModel::new).toList()
-        ));
-        this.sourceDataViewModel.set(Optional.ofNullable(data.getSourceDataDto()).
-                map(SourceDataViewModel::new).orElse(new SourceDataViewModel()));
-        this.additionalLeadViewModel.set(Optional.ofNullable(data.getAdditionalLead()).orElse("Не требуется"));
+        this.protectionViewModel.set(
+                NullChecker.getValueOrDefault(data.getProtectionDto(), ProtectionDataViewModel::new, new ProtectionDataViewModel(new ProtectionDataDto()))
+        );
+        FX.updateList(this.existedMatCharacteristicsViewModelList, data.getExistedMaterialCharacteristicsDtoList(),MatCharacteristicsDataViewModel::new);
+        this.recommendedMatViewModel.set(
+                NullChecker.getValueOrDefault(data.getRecommendedMaterialDto(), MatCharacteristicsDataViewModel::new, new MatCharacteristicsDataViewModel(new MatCharacteristicsDataDto()))
+        );
+        FX.updateList(this.openingViewModelList, data.getOpeningDtoList(),OpeningsViewModel::new);
+        this.sourceDataViewModel.set(
+                NullChecker.getValueOrDefault(data.getSourceDataDto(), SourceDataViewModel::new, new SourceDataViewModel(new SourceDataDto()))
+        );
+        this.additionalLeadViewModel.set(NullChecker.getString(data.getAdditionalLead(),"Не требуется"));
     }
 }

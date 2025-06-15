@@ -2,11 +2,10 @@ package com.xrc.dsk.controllers;
 
 import com.xrc.dsk.connection.ConnectionService;
 import com.xrc.dsk.data.DataStorage;
-import com.xrc.dsk.viewModels.DataViewModel;
 import com.xrc.dsk.dto.MedWindowDto;
-import com.xrc.dsk.dto.medicine.MedicineDataDto;
 import com.xrc.dsk.services.DataService;
 import com.xrc.dsk.services.SaveLoader;
+import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
 import com.xrc.dsk.windows.CalculatorWindow;
 import com.xrc.dsk.windows.WindowControl;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -26,7 +25,7 @@ import lombok.Setter;
 public class CalculatorWindowController extends WindowControl {
 
     private ConnectionService connectionService;
-    private DataViewModel<MedicineDataDto> dataViewModel;
+    private MedicineDataViewModel dataViewModel;
 
     @FXML
     private ComboBox<String> equipmentType;

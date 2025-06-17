@@ -4,6 +4,7 @@ import com.xrc.dsk.converters.JsonConverter;
 import com.xrc.dsk.data.DataStorage;
 import com.xrc.dsk.dto.WindowDto;
 import com.xrc.dsk.panels.CalculationPanel;
+import com.xrc.dsk.viewModels.DataViewModel;
 import com.xrc.dsk.windows.FileManager;
 import javafx.stage.Window;
 
@@ -56,6 +57,30 @@ if (jsonConverter == null) {
         File file = fileManager.saveFile();
         Path path = Paths.get(file.getAbsolutePath());
         String value = jsonConverter.toJson(dataStorage.getWindowDto());
+        try (FileChannel channel = FileChannel.open(path, StandardOpenOption.CREATE, StandardOpenOption.WRITE)) {
+            try (FileLock lock = channel.lock()) {
+                ByteBuffer buffer = ByteBuffer.wrap(value.getBytes(StandardCharsets.UTF_8));
+                channel.write(buffer);
+                System.out.println("file written successfully");
+            } catch (IOException e) {
+                System.out.println("File is busy now: " + e.getMessage());
+            }
+        } catch (IOException e) {
+            System.out.println("Error writing file: " + e.getMessage());
+        }
+    }
+
+    public void save(DataViewModel model) {
+        if (fileManager == null) {
+            fileManager = new FileManager(window);
+        }
+        if (jsonConverter == null) {
+            jsonConverter = new JsonConverter();
+        }
+        File file = fileManager.saveFile();
+        Path path = Paths.get(file.getAbsolutePath());
+        String value = jsonConverter.toJson(model.toDto());
+//        String value = jsonConverter.toJson(dataStorage.getWindowDto());
         try (FileChannel channel = FileChannel.open(path, StandardOpenOption.CREATE, StandardOpenOption.WRITE)) {
             try (FileLock lock = channel.lock()) {
                 ByteBuffer buffer = ByteBuffer.wrap(value.getBytes(StandardCharsets.UTF_8));

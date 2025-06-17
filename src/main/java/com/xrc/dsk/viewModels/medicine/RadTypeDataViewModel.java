@@ -1,8 +1,8 @@
 package com.xrc.dsk.viewModels.medicine;
 
+import com.xrc.dsk.converters.NullChecker;
 import com.xrc.dsk.data.bin.AppData;
 import com.xrc.dsk.dto.Filled;
-import com.xrc.dsk.dto.medicine.MedicineDataDto;
 import com.xrc.dsk.dto.medicine.RadTypeDataDto;
 import com.xrc.dsk.viewModels.DataViewModel;
 import javafx.beans.property.DoubleProperty;
@@ -11,85 +11,67 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import lombok.Getter;
+import lombok.Setter;
 
-public class RadTypeDataViewModel implements Filled, DataViewModel<RadTypeDataDto> {
+@Getter
+@Setter
+public class RadTypeDataViewModel extends DataViewModel<RadTypeDataDto> implements Filled {
 
-    private StringProperty name = new SimpleStringProperty();
-    private LongProperty voltage = new SimpleLongProperty();
-    private DoubleProperty radiationExit = new SimpleDoubleProperty();
-    private LongProperty workload = new SimpleLongProperty();
+    private StringProperty nameProperty;
+    private LongProperty voltageProperty;
+    private DoubleProperty radiationExitProperty;
+    private LongProperty workloadProperty;
+
+    public RadTypeDataViewModel() {
+        super();
+    }
+
+    public RadTypeDataViewModel(RadTypeDataDto dto) {
+        super(dto);
+    }
 
     @Override
     public RadTypeDataDto toDto() {
-        return new RadTypeDataDto(name.get(), voltage.get(), radiationExit.get(), workload.get());
+        return new RadTypeDataDto(
+                getName(),
+                getVoltage(),
+                getRadiationExit(),
+                getWorkload());
     }
 
     @Override
     public void fromDto(AppData dto) {
         RadTypeDataDto data = (RadTypeDataDto) dto;
-        name.set(data.getName());
-        voltage.set(data.getVoltage());
-        radiationExit.set(data.getRadiationExit());
-        workload.set(data.getWorkload());
-    }
-
-    RadTypeDataViewModel(MedicineDataDto data) {
-        this.name.set(data.getRadiationTypeDto().getName());
-        this.voltage.set(data.getRadiationTypeDto().getVoltage());
-        this.radiationExit.set(data.getRadiationTypeDto().getRadiationExit());
-        this.workload.set(data.getRadiationTypeDto().getWorkload());
-    }
-
-    public void setName(String name) {
-        this.name.set(name);
-    }
-
-    public void setVoltage(Long voltage) {
-        this.voltage.set(voltage);
-    }
-
-    public void setRadiationExit(Double radiationExit) {
-        this.radiationExit.set(radiationExit);
-    }
-
-    public void setWorkload(Long workLoad) {
-        this.workload.set(workLoad);
-    }
-
-    public String getName() {
-        return name.get();
-    }
-
-    public Long getVoltage() {
-        return voltage.get();
-    }
-
-    public Double getRadiationExit() {
-        return radiationExit.get();
-    }
-
-    public Long getWorkload() {
-        return workload.get();
-    }
-
-    public StringProperty nameProperty() {
-        return name;
-    }
-
-    public LongProperty voltageProperty() {
-        return voltage;
-    }
-
-    public DoubleProperty radiationExitProperty() {
-        return radiationExit;
-    }
-
-    public LongProperty workloadProperty() {
-        return workload;
+        nameProperty.set(NullChecker.getString(data.getName(),""));
+        voltageProperty.set(NullChecker.getValueOrDefault(data.getVoltage(),0L));
+        radiationExitProperty.set(NullChecker.getValueOrDefault(data.getRadiationExit(),0D));
+        workloadProperty.set(NullChecker.getValueOrDefault(data.getWorkload(),0L));
     }
 
     @Override
     public boolean filled() {
-        return voltage.get() != 0 && radiationExit.get() != 0 && workload.get() != 0;
+        return voltageProperty.get() != 0 && radiationExitProperty.get() != 0 && workloadProperty.get() != 0;
+    }
+
+    @Override
+    public void init() {
+        this.nameProperty = new SimpleStringProperty();
+        this.voltageProperty = new SimpleLongProperty();
+        this.radiationExitProperty = new SimpleDoubleProperty();
+        this.workloadProperty = new SimpleLongProperty();
+    }
+
+    public String getName(){
+        return NullChecker.getString(nameProperty.get(),"");
+    }
+    public Long getVoltage(){
+        return NullChecker.getValueOrDefault(voltageProperty.get(),0L);
+    }
+    public Double getRadiationExit(){
+        return NullChecker.getValueOrDefault(radiationExitProperty.get(),0D);
+    }
+    public Long getWorkload(){
+        return NullChecker.getValueOrDefault(workloadProperty.get(),0L);
     }
 }

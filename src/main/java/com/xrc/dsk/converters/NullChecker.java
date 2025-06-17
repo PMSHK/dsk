@@ -2,15 +2,30 @@ package com.xrc.dsk.converters;
 
 import com.xrc.dsk.data.bin.AppData;
 import com.xrc.dsk.viewModels.DataViewModel;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public final class NullChecker {
     public static <T, D> List<D> getList(List<T> inputList, Function<T, D> mapper) {
         return inputList == null ? List.of() : inputList.stream().map(mapper).toList();
+    }
+
+    public static <T, D> List<D> getList(ListProperty<T> inputList, Function<T, D> mapper) {
+        return inputList == null ? List.of() : inputList.stream().filter(Objects::nonNull).map(mapper).toList();
+    }
+
+    public static <T> ObservableList<T> getObservableList(ListProperty<T> inputList) {
+        return inputList == null ? FXCollections.observableArrayList() : inputList.stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
     }
 
     public static <T, D> D getValueOrNull(T input, Function<T, D> mapper) {

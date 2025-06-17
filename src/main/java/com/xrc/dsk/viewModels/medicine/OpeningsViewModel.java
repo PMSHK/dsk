@@ -1,5 +1,6 @@
 package com.xrc.dsk.viewModels.medicine;
 
+import com.xrc.dsk.converters.NullChecker;
 import com.xrc.dsk.data.bin.AppData;
 import com.xrc.dsk.dto.medicine.OpeningsDataDto;
 import com.xrc.dsk.viewModels.DataViewModel;
@@ -8,28 +9,47 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
+public class OpeningsViewModel extends DataViewModel<OpeningsDataDto> {
 
-public class OpeningsViewModel implements DataViewModel<OpeningsDataDto> {
+    private StringProperty nameProperty;
+    private DoubleProperty thicknessProperty;
 
-    private StringProperty name = new SimpleStringProperty();
-    private DoubleProperty thickness = new SimpleDoubleProperty();
+    public OpeningsViewModel() {
+        super();
+    }
 
     public OpeningsViewModel(OpeningsDataDto dto) {
-        this.name.set(dto.getName());
-        this.thickness.set(dto.getThickness());
+        super(dto);
     }
 
     @Override
     public OpeningsDataDto toDto() {
-        return new OpeningsDataDto(name.get(), thickness.get());
+        return new OpeningsDataDto(
+                getName(),
+                getThickness());
     }
 
     @Override
     public void fromDto(AppData dto) {
         OpeningsDataDto data = (OpeningsDataDto) dto;
-        this.name.set(data.getName());
-        this.thickness.set(data.getThickness());
+        this.nameProperty.set(NullChecker.getString(data.getName(),""));
+        this.thicknessProperty.set(NullChecker.getValueOrDefault(data.getThickness(),0D));
+    }
+
+    @Override
+    public void init() {
+        this.nameProperty = new SimpleStringProperty();
+        this.thicknessProperty = new SimpleDoubleProperty();
+    }
+
+    public String getName(){
+        return NullChecker.getString(nameProperty.get(),"");
+    }
+    public Double getThickness(){
+        return NullChecker.getValueOrDefault(thicknessProperty.get(),0D);
     }
 }

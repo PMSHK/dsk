@@ -7,33 +7,55 @@ import com.xrc.dsk.viewModels.DataViewModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
 @Getter
 @Setter
-public class TextFormDataViewModel implements DataViewModel<TextFormDataDto> {
-    private StringProperty wallSign = new SimpleStringProperty();
-    private StringProperty purposeAdjacentRoom = new SimpleStringProperty();
-    private StringProperty personalCategory = new SimpleStringProperty();
+public class TextFormDataViewModel extends DataViewModel<TextFormDataDto> {
+    private StringProperty wallSignProperty;
+    private StringProperty purposeAdjacentRoomProperty;
+    private StringProperty personalCategoryProperty;
+
+    public TextFormDataViewModel() {
+        super();
+    }
 
     public TextFormDataViewModel(TextFormDataDto dto) {
-        wallSign.set(NullChecker.getString(dto.getWallSign(),""));
-        purposeAdjacentRoom.set(NullChecker.getString(dto.getPurposeAdjacentRoom(),""));
-        personalCategory.set(NullChecker.getString(dto.getPersonalCategory(),""));
+        super(dto);
     }
 
     @Override
     public TextFormDataDto toDto() {
-        return new TextFormDataDto(wallSign.get(), purposeAdjacentRoom.get(), personalCategory.get());
+        return new TextFormDataDto(
+                getWallSign(),
+                getPurposeAdjacentRoom(),
+                getPersonalCategory());
     }
 
     @Override
     public void fromDto(AppData dto) {
         TextFormDataDto data = (TextFormDataDto) dto;
-        this.wallSign.set(NullChecker.getValueOrDefault(data.getWallSign(),""));
-        this.purposeAdjacentRoom.set(NullChecker.getValueOrDefault(data.getPurposeAdjacentRoom(),""));
-        this.personalCategory.set(NullChecker.getValueOrDefault(data.getPersonalCategory(),""));
+        this.wallSignProperty.set(NullChecker.getValueOrDefault(data.getWallSign(), ""));
+        this.purposeAdjacentRoomProperty.set(NullChecker.getValueOrDefault(data.getPurposeAdjacentRoom(), ""));
+        this.personalCategoryProperty.set(NullChecker.getValueOrDefault(data.getPersonalCategory(), ""));
+    }
+
+    @Override
+    public void init() {
+        this.wallSignProperty = new SimpleStringProperty();
+        this.purposeAdjacentRoomProperty = new SimpleStringProperty();
+        this.personalCategoryProperty = new SimpleStringProperty();
+    }
+
+    public String getWallSign() {
+        return NullChecker.getString(wallSignProperty.get(), "");
+    }
+
+    public String getPurposeAdjacentRoom() {
+        return NullChecker.getString(purposeAdjacentRoomProperty.get(), "");
+    }
+
+    public String getPersonalCategory() {
+        return NullChecker.getString(personalCategoryProperty.get(), "");
     }
 }

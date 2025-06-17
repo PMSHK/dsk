@@ -25,6 +25,7 @@ calculation panel
     public static final String DISTANCE = "DISTANCE";
     public static final String ATTENUATION_FREQUENCY = "ATTENUATION_FREQUENCY";
     public static final String LEAD_EQUIVALENT = "LEAD_EQUIVALENT";
+    public static final String NOT_DEMAND = "Не требуется.";
 
     /*
 Windows

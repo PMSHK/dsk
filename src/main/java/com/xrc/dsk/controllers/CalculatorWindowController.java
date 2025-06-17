@@ -96,7 +96,7 @@ public class CalculatorWindowController extends WindowControl {
         if (saveLoader == null) {
             saveLoader = new SaveLoader(getWindow());
         }
-        saveLoader.save();
+        saveLoader.save(dataViewModel);
     }
 
     @FXML

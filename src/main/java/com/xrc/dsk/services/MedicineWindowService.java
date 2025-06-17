@@ -43,7 +43,7 @@ public class MedicineWindowService {
         calculatorWindowController = ((CalculatorWindowController) window.getController());
         calculatorWindowController.setWindow(window);
         calculatorWindowController.getType().setText(type);
-//        calculatorWindowController.setDataViewModel(new MedicineDataViewModel(new MedicineDataDto()));
+        calculatorWindowController.setDataViewModel(new MedicineDataViewModel());
         calculatorWindowController.getEquipmentType().setItems(equipmentTypes);
         if (panels == null) {
             panels = new ArrayList<>();

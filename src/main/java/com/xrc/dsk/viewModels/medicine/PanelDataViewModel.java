@@ -17,64 +17,104 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+
+import static com.xrc.dsk.settings.AppParameters.NOT_DEMAND;
 
 @Getter
 @Setter
-public class PanelDataViewModel implements DataViewModel<PanelDataDto> {
+public class PanelDataViewModel extends DataViewModel<PanelDataDto> {
 
-    private ObjectProperty<TextFormDataViewModel> textFormViewModel = new SimpleObjectProperty<>();
-    private ObjectProperty<ProtectionDataViewModel> protectionViewModel = new SimpleObjectProperty<>();
-    private ListProperty<MatCharacteristicsDataViewModel> existedMatCharacteristicsViewModelList = new SimpleListProperty<>(FXCollections.observableArrayList());
-    private ObjectProperty<MatCharacteristicsDataViewModel> recommendedMatViewModel = new SimpleObjectProperty<>();
-    private ListProperty<OpeningsViewModel> openingViewModelList = new SimpleListProperty<>(FXCollections.observableArrayList());
-    private ObjectProperty<SourceDataViewModel> sourceDataViewModel = new SimpleObjectProperty<>();
-    private StringProperty additionalLeadViewModel = new SimpleStringProperty();
+    private ObjectProperty<TextFormDataViewModel> textFormViewModelProperty;
+    private ObjectProperty<ProtectionDataViewModel> protectionViewModelProperty;
+    private ListProperty<MatCharacteristicsDataViewModel> existedMatCharacteristicsViewModelListProperty;
+    private ObjectProperty<MatCharacteristicsDataViewModel> recommendedMatViewModelProperty;
+    private ListProperty<OpeningsViewModel> openingViewModelListProperty;
+    private ObjectProperty<SourceDataViewModel> sourceDataViewModelProperty;
+    private StringProperty additionalLeadViewModelProperty;
+
+    public PanelDataViewModel() {
+        super();
+    }
 
     public PanelDataViewModel(PanelDataDto dto) {
-        if (dto != null) {
-            this.fromDto(dto);
-        }
+        super(dto);
     }
 
     @Override
     public PanelDataDto toDto() {
-        TextFormDataDto textFormDataDto = NullChecker.getDtoOrDefault(textFormViewModel,TextFormDataViewModel::toDto, new TextFormDataDto());
-        ProtectionDataDto protectionDataDto = protectionViewModel.get() != null ? protectionViewModel.get().toDto() : null;
-        List<MatCharacteristicsDataDto> existedMatCharacteristicsDtolList = existedMatCharacteristicsViewModelList.stream().
-                filter(Objects::nonNull).
-                map(MatCharacteristicsDataViewModel::toDto).toList();
-        MatCharacteristicsDataDto recommendedMatDto = recommendedMatViewModel.get() != null ? recommendedMatViewModel.get().toDto() : null;
-        List<OpeningsDataDto> openingsDtolList = openingViewModelList.stream().
-                filter(Objects::nonNull).
-                map(OpeningsViewModel::toDto).toList();
-        SourceDataDto sourceDataDto = sourceDataViewModel.get() != null ? sourceDataViewModel.get().toDto() : null;
+        TextFormDataDto textFormDataDto = NullChecker.getDtoOrDefault(textFormViewModelProperty, TextFormDataViewModel::toDto, new TextFormDataDto());
+        ProtectionDataDto protectionDataDto = NullChecker.getDtoOrDefault(protectionViewModelProperty, ProtectionDataViewModel::toDto, new ProtectionDataDto());
+        List<MatCharacteristicsDataDto> existedMatCharacteristicsDtolList = NullChecker.getList(existedMatCharacteristicsViewModelListProperty, MatCharacteristicsDataViewModel::toDto);
+        MatCharacteristicsDataDto recommendedMatDto = NullChecker.getDtoOrDefault(recommendedMatViewModelProperty, MatCharacteristicsDataViewModel::toDto, new MatCharacteristicsDataDto());
+        List<OpeningsDataDto> openingsDtolList = NullChecker.getList(openingViewModelListProperty, OpeningsViewModel::toDto);
+        SourceDataDto sourceDataDto = NullChecker.getDtoOrDefault(sourceDataViewModelProperty, SourceDataViewModel::toDto, new SourceDataDto());
+        String additionalLayer = NullChecker.getString(additionalLeadViewModelProperty.get(), NOT_DEMAND);
         return new PanelDataDto(textFormDataDto, protectionDataDto, existedMatCharacteristicsDtolList,
-                recommendedMatDto, openingsDtolList, sourceDataDto, additionalLeadViewModel.get());
+                recommendedMatDto, openingsDtolList, sourceDataDto, additionalLayer);
     }
 
     @Override
     public void fromDto(AppData dto) {
         PanelDataDto data = (PanelDataDto) dto;
-        this.textFormViewModel.set(
-                NullChecker.getValueOrDefault(data.getTextFormDto(), TextFormDataViewModel::new, new TextFormDataViewModel(new TextFormDataDto()))
+        this.textFormViewModelProperty.set(
+                NullChecker.getValueOrDefault(data.getTextFormDto(), TextFormDataViewModel::new, new TextFormDataViewModel())
         );
-        this.protectionViewModel.set(
-                NullChecker.getValueOrDefault(data.getProtectionDto(), ProtectionDataViewModel::new, new ProtectionDataViewModel(new ProtectionDataDto()))
+        this.protectionViewModelProperty.set(
+                NullChecker.getValueOrDefault(data.getProtectionDto(), ProtectionDataViewModel::new, new ProtectionDataViewModel())
         );
-        FX.updateList(this.existedMatCharacteristicsViewModelList, data.getExistedMaterialCharacteristicsDtoList(),MatCharacteristicsDataViewModel::new);
-        this.recommendedMatViewModel.set(
-                NullChecker.getValueOrDefault(data.getRecommendedMaterialDto(), MatCharacteristicsDataViewModel::new, new MatCharacteristicsDataViewModel(new MatCharacteristicsDataDto()))
+        FX.updateList(this.existedMatCharacteristicsViewModelListProperty, data.getExistedMaterialCharacteristicsDtoList(), MatCharacteristicsDataViewModel::new);
+        this.recommendedMatViewModelProperty.set(
+                NullChecker.getValueOrDefault(data.getRecommendedMaterialDto(), MatCharacteristicsDataViewModel::new, new MatCharacteristicsDataViewModel())
         );
-        FX.updateList(this.openingViewModelList, data.getOpeningDtoList(),OpeningsViewModel::new);
-        this.sourceDataViewModel.set(
-                NullChecker.getValueOrDefault(data.getSourceDataDto(), SourceDataViewModel::new, new SourceDataViewModel(new SourceDataDto()))
+        FX.updateList(this.openingViewModelListProperty, data.getOpeningDtoList(), OpeningsViewModel::new);
+        this.sourceDataViewModelProperty.set(
+                NullChecker.getValueOrDefault(data.getSourceDataDto(), SourceDataViewModel::new, new SourceDataViewModel())
         );
-        this.additionalLeadViewModel.set(NullChecker.getString(data.getAdditionalLead(),"Не требуется"));
+        this.additionalLeadViewModelProperty.set(NullChecker.getString(data.getAdditionalLead(), NOT_DEMAND));
     }
+
+    @Override
+    public void init() {
+        this.textFormViewModelProperty = new SimpleObjectProperty<>();
+        this.protectionViewModelProperty = new SimpleObjectProperty<>();
+        this.existedMatCharacteristicsViewModelListProperty = new SimpleListProperty<>(FXCollections.observableArrayList());
+        this.recommendedMatViewModelProperty = new SimpleObjectProperty<>();
+        this.openingViewModelListProperty = new SimpleListProperty<>(FXCollections.observableArrayList());
+        this.sourceDataViewModelProperty = new SimpleObjectProperty<>();
+        this.additionalLeadViewModelProperty = new SimpleStringProperty();
+    }
+
+    public TextFormDataViewModel getTextFormViewModel() {
+        return NullChecker.getValueOrDefault(textFormViewModelProperty.get(), new TextFormDataViewModel());
+    }
+
+    public ProtectionDataViewModel getProtectionViewModel() {
+        return NullChecker.getValueOrDefault(protectionViewModelProperty.get(), new ProtectionDataViewModel());
+    }
+
+    public ObservableList<MatCharacteristicsDataViewModel> getExistedMatCharacteristicsViewModelList() {
+        return NullChecker.getObservableList(existedMatCharacteristicsViewModelListProperty);
+    }
+
+    public MatCharacteristicsDataViewModel getRecommendedMatViewModelList() {
+        return NullChecker.getValueOrDefault(recommendedMatViewModelProperty.get(), new MatCharacteristicsDataViewModel());
+    }
+
+    public ObservableList<OpeningsViewModel> getOpeningDtoList() {
+        return NullChecker.getObservableList(openingViewModelListProperty);
+    }
+
+    public SourceDataViewModel getSourceDataViewModelList() {
+        return NullChecker.getValueOrDefault(sourceDataViewModelProperty.get(), new SourceDataViewModel());
+    }
+
+    public String getAdditionalLead() {
+        return NullChecker.getString(additionalLeadViewModelProperty.get(), NOT_DEMAND);
+    }
+
 }

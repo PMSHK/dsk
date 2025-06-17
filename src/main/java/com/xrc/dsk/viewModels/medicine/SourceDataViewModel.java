@@ -1,37 +1,62 @@
 package com.xrc.dsk.viewModels.medicine;
 
+import com.xrc.dsk.converters.NullChecker;
 import com.xrc.dsk.data.bin.AppData;
 import com.xrc.dsk.dto.medicine.SourceDataDto;
 import com.xrc.dsk.viewModels.DataViewModel;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
-@NoArgsConstructor
-public class SourceDataViewModel implements DataViewModel<SourceDataDto> {
+@Setter
+public class SourceDataViewModel extends DataViewModel<SourceDataDto> {
 
-    private DoubleProperty dmd = new SimpleDoubleProperty();
-    private DoubleProperty directionCoefficient = new SimpleDoubleProperty();
-    private DoubleProperty distance = new SimpleDoubleProperty();
+    private DoubleProperty dmdProperty;
+    private DoubleProperty directionCoefficientProperty;
+    private DoubleProperty distanceProperty;
+
+    public SourceDataViewModel() {
+        super();
+    }
 
     public SourceDataViewModel(SourceDataDto dto) {
-        this.dmd.set(dto.getDmd());
-        this.directionCoefficient.set(dto.getDirectionCoefficient());
-        this.distance.set(dto.getDistance());
+        super(dto);
     }
 
     @Override
     public SourceDataDto toDto() {
-        return new SourceDataDto(dmd.get(), directionCoefficient.get(), distance.get());
+        return new SourceDataDto(
+                getDmd(),
+                getDirectionCoefficient(),
+                getDistance());
     }
 
     @Override
     public void fromDto(AppData dto) {
         SourceDataDto data = (SourceDataDto) dto;
-        this.dmd.set(data.getDmd());
-        this.directionCoefficient.set(data.getDirectionCoefficient());
-        this.distance.set(data.getDistance());
+        this.dmdProperty.set(NullChecker.getValueOrDefault(data.getDmd(), 0D));
+        this.directionCoefficientProperty.set(NullChecker.getValueOrDefault(data.getDirectionCoefficient(), 0D));
+        this.distanceProperty.set(NullChecker.getValueOrDefault(data.getDistance(), 0D));
+    }
+
+    @Override
+    public void init() {
+        this.dmdProperty = new SimpleDoubleProperty();
+        this.directionCoefficientProperty = new SimpleDoubleProperty();
+        this.distanceProperty = new SimpleDoubleProperty();
+    }
+
+    public Double getDmd() {
+        return NullChecker.getValueOrDefault(dmdProperty.get(), 0D);
+    }
+
+    public Double getDirectionCoefficient() {
+        return NullChecker.getValueOrDefault(directionCoefficientProperty.get(), 0D);
+    }
+
+    public Double getDistance() {
+        return NullChecker.getValueOrDefault(distanceProperty.get(), 0D);
     }
 }

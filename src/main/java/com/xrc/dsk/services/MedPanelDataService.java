@@ -10,6 +10,9 @@ import com.xrc.dsk.data.ProtectionDataBinder;
 import com.xrc.dsk.dto.MedWindowDto;
 import com.xrc.dsk.dto.PanelDataDto;
 import com.xrc.dsk.handlers.ComboBoxHandler;
+import com.xrc.dsk.viewModels.DataViewModel;
+import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
+import com.xrc.dsk.viewModels.medicine.PanelDataViewModel;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -17,23 +20,36 @@ import javafx.scene.control.TextField;
 import lombok.Setter;
 
 public class MedPanelDataService {
-    private ConnectionService connectionService;
     private DataStorage dataStorage = DataStorage.getInstance();
-    @Setter
-    private Integer panelId;
+    private MedicineDataViewModel viewModel;
+//    @Setter
+    private int panelId;
+
+    public MedPanelDataService(int panelId, DataViewModel<?> viewModel) {
+        this.panelId = panelId;
+        this.viewModel = (MedicineDataViewModel) viewModel;
+    }
 
     public void bindTextFields(
             TextArea roomSignArea
             , TextArea purposeAdjacentRoomArea
             , ComboBox<String> personalCategoryField) {
         MedWindowDto dto = getMedWindowDto();
-        MedicineTextFormsBinder binder = new MedicineTextFormsBinder(roomSignArea, purposeAdjacentRoomArea, personalCategoryField, panelId);
+        MedicineTextFormsBinder binder = new MedicineTextFormsBinder(
+                roomSignArea,
+                purposeAdjacentRoomArea,
+                personalCategoryField,
+                panelId, viewModel);
         binder.bind(dto);
     }
 
     public void addNewPanel() {
         MedWindowDto dto = getMedWindowDto();
         dto.getPanelData().add(new PanelDataDto());
+    }
+
+    public void addNewPanelToVM() {
+        viewModel.getPanelDataViewModelList().add(new PanelDataViewModel());
     }
 
     public void bindSourceData(Label dmdLabel, ComboBox<Double> attenuationCoefficientBox, TextField distanceField) {

@@ -8,6 +8,7 @@ import com.xrc.dsk.services.MedPanelDataService;
 import com.xrc.dsk.services.MedicinePanelService;
 import com.xrc.dsk.services.MedicineWindowService;
 import com.xrc.dsk.services.PublisherService;
+import com.xrc.dsk.viewModels.DataViewModel;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,6 +31,7 @@ public class MedicineCalculationPanelController  {
     private ConnectionService connectionService;
     private KParamDto kParamDto = new KParamDto();
     private Integer id;
+    private DataViewModel<?> viewModel;
 //    private PublisherService publishService = new PublisherService(kParamDto);
     @FXML
     private FontAwesomeIconView addButton;
@@ -84,7 +86,7 @@ public class MedicineCalculationPanelController  {
 
     @FXML
     void addNewPanel(MouseEvent event) {
-        panelsStorage.getPanelsStorage().getChildren().add(new MedicineCalculationPanel(++id).getRootNode());
+        panelsStorage.getPanelsStorage().getChildren().add(new MedicineCalculationPanel(++id,viewModel).getRootNode());
         System.out.println("Panel added");
 
     }
@@ -104,7 +106,7 @@ public class MedicineCalculationPanelController  {
 
     @FXML
     void getDirectionCoefficient(ActionEvent event) {
-        MedPanelDataService service = new MedPanelDataService();
+        MedPanelDataService service = new MedPanelDataService(id,viewModel);
         service.selectElement(directionCoefficient);
     }
 

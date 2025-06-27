@@ -1,6 +1,7 @@
 package com.xrc.dsk.connection;
 
 import com.xrc.dsk.dto.RadiationTypeDto;
+import com.xrc.dsk.dto.medicine.RadTypeDataDto;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.URLEncoder;
@@ -10,7 +11,7 @@ import java.util.function.Function;
 import static com.xrc.dsk.settings.ApiEndpoints.EQUIP_TYPE;
 
 @Slf4j
-public class EquipTypeRequestBuilder extends RequestHandler<RadiationTypeDto, RadiationTypeDto> {
+public class EquipTypeRequestBuilder extends RequestHandler<RadTypeDataDto, RadTypeDataDto> {
     private final String url;
     private final String typeName;
     private final String type;
@@ -32,12 +33,12 @@ public class EquipTypeRequestBuilder extends RequestHandler<RadiationTypeDto, Ra
     }
 
     @Override
-    protected Function<Throwable, RadiationTypeDto> getExceptionallyResult() {
-        return e -> new RadiationTypeDto();
+    protected Function<Throwable, RadTypeDataDto> getExceptionallyResult() {
+        return e -> new RadTypeDataDto();
     }
 
     @Override
-    protected Function<String, RadiationTypeDto> handleJson(Class<RadiationTypeDto> responseClass) {
+    protected Function<String, RadTypeDataDto> handleJson(Class<RadTypeDataDto> responseClass) {
         return json -> jsonConverter.fromJson(json, responseClass);
     }
 }

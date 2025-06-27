@@ -1,9 +1,10 @@
 package com.xrc.dsk.events;
 
 import com.xrc.dsk.dto.MaterialCharacteristicsDto;
+import com.xrc.dsk.dto.medicine.MatCharacteristicsDataDto;
 
 public interface Materiable {
     Boolean getBasedOnThickness();
-    MaterialCharacteristicsDto getMaterialCharacteristicsDto();
+    MatCharacteristicsDataDto getMaterialCharacteristicsDto();
     Long getVoltage();
 }

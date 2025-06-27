@@ -3,12 +3,15 @@ package com.xrc.dsk.listeners;
 import com.google.common.eventbus.Subscribe;
 import com.xrc.dsk.connection.ConnectionService;
 import com.xrc.dsk.dto.MaterialCharacteristicsDto;
-import com.xrc.dsk.dto.PanelDataDto;
+import com.xrc.dsk.dto.medicine.MatCharacteristicsDataDto;
+import com.xrc.dsk.dto.medicine.PanelDataDto;
 import com.xrc.dsk.dto.ProtectionDto;
+import com.xrc.dsk.dto.medicine.ProtectionDataDto;
 import com.xrc.dsk.events.EventManager;
 import com.xrc.dsk.events.Materiable;
 import com.xrc.dsk.events.MaterialEvent;
 import com.xrc.dsk.events.UpdateMatEvent;
+import com.xrc.dsk.viewModels.medicine.MatCharacteristicsDataViewModel;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -40,9 +43,9 @@ public class MaterialPanelUpdateService {
         if (result == -1) {
             return;
         }
-        MaterialCharacteristicsDto dto = event.getMaterialCharacteristicsDto();
-        dto.setLeadEquivalent(result);
-        ProtectionDto pDto = panelDataDto.getProtectionDto();
+        MatCharacteristicsDataViewModel matVm = new MatCharacteristicsDataViewModel(event.getMaterialCharacteristicsDto());
+        matVm.getLeadEquivalentProperty().set(result);
+        ProtectionDataDto pDto = panelDataDto.getProtectionDto();
         panelDataDto.setProtectionDto(null);
         log.info("Event {} has been caught. updating protectionDto", event);
         panelDataDto.setProtectionDto(pDto);
@@ -55,10 +58,10 @@ public class MaterialPanelUpdateService {
         if (result == -1) {
             return;
         }
-        MaterialCharacteristicsDto dto = event.getMaterialCharacteristicsDto();
-        if (dto.getThickness() == 0) {
-            dto.setThickness(result);
-            dto.thicknessProperty().set(result);
+        MatCharacteristicsDataViewModel matVm = new MatCharacteristicsDataViewModel(event.getMaterialCharacteristicsDto());
+        if (matVm.getThickness() == 0) {
+            matVm.getThicknessProperty().set(result);
+            matVm.getThicknessProperty().set(result);
         }
     }
 
@@ -66,7 +69,7 @@ public class MaterialPanelUpdateService {
 
         log.info("got correct event for {}", this.toString());
         log.info("Material event has been caught: {}", event);
-        MaterialCharacteristicsDto dto = event.getMaterialCharacteristicsDto();
+        MatCharacteristicsDataDto dto = event.getMaterialCharacteristicsDto();
         Long voltage = event.getVoltage();
         if (voltage < 50) {
             voltage = 50L;

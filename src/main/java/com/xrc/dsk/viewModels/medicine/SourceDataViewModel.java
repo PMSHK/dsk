@@ -59,4 +59,5 @@ public class SourceDataViewModel extends DataViewModel<SourceDataDto> {
     public Double getDistance() {
         return NullChecker.getValueOrDefault(distanceProperty.get(), 0D);
     }
+
 }

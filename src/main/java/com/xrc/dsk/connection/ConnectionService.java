@@ -7,6 +7,8 @@ import com.xrc.dsk.dto.MaterialInfoDto;
 import com.xrc.dsk.dto.ProtectionDto;
 import com.xrc.dsk.dto.RadiationTypeDto;
 import com.xrc.dsk.dto.ResultLeadEquivalentDto;
+import com.xrc.dsk.dto.medicine.ProtectionDataDto;
+import com.xrc.dsk.dto.medicine.RadTypeDataDto;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.http.HttpClient;
@@ -32,9 +34,9 @@ public class ConnectionService {
         return allMatBuilder.constructRequest(MaterialInfoDto.class).join();
     }
 
-    public RadiationTypeDto getEquipTypeParameters(String typeName, String type) {
+    public RadTypeDataDto getEquipTypeParameters(String typeName, String type) {
         EquipTypeRequestBuilder equipTypeBuilder = new EquipTypeRequestBuilder("GET", typeName, type);
-        return equipTypeBuilder.constructRequest(RadiationTypeDto.class).join();
+        return equipTypeBuilder.constructRequest(RadTypeDataDto.class).join();
     }
 
     public Double getRadExit(double voltage) {
@@ -62,9 +64,9 @@ public class ConnectionService {
         return dmdBuilder.constructRequest(String.class).join();
     }
 
-    public ProtectionDto getDemandedLeadEquivalent(KParamDto dto) {
+    public ProtectionDataDto getDemandedLeadEquivalent(KParamDto dto) {
         DemandedLeadRequestBuilder demandedLeadRequestBuilder = new DemandedLeadRequestBuilder("POST", dto);
-        return demandedLeadRequestBuilder.constructRequest(ProtectionDto.class).join();
+        return demandedLeadRequestBuilder.constructRequest(ProtectionDataDto.class).join();
     }
 
     public double getMaterialCharacteristics(

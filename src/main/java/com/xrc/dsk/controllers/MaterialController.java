@@ -1,7 +1,9 @@
 package com.xrc.dsk.controllers;
 
+import com.xrc.dsk.panels.CalculationPanel;
 import com.xrc.dsk.panels.MaterialPanel;
 import com.xrc.dsk.services.MaterialPanelDataService;
+import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +19,8 @@ import lombok.Setter;
 public class MaterialController {
 
     private MaterialPanelDataService service;
+    @Setter
+    private MedicineDataViewModel viewModel;
 
     @Setter
     private MaterialPanel materialPanel;
@@ -40,7 +44,8 @@ public class MaterialController {
 
     @FXML
     void addMatLayer(MouseEvent event) {
-        MaterialPanel newMaterialLayer = new MaterialPanel(materialPanel.getParentPanel());
+        CalculationPanel parentPanel = materialPanel.getParentPanel();
+        MaterialPanel newMaterialLayer = new MaterialPanel(parentPanel, parentPanel.getDataViewModel());
         newMaterialLayer.addToParentNode();
     }
 

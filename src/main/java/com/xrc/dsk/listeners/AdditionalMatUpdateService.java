@@ -2,7 +2,7 @@ package com.xrc.dsk.listeners;
 
 import com.google.common.eventbus.Subscribe;
 import com.xrc.dsk.connection.ConnectionService;
-import com.xrc.dsk.dto.PanelDataDto;
+import com.xrc.dsk.dto.medicine.PanelDataDto;
 import com.xrc.dsk.events.AdditionalMatEvent;
 import com.xrc.dsk.events.EventManager;
 import javafx.scene.control.Label;

@@ -22,4 +22,9 @@ public class RadTypeDataDto implements Serializable, AppData {
     public String getType() {
         return MEDICINE;
     }
+
+    public boolean filled(){
+        return name != null && voltage != null && radiationExit != null && workload != null &&
+                voltage>0 && radiationExit>0 && workload>0;
+    }
 }

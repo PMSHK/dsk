@@ -3,12 +3,15 @@ package com.xrc.dsk.listeners;
 import com.google.common.eventbus.Subscribe;
 import com.xrc.dsk.connection.ConnectionService;
 import com.xrc.dsk.dto.KParamDto;
-import com.xrc.dsk.dto.PanelDataDto;
-import com.xrc.dsk.dto.ProtectionDto;
+import com.xrc.dsk.dto.medicine.PanelDataDto;
+import com.xrc.dsk.dto.medicine.ProtectionDataDto;
 import com.xrc.dsk.dto.RadiationTypeDto;
+import com.xrc.dsk.dto.medicine.RadTypeDataDto;
 import com.xrc.dsk.events.EventManager;
 import com.xrc.dsk.events.PanelSourceEvent;
 import com.xrc.dsk.events.RadiationTypeEvent;
+import com.xrc.dsk.viewModels.DataViewModel;
+import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,29 +19,40 @@ import java.util.List;
 public class PanelProtectionUpdateService {
 //    private final EventManager eventManager;
     private final List<PanelDataDto> panels;
-    private final RadiationTypeDto radiationType;
+    private final RadTypeDataDto radiationType;
     private ConnectionService connectionService;
+    private final MedicineDataViewModel viewModel;
+    private final int panelId;
 
-    public PanelProtectionUpdateService() {
-        panels = new ArrayList<>();
-        panels.add(new PanelDataDto());
-        radiationType = new RadiationTypeDto();
+//    public PanelProtectionUpdateService() {
+//        panels = new ArrayList<>();
+//        panels.add(new PanelDataDto());
+//        radiationType = new RadTypeDataDto();
+//        EventManager.register(this);
+//    }
+//
+//    public PanelProtectionUpdateService(PanelDataDto panel, RadTypeDataDto radiationType){
+//        this.panels = new ArrayList<>();
+//        this.panels.add(panel);
+//        this.radiationType = radiationType;
+//        EventManager.register(this);
+//    }
+
+    public PanelProtectionUpdateService(MedicineDataViewModel viewModel, int panelId){
+        this.viewModel = viewModel;
+        this.panels = new ArrayList<>();
+        this.panels.add(viewModel.getPanelDataProperty().get(panelId).toDto());
+        this.radiationType = viewModel.getRadiationTypeViewModel().toDto();
+        this.panelId = panelId;
         EventManager.register(this);
     }
 
-    public PanelProtectionUpdateService(PanelDataDto panel, RadiationTypeDto radiationType){
-        this.panels = new ArrayList<PanelDataDto>();
-        this.panels.add(panel);
-        this.radiationType = radiationType;
-        EventManager.register(this);
-    }
-
-    public PanelProtectionUpdateService(List<PanelDataDto> panels, RadiationTypeDto radiationType){
-        this.panels = panels;
-        this.radiationType = radiationType;
-        RadiationTypeEvent event = new RadiationTypeEvent(radiationType);
-        EventManager.register(this);
-    }
+//    public PanelProtectionUpdateService(List<PanelDataDto> panels, RadTypeDataDto radiationType){
+//        this.panels = panels;
+//        this.radiationType = radiationType;
+//        RadiationTypeEvent event = new RadiationTypeEvent(radiationType);
+//        EventManager.register(this);
+//    }
 
     public void addPanel(PanelDataDto panel){
         panels.add(panel);
@@ -47,22 +61,28 @@ public class PanelProtectionUpdateService {
     @Subscribe
     public void onRadiationTypeChanged(RadiationTypeEvent event) {
         System.out.println("RadiationTypeEvent has been caught: " + event);
+        PanelDataDto currentPanelDto = viewModel.getPanelDataProperty().get().get(panelId).toDto();
+        RadTypeDataDto currentRadiationType = viewModel.getRadiationTypeViewModel().toDto();
         this.connectionService = new ConnectionService();
-        for (PanelDataDto panel : panels) {
-            if (panel.filled() && radiationType.filled()) {
-                KParamDto dto = new KParamDto();
-                dto.setDmd(panel.getSourceDataDto().getDmd());
-                dto.setDistance(panel.getSourceDataDto().getDistance());
-                dto.setDirectionCoefficient(panel.getSourceDataDto().getDirectionCoefficient());
-                dto.setVoltage(event.getRadiationType().getVoltage().doubleValue());
-                dto.setKerma(event.getRadiationType().getRadiationExit());
-                dto.setWorkLoad(event.getRadiationType().getWorkload().doubleValue());
 
-                ProtectionDto protectionDto = connectionService.getDemandedLeadEquivalent(dto);
-                panel.setProtectionDto(protectionDto);
+            if (currentPanelDto.filled() && currentRadiationType.filled()) {
+                KParamDto dto = getkParamDto(event, currentPanelDto);
+                ProtectionDataDto protectionDto = connectionService.getDemandedLeadEquivalent(dto);
+                viewModel.getPanelDataViewModelList().get(panelId).getProtectionViewModel().fromDto(protectionDto);
             }
-        }
     }
+
+    private KParamDto getkParamDto(RadiationTypeEvent event, PanelDataDto currentPanelDto) {
+        KParamDto dto = new KParamDto();
+        dto.setDmd(currentPanelDto.getSourceDataDto().getDmd());
+        dto.setDistance(currentPanelDto.getSourceDataDto().getDistance());
+        dto.setDirectionCoefficient(currentPanelDto.getSourceDataDto().getDirectionCoefficient());
+        dto.setVoltage(event.getRadiationType().getVoltage().doubleValue());
+        dto.setKerma(event.getRadiationType().getRadiationExit());
+        dto.setWorkLoad(event.getRadiationType().getWorkload().doubleValue());
+        return dto;
+    }
+
     @Subscribe
     public void onPanelChanged(PanelSourceEvent event){
         System.out.println("PanelSourceEvent has been caught: " + event);

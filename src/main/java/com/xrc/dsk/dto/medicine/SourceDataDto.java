@@ -14,9 +14,9 @@ import static com.xrc.dsk.settings.AppParameters.MEDICINE;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SourceDataDto implements Serializable, Filled, AppData {
-    private Double dmd;
-    private Double directionCoefficient;
-    private Double distance;
+    private double dmd;
+    private double directionCoefficient;
+    private double distance;
 
     @Override
     public boolean filled() {

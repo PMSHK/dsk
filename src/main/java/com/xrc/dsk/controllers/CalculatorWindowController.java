@@ -108,7 +108,7 @@ public class CalculatorWindowController extends WindowControl {
     void handleEquipType(ActionEvent event) {
         initialize();
         if (dataService == null) {
-            dataService = new DataService(new MedWindowDto());
+            dataService = new DataService(dataViewModel);
         }
         dataService.bindMedicineMainWindow(voltageField, workloadField, radExitLabel, type, equipmentType);
     }

@@ -6,6 +6,8 @@ import com.xrc.dsk.panels.MaterialPanel;
 import com.xrc.dsk.panels.OpeningPanel;
 import com.xrc.dsk.services.MedPanelDataService;
 import com.xrc.dsk.viewModels.DataViewModel;
+import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
+import com.xrc.dsk.viewModels.medicine.PanelDataViewModel;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -14,18 +16,18 @@ import java.util.List;
 @Slf4j
 public class MedPanelManager implements PanelsManager {
     private final CalculationPanel panel;
-    private final DataViewModel<?> viewModel;
+    private final MedicineDataViewModel viewModel;
     private List<MaterialPanel> materialPanels;
     private List<OpeningPanel> openingPanels;
     private MedicineCalculationPanelController controller;
 
-    public MedPanelManager(CalculationPanel panel, DataViewModel<?> viewModel, MedicineCalculationPanelController controller) {
+    public MedPanelManager(CalculationPanel panel, MedicineDataViewModel viewModel, MedicineCalculationPanelController controller) {
         this.panel = panel;
         this.viewModel = viewModel;
         this.controller = controller;
     }
 
-    public MedPanelManager(CalculationPanel panel, DataViewModel<?> viewModel,
+    public MedPanelManager(CalculationPanel panel, MedicineDataViewModel viewModel,
                            MedicineCalculationPanelController controller,
                            List<MaterialPanel> materialPanels,
                            List<OpeningPanel> openingPanels) {
@@ -36,9 +38,10 @@ public class MedPanelManager implements PanelsManager {
 
     @Override
     public void init() {
+        viewModel.getPanelDataProperty().add(new PanelDataViewModel());
         if (materialPanels == null || materialPanels.isEmpty()) {
             materialPanels = new ArrayList<>();
-            materialPanels.add(new MaterialPanel(panel));
+            materialPanels.add(new MaterialPanel(panel,viewModel));
         }
         if (openingPanels == null || openingPanels.isEmpty()) {
             openingPanels = new ArrayList<>();
@@ -59,7 +62,7 @@ public class MedPanelManager implements PanelsManager {
     private void bind() {
         MedPanelDataService dataService = new MedPanelDataService(panel.getPanelId(), viewModel);
 //        dataService.setPanelId(controller.getId());
-        dataService.addNewPanelToVM();
+//        dataService.addNewPanelToVM();
         dataService.bindTextFields(controller.getWallName(), controller.getRoomAssignment(), controller.getPersonalCategory());
         dataService.bindSourceData(controller.getDmd(), controller.getDirectionCoefficient(), controller.getDistance());
         dataService.bindProtectionData(controller.getAttenuationCoefficient(), controller.getLeadEquivalent());

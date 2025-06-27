@@ -34,46 +34,41 @@ public class MedPanelDataService {
             TextArea roomSignArea
             , TextArea purposeAdjacentRoomArea
             , ComboBox<String> personalCategoryField) {
-        MedWindowDto dto = getMedWindowDto();
         MedicineTextFormsBinder binder = new MedicineTextFormsBinder(
                 roomSignArea,
                 purposeAdjacentRoomArea,
                 personalCategoryField,
                 panelId, viewModel);
-        binder.bind(dto);
+        binder.bind();
     }
 
-    public void addNewPanel() {
-        MedWindowDto dto = getMedWindowDto();
-        dto.getPanelData().add(new PanelDataDto());
-    }
+//    public void addNewPanel() {
+//        MedWindowDto dto = getMedWindowDto();
+//        dto.getPanelData().add(new PanelDataDto());
+//    }
 
     public void addNewPanelToVM() {
-        viewModel.getPanelDataViewModelList().add(new PanelDataViewModel());
+        viewModel.getPanelDataProperty().add(new PanelDataViewModel());
     }
 
     public void bindSourceData(Label dmdLabel, ComboBox<Double> attenuationCoefficientBox, TextField distanceField) {
-        MedWindowDto dto = getMedWindowDto();
-        MedicineSourceDataBinder binder = new MedicineSourceDataBinder(dmdLabel, attenuationCoefficientBox, distanceField, panelId);
-        binder.bind(dto);
+        MedicineSourceDataBinder binder = new MedicineSourceDataBinder(dmdLabel, attenuationCoefficientBox, distanceField, panelId, viewModel);
+        binder.bind();
     }
 
     public void bindProtectionData(Label attenuationFrequencyLabel, Label leadEquivalentLabel) {
-        MedWindowDto dto = getMedWindowDto();
-        ProtectionDataBinder binder = new ProtectionDataBinder(attenuationFrequencyLabel, leadEquivalentLabel, panelId);
-        binder.bind(dto);
+        ProtectionDataBinder binder = new ProtectionDataBinder(attenuationFrequencyLabel, leadEquivalentLabel, panelId, viewModel);
+        binder.bind();
     }
 
     public void bindAdditionalLeadEquivalent(Label leadEquivalentLabel) {
-        MedWindowDto dto = getMedWindowDto();
-        AdditionalMatBinder binder = new AdditionalMatBinder(leadEquivalentLabel, panelId);
-        binder.bind(dto);
+        AdditionalMatBinder binder = new AdditionalMatBinder(leadEquivalentLabel, panelId, viewModel);
+        binder.bind();
     }
 
     public void bindAdditionalMaterial(ComboBox<String> materialComboBox, Label thicknessLabel) {
-        MedWindowDto dto = getMedWindowDto();
-        MaterialDataBinder binder = new MaterialDataBinder(materialComboBox, thicknessLabel, panelId);
-        binder.bind(dto);
+        MaterialDataBinder binder = new MaterialDataBinder(materialComboBox, thicknessLabel, panelId, viewModel);
+        binder.bind();
     }
 
     public void selectElement(ComboBox<Double> directionCoefficientBox) {
@@ -82,13 +77,13 @@ public class MedPanelDataService {
         System.out.println("Selected direction coefficient: " + handler.getElement());
     }
 
-    private MedWindowDto getMedWindowDto() {
-        MedWindowDto dto = (MedWindowDto) dataStorage.getWindowDto();
-        if (dto == null) {
-            dto = new MedWindowDto();
-            dataStorage.setWindowDto(dto);
-        }
-        return dto;
-    }
+//    private MedWindowDto getMedWindowDto() {
+//        MedWindowDto dto = (MedWindowDto) dataStorage.getWindowDto();
+//        if (dto == null) {
+//            dto = new MedWindowDto();
+//            dataStorage.setWindowDto(dto);
+//        }
+//        return dto;
+//    }
 
 }

@@ -2,6 +2,8 @@ package com.xrc.dsk.handlers;
 
 import javafx.scene.control.ComboBox;
 
+import java.util.NoSuchElementException;
+
 public class ComboBoxHandler <T> extends ElementHandler {
     private ComboBox<?> comboBox;
 
@@ -14,7 +16,7 @@ public class ComboBoxHandler <T> extends ElementHandler {
     public T getElement() {
         T item = (T) comboBox.getSelectionModel().getSelectedItem();
         if (item == null) {
-            throw new NullPointerException("item is null");
+            throw new NoSuchElementException("item is now selected");
         }
         return item;
     }

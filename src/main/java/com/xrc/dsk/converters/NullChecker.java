@@ -4,13 +4,17 @@ import com.xrc.dsk.data.bin.AppData;
 import com.xrc.dsk.viewModels.DataViewModel;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public final class NullChecker {
@@ -23,9 +27,16 @@ public final class NullChecker {
     }
 
     public static <T> ObservableList<T> getObservableList(ListProperty<T> inputList) {
-        return inputList == null ? FXCollections.observableArrayList() : inputList.stream()
-                .filter(Objects::nonNull)
-                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+        if (inputList == null) {
+            inputList = new SimpleListProperty<>(FXCollections.observableArrayList());
+        }
+        if (inputList.get() == null) {
+            inputList.set(FXCollections.observableArrayList());
+        }
+        return inputList.get();
+//        return inputList == null ? FXCollections.observableArrayList() : inputList.stream()
+//                .filter(Objects::nonNull)
+//                .collect(Collectors.toCollection(FXCollections::observableArrayList));
     }
 
     public static <T, D> D getValueOrNull(T input, Function<T, D> mapper) {
@@ -50,7 +61,14 @@ public final class NullChecker {
         return input == null ? defaultValue : input;
     }
 
+    public static <T extends ObjectProperty, R> R getValueOrDefault(T input, R defaultValue) {
+        if(input.get() == null) {
+            input.set(defaultValue);
+        } return (R) input.get();
+    }
+
     public static String getString(String input, String defaultString) {
         return input == null ? defaultString : input;
     }
+
 }

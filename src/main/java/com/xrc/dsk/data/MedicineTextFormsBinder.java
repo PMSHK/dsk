@@ -36,16 +36,11 @@ public class MedicineTextFormsBinder implements Bindable {
     }
 
     @Override
-    public void bind(WindowDto dto) {
-        MedWindowDto windowDto = (MedWindowDto) dto;
-//        PanelDataViewModel panelDataVM = viewModel.getPanelDataViewModelList().get(panelId);
-//        StringProperty wallSignProperty = panelDataVM.getTextFormViewModel().getWallSignProperty();
-//        StringProperty personalCategoryProperty = panelDataVM.getTextFormViewModel().getPersonalCategoryProperty();
-//        StringProperty adjacentRoomProperty = panelDataVM.getTextFormViewModel().getPurposeAdjacentRoomProperty();
-        PanelDataDto panelDataDto = windowDto.getPanelDataProperty().get(panelId);
-        StringProperty wallSignProperty = panelDataDto.getTextFormDto().wallSignProperty();
-        StringProperty personalCategoryProperty = panelDataDto.getTextFormDto().personalCategoryProperty();
-        StringProperty adjacentRoomProperty = panelDataDto.getTextFormDto().purposeAdjacentRoomProperty();
+    public void bind() {
+        PanelDataViewModel panelDataVM = viewModel.getPanelDataViewModelList().get(panelId);
+        StringProperty wallSignProperty = panelDataVM.getTextFormViewModel().getWallSignProperty();
+        StringProperty personalCategoryProperty = panelDataVM.getTextFormViewModel().getPersonalCategoryProperty();
+        StringProperty adjacentRoomProperty = panelDataVM.getTextFormViewModel().getPurposeAdjacentRoomProperty();
 
         binder.bindTextPropertyToString(roomSignAea.textProperty(), wallSignProperty);
         binder.bindTextPropertyToString(adjacentRoomArea.textProperty(), adjacentRoomProperty);

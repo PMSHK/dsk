@@ -1,11 +1,12 @@
 package com.xrc.dsk.data;
 
 import com.xrc.dsk.dto.MedWindowDto;
-import com.xrc.dsk.dto.PanelDataDto;
-import com.xrc.dsk.dto.WindowDto;
+import com.xrc.dsk.dto.medicine.PanelDataDto;
 import com.xrc.dsk.events.EventManager;
 import com.xrc.dsk.events.RadiationTypeEvent;
 import com.xrc.dsk.listeners.PanelProtectionUpdateService;
+import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
+import com.xrc.dsk.viewModels.medicine.SourceDataViewModel;
 import javafx.beans.property.DoubleProperty;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -13,49 +14,46 @@ import javafx.scene.control.TextField;
 
 public class MedicineSourceDataBinder implements Bindable{
     private final Binder binder;
-    private MedWindowDto medWindowDto;
     private Integer panelId;
-    private PanelDataDto panelDataDto;
     private PanelProtectionUpdateService panelProtectionUpdateService;
     private Label dmdLabel;
     private ComboBox<Double> directionCoefficientBox;
     private TextField distanceField;
+    private MedicineDataViewModel viewModel;
 
     public MedicineSourceDataBinder() {
         binder = new Binder();
     }
 
-    public MedicineSourceDataBinder(Label dmdLabel, ComboBox<Double> directionCoefficientBox, TextField distanceField, int panelId) {
+    public MedicineSourceDataBinder(Label dmdLabel, ComboBox<Double> directionCoefficientBox, TextField distanceField, int panelId, MedicineDataViewModel viewModel) {
         this.dmdLabel = dmdLabel;
         this.directionCoefficientBox = directionCoefficientBox;
         this.distanceField = distanceField;
         this.panelId = panelId;
         binder = new Binder();
+        this.viewModel = viewModel;
     }
 
     @Override
-    public void bind(WindowDto dto) {
-        medWindowDto = (MedWindowDto) dto;
-        this.panelDataDto = medWindowDto.getPanelDataProperty().get(panelId);
-        this.panelProtectionUpdateService = new PanelProtectionUpdateService(panelDataDto, medWindowDto.getRadiationType());
+    public void bind() {
+        this.panelProtectionUpdateService = new PanelProtectionUpdateService(viewModel,panelId);
 
-        DoubleProperty dmdProperty = panelDataDto.getSourceDataDto().dmdProperty();
-        DoubleProperty directionCoefficientProperty = panelDataDto.getSourceDataDto().directionCoefficientProperty();
-        DoubleProperty distanceProperty = panelDataDto.getSourceDataDto().distanceProperty();
-
-
+        SourceDataViewModel vm = viewModel.getPanelDataProperty().get(panelId).getSourceDataViewModel();
+        DoubleProperty dmdProperty = vm.getDmdProperty();
+        DoubleProperty directionCoefficientProperty = vm.getDirectionCoefficientProperty();
+        DoubleProperty distanceProperty = vm.getDistanceProperty();
 
         binder.bindDoublePropertyToString(dmdLabel.textProperty(), dmdProperty, Double.parseDouble(dmdLabel.getText()),
                 (val) -> {
-                    panelDataDto.getSourceDataDto().setDmd(val);
-                    EventManager.post(new RadiationTypeEvent(medWindowDto.getRadiationType()));
+                    vm.getDmdProperty().set(val);
+                    EventManager.post(new RadiationTypeEvent(viewModel.getRadiationTypeViewModel().toDto()));
                     System.out.println("dmd: " + val + " has been saved");
                 });
 
         directionCoefficientBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                directionCoefficientProperty.set((Double) newValue);
-                EventManager.post(new RadiationTypeEvent(medWindowDto.getRadiationType()));
+                vm.getDirectionCoefficientProperty().set((Double) newValue);
+                EventManager.post(new RadiationTypeEvent(viewModel.getRadiationTypeViewModel().toDto()));
                 System.out.println("direction coefficient: " + newValue + " has been saved");
             }
         });
@@ -66,8 +64,8 @@ public class MedicineSourceDataBinder implements Bindable{
         }
         binder.bindDoublePropertyToString(distanceField.textProperty(), distanceProperty, distance,
                 (val) -> {
-                    panelDataDto.getSourceDataDto().setDistance(val);
-                    EventManager.post(new RadiationTypeEvent(medWindowDto.getRadiationType()));
+                    vm.getDistanceProperty().set(val);
+                    EventManager.post(new RadiationTypeEvent(viewModel.getRadiationTypeViewModel().toDto()));
                     System.out.println("distance: " + val + " has been saved");
                 });
     }

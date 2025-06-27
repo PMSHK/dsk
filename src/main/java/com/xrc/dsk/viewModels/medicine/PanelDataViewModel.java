@@ -90,27 +90,27 @@ public class PanelDataViewModel extends DataViewModel<PanelDataDto> {
     }
 
     public TextFormDataViewModel getTextFormViewModel() {
-        return NullChecker.getValueOrDefault(textFormViewModelProperty.get(), new TextFormDataViewModel());
+        return NullChecker.getValueOrDefault(textFormViewModelProperty, new TextFormDataViewModel());
     }
 
     public ProtectionDataViewModel getProtectionViewModel() {
-        return NullChecker.getValueOrDefault(protectionViewModelProperty.get(), new ProtectionDataViewModel());
+        return NullChecker.getValueOrDefault(protectionViewModelProperty, new ProtectionDataViewModel());
     }
 
     public ObservableList<MatCharacteristicsDataViewModel> getExistedMatCharacteristicsViewModelList() {
         return NullChecker.getObservableList(existedMatCharacteristicsViewModelListProperty);
     }
 
-    public MatCharacteristicsDataViewModel getRecommendedMatViewModelList() {
-        return NullChecker.getValueOrDefault(recommendedMatViewModelProperty.get(), new MatCharacteristicsDataViewModel());
+    public MatCharacteristicsDataViewModel getRecommendedMatViewModel() {
+        return NullChecker.getValueOrDefault(recommendedMatViewModelProperty, new MatCharacteristicsDataViewModel());
     }
 
     public ObservableList<OpeningsViewModel> getOpeningDtoList() {
         return NullChecker.getObservableList(openingViewModelListProperty);
     }
 
-    public SourceDataViewModel getSourceDataViewModelList() {
-        return NullChecker.getValueOrDefault(sourceDataViewModelProperty.get(), new SourceDataViewModel());
+    public SourceDataViewModel getSourceDataViewModel() {
+        return NullChecker.getValueOrDefault(sourceDataViewModelProperty, new SourceDataViewModel());
     }
 
     public String getAdditionalLead() {

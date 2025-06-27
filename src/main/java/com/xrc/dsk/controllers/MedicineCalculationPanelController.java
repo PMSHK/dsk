@@ -9,6 +9,7 @@ import com.xrc.dsk.services.MedicinePanelService;
 import com.xrc.dsk.services.MedicineWindowService;
 import com.xrc.dsk.services.PublisherService;
 import com.xrc.dsk.viewModels.DataViewModel;
+import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,7 +32,7 @@ public class MedicineCalculationPanelController  {
     private ConnectionService connectionService;
     private KParamDto kParamDto = new KParamDto();
     private Integer id;
-    private DataViewModel<?> viewModel;
+    private MedicineDataViewModel viewModel;
 //    private PublisherService publishService = new PublisherService(kParamDto);
     @FXML
     private FontAwesomeIconView addButton;
@@ -112,7 +113,7 @@ public class MedicineCalculationPanelController  {
 
     @FXML
     void setAdjacentRoomPurpose(KeyEvent event) {
-
+        System.out.println("Adjacent room purpose" + event.getText());
     }
 
     @FXML

@@ -4,8 +4,11 @@ import com.xrc.dsk.connection.ConnectionService;
 import com.xrc.dsk.dto.MedWindowDto;
 import com.xrc.dsk.dto.RadiationTypeDto;
 import com.xrc.dsk.dto.WindowDto;
+import com.xrc.dsk.dto.medicine.RadTypeDataDto;
 import com.xrc.dsk.events.EventManager;
 import com.xrc.dsk.events.RadiationTypeEvent;
+import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
+import com.xrc.dsk.viewModels.medicine.RadTypeDataViewModel;
 import javafx.beans.property.LongProperty;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -20,7 +23,8 @@ public class MedicineMainWindowBinder implements Bindable {
     private Label radExitLabel;
     private Label typeLabel;
     private ComboBox<String> equipmentType;
-    private RadiationTypeDto radiationTypeDto;
+//    private RadTypeDataDto radiationTypeDto;
+    private MedicineDataViewModel viewModel;
 
     public MedicineMainWindowBinder() {
         this.binder = new Binder();
@@ -32,7 +36,7 @@ public class MedicineMainWindowBinder implements Bindable {
                                     Label radExitLabel,
                                     Label typeLabel,
                                     ComboBox<String> equipmentType,
-                                    RadiationTypeDto radiationTypeDto
+                                    MedicineDataViewModel viewModel
     ) {
         this();
         this.voltageField = voltageField;
@@ -40,47 +44,44 @@ public class MedicineMainWindowBinder implements Bindable {
         this.radExitLabel = radExitLabel;
         this.typeLabel = typeLabel;
         this.equipmentType = equipmentType;
-        this.radiationTypeDto = radiationTypeDto;
+        this.viewModel = viewModel;
     }
 
     @Override
-    public void bind(WindowDto dto) {
-        this.medWindowDto = (MedWindowDto) dto;
+    public void bind() {
 
-        LongProperty voltageProperty = medWindowDto
-                .getRadiationType()
-                .voltageProperty();
+        RadTypeDataViewModel radTypeViewModel = viewModel.getRadiationTypeViewModel();
+        LongProperty voltageProperty = radTypeViewModel.getVoltageProperty();
+        RadTypeDataDto radTypeDataDto = radTypeViewModel.toDto();
+        LongProperty workloadProperty = radTypeViewModel.getWorkloadProperty();
 
-
-        binder.bindLongPropertyToString(voltageField.textProperty(), voltageProperty, radiationTypeDto.getVoltage(),
+        binder.bindLongPropertyToString(voltageField.textProperty(), voltageProperty, radTypeDataDto.getVoltage(),
                 (val) -> {
-                    medWindowDto.getRadiationType().setVoltage(val);
+                    voltageProperty.set(val);
                     System.out.println("voltage: " + val + " has been saved");
                     double radExit = connectionService.getRadExit(val);
                     radExitLabel.setText(String.valueOf(radExit));
                     System.out.println("rExit: " + radExit + " has been saved");
 //                    updatePanelsProtection();
                 });
-        radExitLabel.setText(String.valueOf(connectionService.getRadExit(radiationTypeDto.getVoltage())));
-        medWindowDto.getRadiationType().setRadiationExit(Double.parseDouble(radExitLabel.getText()));
-        medWindowDto.getRadiationType().setName(equipmentType.getValue());
+        radExitLabel.setText(String.valueOf(connectionService.getRadExit(radTypeDataDto.getVoltage())));
+        radTypeViewModel.getRadiationExitProperty().set(Double.parseDouble(radExitLabel.getText()));
+        radTypeViewModel.getNameProperty().set(equipmentType.getValue());
 
 
-        LongProperty workloadProperty = medWindowDto
-                .getRadiationType().workloadProperty();
 
-        binder.bindLongPropertyToString(workLoadField.textProperty(), workloadProperty, radiationTypeDto.getWorkload(),
+        binder.bindLongPropertyToString(workLoadField.textProperty(), workloadProperty, radTypeDataDto.getWorkload(),
                 (val) -> {
-                    medWindowDto.getRadiationType().setWorkload(val);
+                    radTypeViewModel.getWorkloadProperty().set(val);
                     System.out.println("workload: " + val + " has been saved");
 //                    updatePanelsProtection();
                 });
-        updatePanelsProtection();
+        updatePanelsProtection(radTypeDataDto, radTypeViewModel);
     }
 
-    private void updatePanelsProtection() {
-        if (medWindowDto.getRadiationType().filled()) {
-            EventManager.post(new RadiationTypeEvent(medWindowDto.getRadiationType()));
+    private void updatePanelsProtection(RadTypeDataDto dto, RadTypeDataViewModel radTypeViewModel) {
+        if (radTypeViewModel.filled()) {
+            EventManager.post(new RadiationTypeEvent(dto));
         }
     }
 

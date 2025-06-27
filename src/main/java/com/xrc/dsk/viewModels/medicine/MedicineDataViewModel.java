@@ -57,7 +57,7 @@ public class MedicineDataViewModel extends DataViewModel<MedicineDataDto> {
         this.panelDataProperty = new SimpleListProperty<>(FXCollections.observableArrayList());
     }
     public RadTypeDataViewModel getRadiationTypeViewModel() {
-        return NullChecker.getValueOrDefault(radiationTypeProperty.get(),new RadTypeDataViewModel());
+        return NullChecker.getValueOrDefault(radiationTypeProperty,new RadTypeDataViewModel());
     }
     public ObservableList<PanelDataViewModel> getPanelDataViewModelList() {
         return NullChecker.getObservableList(panelDataProperty);

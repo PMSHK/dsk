@@ -45,19 +45,19 @@ public class MatCharacteristicsDataViewModel extends DataViewModel<MatCharacteri
     @Override
     public void init() {
         this.infoProperty = new SimpleObjectProperty<>();
-        this.thicknessProperty = new SimpleDoubleProperty();
-        this.leadEquivalentProperty = new SimpleDoubleProperty();
+        this.thicknessProperty = new SimpleDoubleProperty(0.0);
+        this.leadEquivalentProperty = new SimpleDoubleProperty(0.0);
     }
 
     public MatInfoViewModel getInfo() {
-        return NullChecker.getValueOrDefault(infoProperty.get(), new MatInfoViewModel());
+        return NullChecker.getValueOrSetDefault(infoProperty, new MatInfoViewModel());
     }
 
     public Double getThickness() {
-        return NullChecker.getValueOrDefault(thicknessProperty.get(), 0d);
+        return NullChecker.getValueOrSetDefault(thicknessProperty, 0.0).doubleValue();
     }
 
     public Double getLeadEquivalent() {
-        return NullChecker.getValueOrDefault(leadEquivalentProperty.get(), 0d);
+        return NullChecker.getValueOrSetDefault(leadEquivalentProperty, 0.0).doubleValue();
     }
 }

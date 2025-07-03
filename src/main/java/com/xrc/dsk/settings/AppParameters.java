@@ -33,4 +33,9 @@ Windows
     public final static String MEDICINE = "MEDICINE";
     public final static String DENTAL = "DENTAL";
     public final static String FLAW = "FLAW";
+
+    /*
+Constants
+*/
+    public final static double DEBOUNCED_FACTOR = 5.0;
 }

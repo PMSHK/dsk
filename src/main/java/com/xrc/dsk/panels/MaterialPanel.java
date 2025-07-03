@@ -45,6 +45,7 @@ public class MaterialPanel extends Panel {
         dto.setInfo(materialInfoDto);
         this.vm = new MatCharacteristicsDataViewModel(dto);
 
+
         this.materialController = getController();
         materialController.setMaterialPanel(this);
         materialController.setViewModel(viewModel);
@@ -54,12 +55,12 @@ public class MaterialPanel extends Panel {
         log.info("Material panel initialized");
 
         bind();
-        service.addNewMaterial(dto);
+        service.addNewMaterial(vm);
         log.info("Material panel bound");
     }
 
     public void deletePanel(){
-        service.deleteMaterial(dto);
+        service.deleteMaterial(vm);
     }
 
     private void bind() {
@@ -70,7 +71,7 @@ public class MaterialPanel extends Panel {
                 vm, parentPanel.getPanelId(),
                 viewModel
         );
-        service.addNewMaterial(dto);
+//        service.addNewMaterial(dto);
         service.bind();
     }
 

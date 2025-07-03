@@ -3,6 +3,7 @@ package com.xrc.dsk.data;
 import com.xrc.dsk.dto.MedWindowDto;
 import com.xrc.dsk.dto.medicine.PanelDataDto;
 import com.xrc.dsk.events.EventManager;
+import com.xrc.dsk.events.PanelRadiationTypeEvent;
 import com.xrc.dsk.events.RadiationTypeEvent;
 import com.xrc.dsk.listeners.PanelProtectionUpdateService;
 import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
@@ -46,14 +47,14 @@ public class MedicineSourceDataBinder implements Bindable{
         binder.bindDoublePropertyToString(dmdLabel.textProperty(), dmdProperty, Double.parseDouble(dmdLabel.getText()),
                 (val) -> {
                     vm.getDmdProperty().set(val);
-                    EventManager.post(new RadiationTypeEvent(viewModel.getRadiationTypeViewModel().toDto()));
+                    EventManager.post(new PanelRadiationTypeEvent(viewModel.getRadiationTypeViewModel()));
                     System.out.println("dmd: " + val + " has been saved");
                 });
 
         directionCoefficientBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 vm.getDirectionCoefficientProperty().set((Double) newValue);
-                EventManager.post(new RadiationTypeEvent(viewModel.getRadiationTypeViewModel().toDto()));
+                EventManager.post(new PanelRadiationTypeEvent(viewModel.getRadiationTypeViewModel()));
                 System.out.println("direction coefficient: " + newValue + " has been saved");
             }
         });
@@ -65,7 +66,7 @@ public class MedicineSourceDataBinder implements Bindable{
         binder.bindDoublePropertyToString(distanceField.textProperty(), distanceProperty, distance,
                 (val) -> {
                     vm.getDistanceProperty().set(val);
-                    EventManager.post(new RadiationTypeEvent(viewModel.getRadiationTypeViewModel().toDto()));
+                    EventManager.post(new PanelRadiationTypeEvent(viewModel.getRadiationTypeViewModel()));
                     System.out.println("distance: " + val + " has been saved");
                 });
     }

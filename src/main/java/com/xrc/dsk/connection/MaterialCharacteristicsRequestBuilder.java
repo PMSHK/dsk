@@ -45,7 +45,8 @@ public class MaterialCharacteristicsRequestBuilder extends RequestHandler<Double
         } else if (thickness != 0 && leadEquivalent == 0) {
             encodedUrl = MAT_LEAD_EQUIVALENT;
             return new RequestBuilder(encodedUrl,jsonConverter.toJson(dto));
-        } else {
+        }
+         else {
             log.warn("wasn't able to generate request builder because thickness and lead equivalent are both zero");
             return new RequestBuilder("ERROR",jsonConverter.toJson(dto));
         }

@@ -56,15 +56,15 @@ public class MaterialPanelDataService {
         log.info("Bindings for material panel data from service has accomplished");
     }
 
-    public void addNewMaterial(MatCharacteristicsDataDto newMaterialCharacteristicsDto) {
+    public void addNewMaterial(MatCharacteristicsDataViewModel vm) {
         log.info("Adding new material to material panel data from service");
-        viewModel.getPanelDataProperty().get(panelId).getExistedMatCharacteristicsViewModelList().add(new MatCharacteristicsDataViewModel(newMaterialCharacteristicsDto));
+        viewModel.getPanelDataProperty().get(panelId).getExistedMatCharacteristicsViewModelList().add(vm);
         log.info("Added new material to material panel data from service");
     }
 
-    public void deleteMaterial(MatCharacteristicsDataDto materialCharacteristicsDto) {
+    public void deleteMaterial(MatCharacteristicsDataViewModel vm) {
         log.info("Deleting existing material to material panel data from service");
-        viewModel.getPanelDataProperty().get(panelId).getExistedMatCharacteristicsViewModelList().removeIf(vm->vm.toDto().equals(materialCharacteristicsDto));
+        viewModel.getPanelDataProperty().get(panelId).getExistedMatCharacteristicsViewModelList().removeIf(vmCurr->vmCurr.equals(vm));
     }
 
 //    private MedWindowDto getMedWindowDto() {

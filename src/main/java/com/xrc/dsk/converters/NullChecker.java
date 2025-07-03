@@ -4,6 +4,7 @@ import com.xrc.dsk.data.bin.AppData;
 import com.xrc.dsk.viewModels.DataViewModel;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,11 +12,7 @@ import javafx.collections.ObservableList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 public final class NullChecker {
     public static <T, D> List<D> getList(List<T> inputList, Function<T, D> mapper) {
@@ -62,9 +59,21 @@ public final class NullChecker {
     }
 
     public static <T extends ObjectProperty, R> R getValueOrDefault(T input, R defaultValue) {
-        if(input.get() == null) {
+        if (input.get() == null) {
             input.set(defaultValue);
-        } return (R) input.get();
+        }
+        return (R) input.get();
+    }
+
+    public static <T> T getValueOrSetDefault(Property<T> property, T defaultValue) {
+        if (property == null) {
+            return defaultValue;
+        }
+        T value = property.getValue();
+        if (value == null) {
+            property.setValue(defaultValue);
+        }
+        return property.getValue();
     }
 
     public static String getString(String input, String defaultString) {

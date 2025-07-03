@@ -43,15 +43,16 @@ public class RadTypeDataViewModel extends DataViewModel<RadTypeDataDto> implemen
     @Override
     public void fromDto(AppData dto) {
         RadTypeDataDto data = (RadTypeDataDto) dto;
-        nameProperty.set(NullChecker.getString(data.getName(),""));
-        voltageProperty.set(NullChecker.getValueOrDefault(data.getVoltage(),0L));
-        radiationExitProperty.set(NullChecker.getValueOrDefault(data.getRadiationExit(),0D));
-        workloadProperty.set(NullChecker.getValueOrDefault(data.getWorkload(),0L));
+        nameProperty.set(NullChecker.getString(data.getName(), ""));
+        voltageProperty.set(NullChecker.getValueOrDefault(data.getVoltage(), 0L));
+        radiationExitProperty.set(NullChecker.getValueOrDefault(data.getRadiationExit(), 0D));
+        workloadProperty.set(NullChecker.getValueOrDefault(data.getWorkload(), 0L));
     }
 
     @Override
     public boolean filled() {
-        return voltageProperty.get() != 0 && radiationExitProperty.get() != 0 && workloadProperty.get() != 0;
+        return getName() != null && !getName().isEmpty() &&
+                getVoltage() > 0 && getRadiationExit() > 0 && getWorkload() > 0;
     }
 
     @Override
@@ -62,16 +63,19 @@ public class RadTypeDataViewModel extends DataViewModel<RadTypeDataDto> implemen
         this.workloadProperty = new SimpleLongProperty();
     }
 
-    public String getName(){
-        return NullChecker.getString(nameProperty.get(),"");
+    public String getName() {
+        return NullChecker.getString(nameProperty.get(), "");
     }
-    public Long getVoltage(){
-        return NullChecker.getValueOrDefault(voltageProperty.get(),0L);
+
+    public Long getVoltage() {
+        return NullChecker.getValueOrDefault(voltageProperty.get(), 0L);
     }
-    public Double getRadiationExit(){
-        return NullChecker.getValueOrDefault(radiationExitProperty.get(),0D);
+
+    public Double getRadiationExit() {
+        return NullChecker.getValueOrDefault(radiationExitProperty.get(), 0D);
     }
-    public Long getWorkload(){
-        return NullChecker.getValueOrDefault(workloadProperty.get(),0L);
+
+    public Long getWorkload() {
+        return NullChecker.getValueOrDefault(workloadProperty.get(), 0L);
     }
 }

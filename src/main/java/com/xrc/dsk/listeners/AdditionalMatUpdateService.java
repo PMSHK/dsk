@@ -37,10 +37,10 @@ public class AdditionalMatUpdateService {
         try {
             double leadEquivalent = Double.parseDouble(demandedLeadEquivalent);
             String formattedLeadEquivalent = String.format("%.2f", leadEquivalent);
-            panelDataDto.setAdditionalLead(formattedLeadEquivalent);
+            additionalMatEvent.getViewModel().getAdditionalLeadViewModelProperty().set(formattedLeadEquivalent);
             leadEquivalentLabel.setText(formattedLeadEquivalent);
         } catch (NumberFormatException e) {
-            panelDataDto.setAdditionalLead(demandedLeadEquivalent);
+            additionalMatEvent.getViewModel().getAdditionalLeadViewModelProperty().set(demandedLeadEquivalent);
             leadEquivalentLabel.setText(demandedLeadEquivalent);
         }
     }

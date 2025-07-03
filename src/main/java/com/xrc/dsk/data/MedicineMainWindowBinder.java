@@ -52,36 +52,36 @@ public class MedicineMainWindowBinder implements Bindable {
 
         RadTypeDataViewModel radTypeViewModel = viewModel.getRadiationTypeViewModel();
         LongProperty voltageProperty = radTypeViewModel.getVoltageProperty();
-        RadTypeDataDto radTypeDataDto = radTypeViewModel.toDto();
         LongProperty workloadProperty = radTypeViewModel.getWorkloadProperty();
 
-        binder.bindLongPropertyToString(voltageField.textProperty(), voltageProperty, radTypeDataDto.getVoltage(),
+        binder.bindLongPropertyToString(voltageField.textProperty(), voltageProperty, voltageProperty.getValue(),
                 (val) -> {
                     voltageProperty.set(val);
                     System.out.println("voltage: " + val + " has been saved");
                     double radExit = connectionService.getRadExit(val);
                     radExitLabel.setText(String.valueOf(radExit));
+                    radTypeViewModel.getRadiationExitProperty().set(radExit);
                     System.out.println("rExit: " + radExit + " has been saved");
-//                    updatePanelsProtection();
+                    updatePanelsProtection(radTypeViewModel);
                 });
-        radExitLabel.setText(String.valueOf(connectionService.getRadExit(radTypeDataDto.getVoltage())));
+        radExitLabel.setText(String.valueOf(connectionService.getRadExit(viewModel.getRadiationTypeViewModel().getVoltage())));
         radTypeViewModel.getRadiationExitProperty().set(Double.parseDouble(radExitLabel.getText()));
         radTypeViewModel.getNameProperty().set(equipmentType.getValue());
 
 
 
-        binder.bindLongPropertyToString(workLoadField.textProperty(), workloadProperty, radTypeDataDto.getWorkload(),
+        binder.bindLongPropertyToString(workLoadField.textProperty(), workloadProperty, viewModel.getRadiationTypeViewModel().getWorkload(),
                 (val) -> {
                     radTypeViewModel.getWorkloadProperty().set(val);
                     System.out.println("workload: " + val + " has been saved");
-//                    updatePanelsProtection();
+                    updatePanelsProtection(radTypeViewModel);
                 });
-        updatePanelsProtection(radTypeDataDto, radTypeViewModel);
+        updatePanelsProtection(radTypeViewModel);
     }
 
-    private void updatePanelsProtection(RadTypeDataDto dto, RadTypeDataViewModel radTypeViewModel) {
+    private void updatePanelsProtection(RadTypeDataViewModel radTypeViewModel) {
         if (radTypeViewModel.filled()) {
-            EventManager.post(new RadiationTypeEvent(dto));
+            EventManager.post(new RadiationTypeEvent(radTypeViewModel));
         }
     }
 

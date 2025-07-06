@@ -3,8 +3,6 @@ package com.xrc.dsk.panels;
 
 import com.xrc.dsk.connection.ConnectionService;
 import com.xrc.dsk.controllers.MaterialController;
-import com.xrc.dsk.dto.MaterialCharacteristicsDto;
-import com.xrc.dsk.dto.MaterialInfoDto;
 import com.xrc.dsk.dto.medicine.MatCharacteristicsDataDto;
 import com.xrc.dsk.dto.medicine.MaterialInfoDataDto;
 import com.xrc.dsk.services.MaterialPanelDataService;

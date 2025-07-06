@@ -26,10 +26,11 @@ public class MatInfoViewModel extends DataViewModel<MaterialInfoDataDto> {
         super(dto);
     }
 
-    public String getName(){
+    public String getName() {
         return NullChecker.getString(nameProperty.get(), "");
     }
-    public Float getDensity(){
+
+    public Float getDensity() {
         return NullChecker.getValueOrDefault(densityProperty.get(), 0F);
     }
 
@@ -37,7 +38,8 @@ public class MatInfoViewModel extends DataViewModel<MaterialInfoDataDto> {
     public MaterialInfoDataDto toDto() {
         return new MaterialInfoDataDto(
                 getName(),
-                getDensity());
+                getDensity(),
+                getName() + " " + getDensity());
     }
 
     @Override

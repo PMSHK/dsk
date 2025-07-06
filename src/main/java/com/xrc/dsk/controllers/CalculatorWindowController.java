@@ -2,7 +2,6 @@ package com.xrc.dsk.controllers;
 
 import com.xrc.dsk.connection.ConnectionService;
 import com.xrc.dsk.data.DataStorage;
-import com.xrc.dsk.dto.MedWindowDto;
 import com.xrc.dsk.services.DataService;
 import com.xrc.dsk.services.SaveLoader;
 import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;

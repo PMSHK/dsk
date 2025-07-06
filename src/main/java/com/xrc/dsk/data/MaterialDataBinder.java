@@ -1,6 +1,7 @@
 package com.xrc.dsk.data;
 
 import com.xrc.dsk.connection.ConnectionService;
+import com.xrc.dsk.converters.NumbersFormatter;
 import com.xrc.dsk.dto.medicine.MatCharacteristicsDataDto;
 import com.xrc.dsk.dto.medicine.MaterialInfoDataDto;
 import com.xrc.dsk.events.EventManager;
@@ -8,6 +9,7 @@ import com.xrc.dsk.events.MaterialEvent;
 import com.xrc.dsk.events.UpdateMatEvent;
 import com.xrc.dsk.listeners.MaterialPanelUpdateService;
 import com.xrc.dsk.viewModels.medicine.MatCharacteristicsDataViewModel;
+import com.xrc.dsk.viewModels.medicine.MatInfoViewModel;
 import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
 import com.xrc.dsk.viewModels.medicine.PanelDataViewModel;
 import javafx.beans.binding.Bindings;
@@ -31,6 +33,7 @@ public class MaterialDataBinder implements Bindable {
     private MedicineDataViewModel viewModel;
     private MatCharacteristicsDataViewModel matVm;
     private PanelDataViewModel panelDataVM;
+    private boolean suppressEvents = false;
 
     public MaterialDataBinder(ComboBox<String> matBox,
                               TextField thicknessField,
@@ -78,13 +81,11 @@ public class MaterialDataBinder implements Bindable {
                 this.voltage = viewModel.getRadiationTypeViewModel().getVoltage();
                 String[] matParameters = newVal.split(" ");
                 String name = matParameters[0];
-                double density = Double.parseDouble(matParameters[1]);
+                double density = NumbersFormatter.formatWithPrecision(Double.parseDouble(matParameters[1]), 2).doubleValue();
 
-                MaterialInfoDataDto infoDto = new MaterialInfoDataDto(name, (float) density);
+                MaterialInfoDataDto infoDto = new MaterialInfoDataDto(name, (float) density, name + " " + density);
                 MatCharacteristicsDataDto dto = new MatCharacteristicsDataDto(infoDto, 0D, panelDataVM.toDto().getDoubleValueAdditionalLead());
-                log.info("matVm hash before: {}", matVm.hashCode());
                 matVm.fromDto(dto);
-                log.info("matVm hash after: {}", matVm.hashCode());
 
                 if (voltage != null && voltage >= 50 && !dto.getInfo().getName().isEmpty()) {
                     UpdateMatEvent event = new UpdateMatEvent(matVm);
@@ -118,48 +119,158 @@ public class MaterialDataBinder implements Bindable {
     }
 
     private void setupThicknessFieldBinding() {
-        binder.bindDoublePropertyToString(
-                thicknessField.textProperty(),
-                matVm.getThicknessProperty(),
-                matVm.getThickness(),
-                this::handleThicknessChange
-        );
+//        thicknessField.textProperty().addListener((observable, oldValue, newValue) -> {
+//            if (suppressEvents) return;
+//
+//            if (newValue != null && !newValue.equals(oldValue)) {
+//                try {
+//                    double leadEq = 0.0;
+//                    if (shouldTriggerEvent()) {
+//                        leadEq = connectionService.getMaterialCharacteristics(
+//                                matVm.getInfo().getName(), matVm.getInfo().getDensity(),
+//                                voltage, parseDoubleSafe(newValue), 0D);
+//                    }
+//                    double value = Double.parseDouble(newValue);
+//                    if (value != matVm.getThickness()) {
+//                        suppressEvents = true;
+//                        matVm.getThicknessProperty().set(value);
+//                        label.setText(String.valueOf(leadEq));// это вызовет listener ниже
+//                    }
+//                } catch (NumberFormatException e) {
+//                    // Можно подсветить красным
+//                } finally {
+//                    suppressEvents = false;
+//                }
+//            }
+//        });
+        thicknessField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue != null && !newValue.isEmpty() && !newValue.equals(oldValue)) {
+                matVm.getThicknessProperty().set(Double.parseDouble(newValue));
+            }
+        });
+
+        matVm.getThicknessProperty().addListener((obs, oldVal, newVal) -> {
+            if (suppressEvents) return;
+            suppressEvents = true;
+            try {
+                // только если значение действительно изменилось
+                handleThicknessChange(newVal.doubleValue());
+
+            } finally {
+                suppressEvents = false;
+            }
+        });
+//        binder.bindDoublePropertyToString(
+//                thicknessField.textProperty(),
+//                matVm.getThicknessProperty(),
+//                matVm.getThickness(),
+//                this::handleThicknessChange
+//        );
     }
 
     private void handleThicknessChange(Double newThickness) {
-        matVm.getThicknessProperty().set(newThickness);
-        matVm.getLeadEquivalentProperty().set(0D);
-
-        if (shouldTriggerEvent()) {
-            EventManager.post(new MaterialEvent(matVm));
+        // получаем необходимые данные
+        MatInfoViewModel info = matVm.getInfo();
+        if (info == null || voltage == null || voltage <= 0) return;
+        double leadEq=0.0;
+        if(validData()){
+        leadEq = connectionService.getMaterialCharacteristics(
+                info.getName(), info.getDensity(),
+                voltage, newThickness, 0D);
         }
+
+        matVm.getLeadEquivalentProperty().set(leadEq);
+
+//        if (shouldTriggerEvent() && !suppressEvents) {
+//            EventManager.post(new MaterialEvent(matVm, panelId));
+//        }
+
+
+//        matVm.getThicknessProperty().set(newThickness);
+//        matVm.getLeadEquivalentProperty().set(0D);
+//
+//        if (shouldTriggerEvent() && !suppressEvents) {
+//            suppressEvents = true;
+//            EventManager.post(new MaterialEvent(matVm, panelId));
+//            suppressEvents = false;
+//        }
     }
 
     private void setupMaterialSelectionListener() {
         matBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) {
+            if (newVal != null && !newVal.equals(oldVal)) {
                 updateMaterialInfo(newVal);
-                if (shouldTriggerEvent()) {
-                    EventManager.post(new MaterialEvent(matVm));
+                if (shouldTriggerEvent() && !suppressEvents) {
+                    suppressEvents = true;
+                    EventManager.post(new MaterialEvent(matVm, panelId));
+                    suppressEvents = false;
                 }
             }
         });
     }
 
     private void updateMaterialInfo(String materialData) {
+        if (materialData == null || materialData.isBlank()) return;
+
         String[] parts = materialData.split(" ");
-        MaterialInfoDataDto info = new MaterialInfoDataDto(
-                parts[0],
-                Float.parseFloat(parts[1])
-        );
+        String name = parts[0];
+        float density = NumbersFormatter.formatWithPrecision(Float.parseFloat(parts[1]), 2).floatValue();
 
-        MatCharacteristicsDataDto dto = new MatCharacteristicsDataDto(
-                info,
-                basedOnThickness ? Double.parseDouble(thicknessField.getText()) : 0D,
-                basedOnThickness ? 0D : panelDataVM.toDto().getDoubleValueAdditionalLead()
-        );
+        double thickness = matVm.getThickness();
+//        if (thickness <= 0) {
+//            thickness = 1.0; // стартовое значение
+//        }
 
-        matVm.fromDto(dto);
+//        initVoltage(); // voltage может быть null!
+//        if (voltage == null || voltage <= 0) return;
+        double leadEq=0.0;
+        if (shouldTriggerEvent()) {
+           leadEq = connectionService.getMaterialCharacteristics(
+                    name, density,
+                    voltage, thickness, 0D);
+        }
+
+//                attenuationService.calculateLeadEquivalent(name, density, thickness, voltage);
+
+        MaterialInfoDataDto info = new MaterialInfoDataDto(name, density, name + " " + density);
+        MatCharacteristicsDataDto dto = new MatCharacteristicsDataDto(info, thickness, leadEq);
+
+        suppressEvents = true;
+        try {
+            matVm.fromDto(dto);
+            if (basedOnThickness) {
+                thicknessField.setText(String.format("%.2f", thickness));
+            }
+        } finally {
+            suppressEvents = false;
+        }
+
+        // теперь событие можно вызвать корректно
+        if (shouldTriggerEvent()) {
+            EventManager.post(new MaterialEvent(matVm, panelId));
+        }
+//        String[] parts = materialData.split(" ");
+//        float density = NumbersFormatter.formatWithPrecision(Float.parseFloat(parts[1]), 2).floatValue();
+//        MaterialInfoDataDto info = new MaterialInfoDataDto(
+//                parts[0],
+//                density,
+//                parts[0] + " " + density
+//        );
+//
+//        MatCharacteristicsDataDto dto = new MatCharacteristicsDataDto(
+//                info,
+//                basedOnThickness ? Double.parseDouble(thicknessField.getText()) : 0D,
+//                basedOnThickness ? 0D : panelDataVM.toDto().getDoubleValueAdditionalLead()
+//        );
+//
+//        matVm.fromDto(dto);
+    }
+    private double parseDoubleSafe(String str) {
+        try {
+            return Double.parseDouble(str);
+        } catch (Exception e) {
+            return 0D;
+        }
     }
 
     private void setupLeadEquivalentLabel() {
@@ -185,7 +296,7 @@ public class MaterialDataBinder implements Bindable {
                 }
 
                 if (shouldTriggerEvent()) {
-                    EventManager.post(new MaterialEvent(matVm));
+                    EventManager.post(new MaterialEvent(matVm, panelId));
                 }
             }
         });
@@ -201,6 +312,13 @@ public class MaterialDataBinder implements Bindable {
 
     private boolean shouldTriggerEvent() {
         initVoltage();
+        return voltage != null &&
+                voltage >= 50 &&
+                !matVm.getInfo().getName().isEmpty() &&
+                (basedOnThickness ? matVm.getThickness() > 0 : true);
+    }
+
+    private boolean validData(){
         return voltage != null &&
                 voltage >= 50 &&
                 !matVm.getInfo().getName().isEmpty() &&

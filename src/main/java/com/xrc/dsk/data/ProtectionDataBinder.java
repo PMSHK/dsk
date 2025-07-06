@@ -1,18 +1,13 @@
 package com.xrc.dsk.data;
 
-import com.xrc.dsk.dto.MedWindowDto;
-import com.xrc.dsk.dto.PanelDataDto;
 import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
 import com.xrc.dsk.viewModels.medicine.PanelDataViewModel;
 import com.xrc.dsk.viewModels.medicine.ProtectionDataViewModel;
-import javafx.beans.binding.Bindings;
 import javafx.scene.control.Label;
 
 public class ProtectionDataBinder implements Bindable {
     private final Binder binder;
-    private MedWindowDto medWindowDto;
     private Integer panelId;
-    private PanelDataDto panelDataDto;
     private Label attenuationLabel;
     private Label leadLabel;
     private MedicineDataViewModel viewModel;

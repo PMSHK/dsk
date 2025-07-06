@@ -8,4 +8,5 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public class MaterialEvent {
     private final MatCharacteristicsDataViewModel viewModel;
+    private final int panelId;
 }

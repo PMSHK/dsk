@@ -2,10 +2,9 @@ package com.xrc.dsk.connection;
 
 
 import com.xrc.dsk.converters.JsonConverter;
+import com.xrc.dsk.converters.NumbersFormatter;
 import com.xrc.dsk.dto.KParamDto;
-import com.xrc.dsk.dto.MaterialInfoDto;
-import com.xrc.dsk.dto.ProtectionDto;
-import com.xrc.dsk.dto.RadiationTypeDto;
+import com.xrc.dsk.dto.medicine.MaterialInfoDataDto;
 import com.xrc.dsk.dto.ResultLeadEquivalentDto;
 import com.xrc.dsk.dto.medicine.ProtectionDataDto;
 import com.xrc.dsk.dto.medicine.RadTypeDataDto;
@@ -31,7 +30,7 @@ public class ConnectionService {
 
     public List<String> getAllMaterials() {
         AllMaterialsRequestBuilder allMatBuilder = new AllMaterialsRequestBuilder("GET");
-        return allMatBuilder.constructRequest(MaterialInfoDto.class).join();
+        return allMatBuilder.constructRequest(MaterialInfoDataDto.class).join();
     }
 
     public RadTypeDataDto getEquipTypeParameters(String typeName, String type) {
@@ -75,6 +74,7 @@ public class ConnectionService {
             double voltage,
             double thickness,
             double leadEquivalent) {
+        density = NumbersFormatter.formatWithPrecision(density, 2).doubleValue();
         MaterialCharacteristicsRequestBuilder builder = new MaterialCharacteristicsRequestBuilder("POST",
                 name,
                 density,

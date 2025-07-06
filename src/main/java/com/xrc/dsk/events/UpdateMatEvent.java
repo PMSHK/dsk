@@ -1,7 +1,5 @@
 package com.xrc.dsk.events;
 
-import com.xrc.dsk.dto.MaterialCharacteristicsDto;
-import com.xrc.dsk.dto.medicine.MatCharacteristicsDataDto;
 import com.xrc.dsk.viewModels.medicine.MatCharacteristicsDataViewModel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

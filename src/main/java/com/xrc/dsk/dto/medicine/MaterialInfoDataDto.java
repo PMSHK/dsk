@@ -15,6 +15,7 @@ import static com.xrc.dsk.settings.AppParameters.MEDICINE;
 public class MaterialInfoDataDto implements Serializable, AppData {
     private String name;
     private Float density;
+    private String materialName;
 
     @Override
     public String getType() {

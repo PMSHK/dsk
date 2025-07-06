@@ -2,15 +2,19 @@ package com.xrc.dsk.listeners;
 
 import com.google.common.eventbus.Subscribe;
 import com.xrc.dsk.connection.ConnectionService;
+import com.xrc.dsk.connection.MaterialCharacteristicsRequestBuilder;
 import com.xrc.dsk.events.EventManager;
 import com.xrc.dsk.events.MaterialEvent;
 import com.xrc.dsk.events.UpdateMatEvent;
 import com.xrc.dsk.viewModels.medicine.MatCharacteristicsDataViewModel;
 import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
+import javafx.beans.property.ListProperty;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Objects;
 
 @Slf4j
 public class MaterialPanelUpdateService {
@@ -20,6 +24,7 @@ public class MaterialPanelUpdateService {
     private ConnectionService connectionService;
     private Boolean basedOnThickness;
     private MedicineDataViewModel viewModel;
+    private boolean isProcessing = false;
 
     public MaterialPanelUpdateService(ComboBox<String> materialComboBox,
                                       TextField ThicknessField, Label leadEquivalentLabel, boolean basedOnThickness,
@@ -35,24 +40,40 @@ public class MaterialPanelUpdateService {
 
     @Subscribe
     public void onMaterialEvent(MaterialEvent event) {
-        double result = init(event.getViewModel());
-        if (result == -1) {
-            return;
+        if(isProcessing) return;
+        isProcessing = true;
+        try {
+            log.info("Material event received: {} from: {}", event, Thread.currentThread().getStackTrace()[2]);
+            double result = init(event.getViewModel());
+            if (result == -1) {
+                return;
+            }
+            EventManager.unregister(this);
+            event.getViewModel().getLeadEquivalentProperty().set(result);
+            viewModel.getPanelDataProperty().get(event.getPanelId()).getExistedMatCharacteristicsViewModelListProperty().add(event.getViewModel());
+            EventManager.register(this);
+            System.out.println("Lead equivalent " + event.getViewModel().hashCode());
+        } finally {
+            isProcessing = false;
         }
-        event.getViewModel().getLeadEquivalentProperty().set(result);
-        System.out.println("Lead equivalent " + event.getViewModel().hashCode());
 //        leadEquivalentLabel.setText(Double.toString(result));
     }
 
     @Subscribe
     public void onMaterialUpdateEvent(UpdateMatEvent event) {
-        double result = init(event.getViewModel());
-        if (result == -1) {
-            return;
-        }
-        if (event.getViewModel().getThickness() == 0) {
-            event.getViewModel().getThicknessProperty().set(result);
-            ThicknessField.setText(Double.toString(result));
+        if(isProcessing) return;
+        isProcessing = true;
+        try {
+            double result = init(event.getViewModel());
+            if (result == -1) {
+                return;
+            }
+            if (event.getViewModel().getThickness() == 0) {
+                event.getViewModel().getThicknessProperty().set(result);
+                ThicknessField.setText(Double.toString(result));
+            }
+        } finally {
+            isProcessing = false;
         }
     }
 

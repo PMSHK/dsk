@@ -1,8 +1,5 @@
 package com.xrc.dsk.data;
 
-import com.xrc.dsk.dto.MedWindowDto;
-import com.xrc.dsk.dto.PanelDataDto;
-import com.xrc.dsk.dto.WindowDto;
 import com.xrc.dsk.viewModels.DataViewModel;
 import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
 import com.xrc.dsk.viewModels.medicine.PanelDataViewModel;

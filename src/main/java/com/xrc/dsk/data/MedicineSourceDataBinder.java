@@ -1,10 +1,8 @@
 package com.xrc.dsk.data;
 
-import com.xrc.dsk.dto.MedWindowDto;
-import com.xrc.dsk.dto.medicine.PanelDataDto;
+
 import com.xrc.dsk.events.EventManager;
 import com.xrc.dsk.events.PanelRadiationTypeEvent;
-import com.xrc.dsk.events.RadiationTypeEvent;
 import com.xrc.dsk.listeners.PanelProtectionUpdateService;
 import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
 import com.xrc.dsk.viewModels.medicine.SourceDataViewModel;
@@ -13,7 +11,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class MedicineSourceDataBinder implements Bindable{
+public class MedicineSourceDataBinder implements Bindable {
     private final Binder binder;
     private Integer panelId;
     private PanelProtectionUpdateService panelProtectionUpdateService;
@@ -37,7 +35,7 @@ public class MedicineSourceDataBinder implements Bindable{
 
     @Override
     public void bind() {
-        this.panelProtectionUpdateService = new PanelProtectionUpdateService(viewModel,panelId);
+        this.panelProtectionUpdateService = new PanelProtectionUpdateService(viewModel, panelId);
 
         SourceDataViewModel vm = viewModel.getPanelDataProperty().get(panelId).getSourceDataViewModel();
         DoubleProperty dmdProperty = vm.getDmdProperty();

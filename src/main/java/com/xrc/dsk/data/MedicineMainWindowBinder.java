@@ -1,9 +1,6 @@
 package com.xrc.dsk.data;
 
 import com.xrc.dsk.connection.ConnectionService;
-import com.xrc.dsk.dto.MedWindowDto;
-import com.xrc.dsk.dto.RadiationTypeDto;
-import com.xrc.dsk.dto.WindowDto;
 import com.xrc.dsk.dto.medicine.RadTypeDataDto;
 import com.xrc.dsk.events.EventManager;
 import com.xrc.dsk.events.RadiationTypeEvent;
@@ -17,7 +14,6 @@ import javafx.scene.control.TextField;
 public class MedicineMainWindowBinder implements Bindable {
     private final Binder binder;
     private final ConnectionService connectionService;
-    private MedWindowDto medWindowDto;
     private TextField voltageField;
     private TextField workLoadField;
     private Label radExitLabel;

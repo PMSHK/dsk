@@ -25,5 +25,6 @@ public class EventManager {
     public static void register(final Object event) {
         bus.register(event);
     }
+    public static void unregister(final Object event) {bus.unregister(event);}
 
 }

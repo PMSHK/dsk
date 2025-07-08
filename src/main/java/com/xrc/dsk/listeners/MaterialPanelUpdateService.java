@@ -48,10 +48,10 @@ public class MaterialPanelUpdateService {
             if (result == -1) {
                 return;
             }
-            EventManager.unregister(this);
-            event.getViewModel().getLeadEquivalentProperty().set(result);
-            viewModel.getPanelDataProperty().get(event.getPanelId()).getExistedMatCharacteristicsViewModelListProperty().add(event.getViewModel());
-            EventManager.register(this);
+//            EventManager.unregister(this);
+//            event.getViewModel().getLeadEquivalentProperty().set(result);
+//            viewModel.getPanelDataProperty().get(event.getPanelId()).getExistedMatCharacteristicsViewModelListProperty().add(event.getViewModel());
+//            EventManager.register(this);
             System.out.println("Lead equivalent " + event.getViewModel().hashCode());
         } finally {
             isProcessing = false;

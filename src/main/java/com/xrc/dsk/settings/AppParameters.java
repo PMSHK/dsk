@@ -38,4 +38,6 @@ Windows
 Constants
 */
     public final static double DEBOUNCED_FACTOR = 5.0;
+    public final static double MIN_VOLTAGE = 50;
+    public final static double MAX_VOLTAGE = 450;
 }

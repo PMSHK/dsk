@@ -1,7 +1,6 @@
 package com.xrc.dsk.connection;
 
 import com.xrc.dsk.dto.KParamDto;
-import com.xrc.dsk.dto.ProtectionDto;
 import com.xrc.dsk.dto.medicine.ProtectionDataDto;
 import lombok.extern.slf4j.Slf4j;
 

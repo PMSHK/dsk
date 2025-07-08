@@ -17,6 +17,13 @@ public class MaterialInfoDataDto implements Serializable, AppData {
     private Float density;
     private String materialName;
 
+    public MaterialInfoDataDto(String materialName, Float density) {
+
+        this.density = density;
+        this.name = materialName;
+        this.materialName = materialName + " " + density;
+    }
+
     @Override
     public String getType() {
         return MEDICINE;

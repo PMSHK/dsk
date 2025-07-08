@@ -1,6 +1,5 @@
 package com.xrc.dsk.connection;
 
-import com.xrc.dsk.dto.RadiationTypeDto;
 import com.xrc.dsk.dto.medicine.RadTypeDataDto;
 import lombok.extern.slf4j.Slf4j;
 

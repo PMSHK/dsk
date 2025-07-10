@@ -6,15 +6,23 @@ import com.xrc.dsk.data.MaterialDataBinder;
 import com.xrc.dsk.data.MedicineSourceDataBinder;
 import com.xrc.dsk.data.MedicineTextFormsBinder;
 import com.xrc.dsk.data.ProtectionDataBinder;
+import com.xrc.dsk.dto.medicine.MatCharacteristicsDataDto;
+import com.xrc.dsk.dto.medicine.MaterialInfoDataDto;
 import com.xrc.dsk.handlers.ComboBoxHandler;
+import com.xrc.dsk.services.material.MatBindingManager;
+import com.xrc.dsk.services.material.MatCalcService;
+import com.xrc.dsk.services.material.MaterialViewModelManager;
 import com.xrc.dsk.viewModels.DataViewModel;
+import com.xrc.dsk.viewModels.medicine.MatCharacteristicsDataViewModel;
 import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
 import com.xrc.dsk.viewModels.medicine.PanelDataViewModel;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class MedPanelDataService {
     private DataStorage dataStorage = DataStorage.getInstance();
     private MedicineDataViewModel viewModel;
@@ -63,8 +71,19 @@ public class MedPanelDataService {
     }
 
     public void bindAdditionalMaterial(ComboBox<String> materialComboBox, Label thicknessLabel) {
-        MaterialDataBinder binder = new MaterialDataBinder(materialComboBox, thicknessLabel, panelId, viewModel);
-        binder.bind();
+        MaterialInfoDataDto materialInfoDataDto = new MaterialInfoDataDto();
+        MatCharacteristicsDataDto materialCharacteristicsDto = new MatCharacteristicsDataDto(materialInfoDataDto, 0D, 0D);
+        MaterialViewModelManager manager = new MaterialViewModelManager(
+                viewModel.getPanelDataProperty().get(panelId),
+                new MatCharacteristicsDataViewModel(materialCharacteristicsDto));
+        MatCalcService calculator = new MatCalcService(manager, viewModel, false);
+        MatBindingManager matBindingManager = new MatBindingManager(calculator, manager);
+
+        log.info("materialComboBox: {}, thicknessLabel: {}",
+                materialComboBox, thicknessLabel);
+        matBindingManager.bindLeadBaseUI(materialComboBox, thicknessLabel);
+//        MaterialDataBinder binder = new MaterialDataBinder(materialComboBox, thicknessLabel, panelId, viewModel);
+//        binder.bind();
     }
 
     public void selectElement(ComboBox<Double> directionCoefficientBox) {

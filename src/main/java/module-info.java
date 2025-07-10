@@ -20,6 +20,7 @@ module com.xrc.dsk {
     opens com.xrc.dsk to javafx.fxml, org.slf4j, com.fasterxml.jackson.databind;
     opens com.xrc.dsk.dto to com.fasterxml.jackson.databind;
     opens com.xrc.dsk.controllers to javafx.fxml;
+    opens com.xrc.dsk.handlers.material to com.google.common;
     exports com.xrc.dsk;
     exports com.xrc.dsk.controllers;
     exports com.xrc.dsk.dto;
@@ -27,6 +28,7 @@ module com.xrc.dsk {
     exports com.xrc.dsk.events;
     exports com.xrc.dsk.dto.medicine;
     exports com.xrc.dsk.viewModels;
+    exports com.xrc.dsk.handlers.material;
     opens com.xrc.dsk.dto.medicine to com.fasterxml.jackson.databind;
 
 }

@@ -7,17 +7,16 @@ import javafx.scene.control.TextField;
 
 public class MatBindingManager {
     private final MaterialUIBinder uiBinder;
-    private final MatCalcService calculator;
 
-    public MatBindingManager(MaterialUIBinder uiBinder, MatCalcService calculator, MaterialViewModelManager viewModelManager) {
-        this.uiBinder = uiBinder;
-        this.calculator = calculator;
+    public MatBindingManager(MatCalcService calculator, MaterialViewModelManager viewModelManager) {
+        this.uiBinder = new MaterialUIBinder(viewModelManager, calculator);
     }
 
-    public void bindThicknessBaseUI(ComboBox<String> matBox, TextField thicknessField, Label label){
-        uiBinder.setupThicknessBaseBindings();
+    public void bindThicknessBaseUI(ComboBox<String> matBox, TextField thicknessField, Label label) {
+        uiBinder.setupThicknessBaseBindings(matBox, thicknessField, label);
     }
-    public void bindLeadBaseUI(){
-        uiBinder.setupLeadBaseBindings();
+
+    public void bindLeadBaseUI(ComboBox<String> matBox, Label label) {
+        uiBinder.setupLeadBaseBindings(matBox, label);
     }
 }

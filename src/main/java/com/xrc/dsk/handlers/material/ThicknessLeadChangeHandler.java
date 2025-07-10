@@ -16,13 +16,15 @@ public class ThicknessLeadChangeHandler {
 
         MatCharacteristicsDataDto dto = event.getDto();
         if (event.isThicknessBased()) {
-            dto.setLeadEquivalent(calculate(dto, event.getVoltage()));
+            dto.setLeadEquivalent(0.0);
+            dto.setLeadEquivalent(calculate(dto, event.getVoltage(), true));
         } else {
-            dto.setThickness(calculate(dto, event.getVoltage()));
+            dto.setThickness(0.0);
+            dto.setThickness(calculate(dto, event.getVoltage(), false));
         }
     }
 
-    private double calculate(MatCharacteristicsDataDto dto, double voltage) {
+    private double calculate(MatCharacteristicsDataDto dto, double voltage, boolean thicknessBased) {
         return connectionService.getMaterialCharacteristics(
                 dto.getInfo().getName(), dto.getInfo().getDensity(),
                 voltage, dto.getThickness(), dto.getLeadEquivalent());

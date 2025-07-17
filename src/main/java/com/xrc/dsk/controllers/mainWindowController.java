@@ -8,11 +8,9 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import lombok.extern.slf4j.Slf4j;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-//@Slf4j
+@Slf4j
 public class mainWindowController extends WindowControl {
     @FXML
     private ImageView medicineImg;
@@ -62,7 +60,6 @@ public class mainWindowController extends WindowControl {
 
     public void veterinaryButtonClick(MouseEvent mouseEvent) {
         System.out.println("veterinaryButtonClick");
-//        log.info("veterinaryButtonClick");
     }
 
     public void veterinaryButtonSelected(MouseEvent mouseEvent) {
@@ -83,7 +80,6 @@ public class mainWindowController extends WindowControl {
 
     public void flawButtonClick(MouseEvent mouseEvent) {
         System.out.println("flawButtonClick");
-//        log.info("flawButtonClick");
     }
 
     public void flawButtonSelected(MouseEvent mouseEvent) {

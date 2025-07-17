@@ -60,7 +60,7 @@ public class SourceDataViewModel extends DataViewModel<SourceDataDto> {
         return NullChecker.getValueOrDefault(distanceProperty.get(), 0D);
     }
 
-    public boolean filled(){
+    public boolean filled() {
         return getDmd() > 0 && getDirectionCoefficient() > 0 && getDistance() > 0;
     }
 

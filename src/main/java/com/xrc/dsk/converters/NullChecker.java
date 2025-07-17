@@ -31,9 +31,6 @@ public final class NullChecker {
             inputList.set(FXCollections.observableArrayList());
         }
         return inputList.get();
-//        return inputList == null ? FXCollections.observableArrayList() : inputList.stream()
-//                .filter(Objects::nonNull)
-//                .collect(Collectors.toCollection(FXCollections::observableArrayList));
     }
 
     public static <T, D> D getValueOrNull(T input, Function<T, D> mapper) {

@@ -13,6 +13,7 @@ import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
 import lombok.extern.slf4j.Slf4j;
 
 import static com.xrc.dsk.converters.StringConverter.convertToNumber;
+
 @Slf4j
 public class MatCalcService {
     private final MaterialViewModelManager vmManager;
@@ -59,17 +60,10 @@ public class MatCalcService {
         matDto.setThickness(dto.getThickness());
         matDto.setLeadEquivalent(dto.getLeadEquivalent());
         if (isValidData() && (!basedOnThickness || vmManager.getMatVM().getThickness() > 0)) {
-            if((dto.getThickness() > 0) ^ (dto.getLeadEquivalent() > 0)) {
+            if ((dto.getThickness() > 0) ^ (dto.getLeadEquivalent() > 0)) {
                 EventManager.post(new MatThicknessLeadEvent(matDto, voltage, dto.isThicknessBased()));
             }
-//            MatInfoViewModel info = vmManager.getMatVM().getInfo();
-//            double thickness = 0.0;
-//            if (isValidData()) {
-//                thickness = connectionService.getMaterialCharacteristics(
-//                        info.getName(), info.getDensity(),
-//                        voltage, 0.0, matDto.getLeadEquivalent());
-//            }
-//            matDto.setThickness(thickness);
+
         }
         return matDto;
     }
@@ -100,17 +94,17 @@ public class MatCalcService {
         MatCharacteristicsDataDto dto = updateMaterialCharacteristics(materialData);
         suppressEvents = true;
         try {
-        vmManager.getMatVM().fromDto(dto);
-        if (basedOnThickness) {
-            return dto.getThickness();
-        }
-        return 0.0;
+            vmManager.getMatVM().fromDto(dto);
+            if (basedOnThickness) {
+                return dto.getThickness();
+            }
+            return 0.0;
         } finally {
             suppressEvents = false;
         }
     }
 
-    private void updateVoltage(){
+    private void updateVoltage() {
         this.voltage = medVM.getRadiationTypeViewModel().getVoltage();
     }
 

@@ -1,8 +1,6 @@
 package com.xrc.dsk.services;
 
 import com.xrc.dsk.connection.ConnectionService;
-import com.xrc.dsk.data.DataStorage;
-import com.xrc.dsk.data.MaterialDataBinder;
 import com.xrc.dsk.dto.medicine.MatCharacteristicsDataDto;
 import com.xrc.dsk.services.material.MatBindingManager;
 import com.xrc.dsk.services.material.MatCalcService;
@@ -20,7 +18,6 @@ public class MaterialPanelDataService {
     private ComboBox<String> materialComboBox;
     private TextField thicknessTextField;
     private Label leadEquivalentLabel;
-    private DataStorage dataStorage = DataStorage.getInstance();
     private final ConnectionService connectionService;
     private int panelId;
     private MedicineDataViewModel viewModel;
@@ -50,17 +47,8 @@ public class MaterialPanelDataService {
         MatBindingManager matBindingManager = new MatBindingManager(calculator, manager);
         log.info("materialComboBox: {}, thicknessField: {}, label: {}",
                 materialComboBox, thicknessTextField, leadEquivalentLabel);
-        matBindingManager.bindThicknessBaseUI(materialComboBox,thicknessTextField,leadEquivalentLabel);
+        matBindingManager.bindThicknessBaseUI(materialComboBox, thicknessTextField, leadEquivalentLabel);
 
-//        MaterialDataBinder binder = new MaterialDataBinder(
-//                materialComboBox,
-//                thicknessTextField,
-//                leadEquivalentLabel,
-//                matVm, viewModel, panelId
-//        );
-//        log.info("Created new Material Binder");
-//        binder.bind();
-//        log.info("Bindings for material panel data from service has accomplished");
     }
 
     public void addNewMaterial(MatCharacteristicsDataViewModel vm) {
@@ -73,17 +61,4 @@ public class MaterialPanelDataService {
         log.info("Deleting existing material to material panel data from service");
         viewModel.getPanelDataProperty().get(panelId).getExistedMatCharacteristicsViewModelList().removeIf(vmCurr -> vmCurr.equals(vm));
     }
-
-//    private MedWindowDto getMedWindowDto() {
-//        MedWindowDto dto = (MedWindowDto) dataStorage.getWindowDto();
-//        if (dto == null) {
-//            dto = new MedWindowDto();
-//            dataStorage.setWindowDto(dto);
-//        }
-//        return dto;
-//    }
-//    public void addNewPanel() {
-//        MedWindowDto dto = getMedWindowDto();
-//        dto.getPanelData().add(new PanelDataDto());
-//    }
 }

@@ -7,8 +7,9 @@ import javafx.collections.ObservableList;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class MedPanelFiller extends PanelsFiller{
+public class MedPanelFiller extends PanelsFiller {
     private final MedicineCalculationPanelController controller;
+
     public MedPanelFiller(CalculationPanel panel, MedicineCalculationPanelController controller) {
         super(panel);
         this.controller = controller;

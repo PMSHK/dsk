@@ -15,6 +15,12 @@ public class MaterialViewModelManager {
         this.matVM = matVM;
     }
 
+    public MaterialViewModelManager(PanelDataViewModel panelVM, MatCharacteristicsDataViewModel matVM, boolean leadBase) {
+        this.panelVM = panelVM;
+        this.matVM = matVM;
+        panelVM.getRecommendedMatViewModelProperty().set(matVM);
+    }
+
     public void updateThickness(double newThickness) {
         matVM.getThicknessProperty().set(newThickness);
     }

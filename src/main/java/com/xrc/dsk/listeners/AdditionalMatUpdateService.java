@@ -2,10 +2,8 @@ package com.xrc.dsk.listeners;
 
 import com.google.common.eventbus.Subscribe;
 import com.xrc.dsk.connection.ConnectionService;
-import com.xrc.dsk.dto.medicine.PanelDataDto;
 import com.xrc.dsk.events.AdditionalMatEvent;
 import com.xrc.dsk.events.EventManager;
-import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
 import javafx.scene.control.Label;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,7 +12,6 @@ import java.util.Objects;
 @Slf4j
 public class AdditionalMatUpdateService {
     private final Label leadEquivalentLabel;
-//    private final PanelDataDto panelDataDto;
     private final ConnectionService connectionService;
     private final Integer panelId;
 

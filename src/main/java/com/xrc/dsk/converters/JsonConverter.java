@@ -3,14 +3,16 @@ package com.xrc.dsk.converters;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-//@Slf4j
+@Slf4j
 public class JsonConverter {
     private final ObjectMapper objectMapper;
+
     public JsonConverter() {
         objectMapper = new ObjectMapper();
     }
@@ -18,10 +20,10 @@ public class JsonConverter {
     public <T> String toJson(T obj) {
         try {
             String json = objectMapper.writeValueAsString(obj);
-//            log.info("object: {} was successfully converted to json: {}", obj, json);
+            log.info("object: {} was successfully converted to json: {}", obj, json);
             return json;
         } catch (JsonProcessingException e) {
-//            log.error("the issue was occurred while converting object {} to json", obj, e);
+            log.error("the issue was occurred while converting object {} to json", obj, e);
             throw new RuntimeException(e);
         }
     }
@@ -32,10 +34,10 @@ public class JsonConverter {
                 return null;
             }
             T obj = objectMapper.readValue(json, clazz);
-//            log.info("object: {} was successfully converted from json: {}", obj, json);
+            log.info("object: {} was successfully converted from json: {}", obj, json);
             return obj;
         } catch (JsonProcessingException e) {
-//            log.error("the issue was occurred while converting object from json {}", json, e);
+            log.error("the issue was occurred while converting object from json {}", json, e);
             throw new RuntimeException(e);
         }
     }
@@ -51,10 +53,10 @@ public class JsonConverter {
             JavaType mapType = objectMapper.getTypeFactory().constructMapType(LinkedHashMap.class, keyType, listType);
 
             Map<E, List<F>> obj = objectMapper.readValue(json, mapType);
-//            log.info("object: {} was successfully converted from json: {}", obj, json);
+            log.info("object: {} was successfully converted from json: {}", obj, json);
             return obj;
         } catch (JsonProcessingException e) {
-//            log.error("the issue was occurred while converting object from json {}", json, e);
+            log.error("the issue was occurred while converting object from json {}", json, e);
             throw new RuntimeException(e);
         }
     }
@@ -68,10 +70,10 @@ public class JsonConverter {
             JavaType listType = objectMapper.getTypeFactory().constructCollectionType(List.class, valueClass);
 
             List<E> obj = objectMapper.readValue(json, listType);
-//            log.info("object: {} was successfully converted from json: {}", obj, json);
+            log.info("object: {} was successfully converted from json: {}", obj, json);
             return obj;
         } catch (JsonProcessingException e) {
-//            log.error("the issue was occurred while converting object from json {}", json, e);
+            log.error("the issue was occurred while converting object from json {}", json, e);
             throw new RuntimeException(e);
         }
     }

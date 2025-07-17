@@ -1,13 +1,13 @@
 package com.xrc.dsk.services.panels;
 
 import com.xrc.dsk.controllers.MedicineCalculationPanelController;
-import com.xrc.dsk.panels.CalculationPanel;
 import com.xrc.dsk.panels.MaterialPanel;
+import com.xrc.dsk.panels.MedicineCalculationPanel;
 import com.xrc.dsk.panels.OpeningPanel;
 import com.xrc.dsk.services.MedPanelDataService;
-import com.xrc.dsk.viewModels.DataViewModel;
 import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
 import com.xrc.dsk.viewModels.medicine.PanelDataViewModel;
+import javafx.scene.layout.HBox;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -15,19 +15,23 @@ import java.util.List;
 
 @Slf4j
 public class MedPanelManager implements PanelsManager {
-    private final CalculationPanel panel;
+    private final MedicineCalculationPanel panel;
     private final MedicineDataViewModel viewModel;
     private List<MaterialPanel> materialPanels;
     private List<OpeningPanel> openingPanels;
     private MedicineCalculationPanelController controller;
+    private final HBox parentPanel;
+    private MedPanelDataService dataService;
 
-    public MedPanelManager(CalculationPanel panel, MedicineDataViewModel viewModel, MedicineCalculationPanelController controller) {
+    public MedPanelManager(MedicineCalculationPanel panel, MedicineDataViewModel viewModel, MedicineCalculationPanelController controller) {
         this.panel = panel;
         this.viewModel = viewModel;
         this.controller = controller;
+        this.parentPanel = panel.getParentPanel();
+        controller.setPanel(panel);
     }
 
-    public MedPanelManager(CalculationPanel panel, MedicineDataViewModel viewModel,
+    public MedPanelManager(MedicineCalculationPanel panel, MedicineDataViewModel viewModel,
                            MedicineCalculationPanelController controller,
                            List<MaterialPanel> materialPanels,
                            List<OpeningPanel> openingPanels) {
@@ -41,11 +45,11 @@ public class MedPanelManager implements PanelsManager {
         viewModel.getPanelDataProperty().add(new PanelDataViewModel());
         if (materialPanels == null || materialPanels.isEmpty()) {
             materialPanels = new ArrayList<>();
-            materialPanels.add(new MaterialPanel(panel,viewModel));
+            materialPanels.add(new MaterialPanel(panel, viewModel));
         }
         if (openingPanels == null || openingPanels.isEmpty()) {
             openingPanels = new ArrayList<>();
-            openingPanels.add(new OpeningPanel(panel));
+            openingPanels.add(new OpeningPanel(panel, viewModel));
         }
 
         materialPanels.forEach(MaterialPanel::addToParentNode);
@@ -60,15 +64,21 @@ public class MedPanelManager implements PanelsManager {
     }
 
     private void bind() {
-        MedPanelDataService dataService = new MedPanelDataService(panel.getPanelId(), viewModel);
-//        dataService.setPanelId(controller.getId());
-//        dataService.addNewPanelToVM();
+        dataService = new MedPanelDataService(panel.getPanelId(), viewModel);
         dataService.bindTextFields(controller.getWallName(), controller.getRoomAssignment(), controller.getPersonalCategory());
         dataService.bindSourceData(controller.getDmd(), controller.getDirectionCoefficient(), controller.getDistance());
         dataService.bindProtectionData(controller.getAttenuationCoefficient(), controller.getLeadEquivalent());
         dataService.bindAdditionalLeadEquivalent(controller.getAdditionalProtection());
         dataService.bindAdditionalMaterial(controller.getAnalogMaterial(), controller.getAnalogMaterialThickness());
         log.info("fields bindings  for {} has been finished", panel.getClass().getSimpleName());
+    }
+
+    public void deletePanel() {
+        dataService.deletePanel(viewModel);
+    }
+
+    public void addToParentNode() {
+        parentPanel.getChildren().add(panel.getRootNode());
     }
 
 }

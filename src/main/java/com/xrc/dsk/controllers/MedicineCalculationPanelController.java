@@ -2,13 +2,10 @@ package com.xrc.dsk.controllers;
 
 import com.xrc.dsk.connection.ConnectionService;
 import com.xrc.dsk.dto.KParamDto;
-import com.xrc.dsk.model.PanelsStorage;
 import com.xrc.dsk.panels.MedicineCalculationPanel;
 import com.xrc.dsk.services.MedPanelDataService;
 import com.xrc.dsk.services.MedicinePanelService;
 import com.xrc.dsk.services.MedicineWindowService;
-import com.xrc.dsk.services.PublisherService;
-import com.xrc.dsk.viewModels.DataViewModel;
 import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
@@ -19,21 +16,22 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class MedicineCalculationPanelController  {
+public class MedicineCalculationPanelController {
     private MedicinePanelService medicinePanelService;
     private MedicineWindowService medicineWindowService;
-    private PanelsStorage panelsStorage = PanelsStorage.getInstance();
     private ConnectionService connectionService;
     private KParamDto kParamDto = new KParamDto();
     private Integer id;
     private MedicineDataViewModel viewModel;
-//    private PublisherService publishService = new PublisherService(kParamDto);
+    private MedicineCalculationPanel panel;
+
     @FXML
     private FontAwesomeIconView addButton;
 
@@ -87,19 +85,24 @@ public class MedicineCalculationPanelController  {
 
     @FXML
     void addNewPanel(MouseEvent event) {
-        panelsStorage.getPanelsStorage().getChildren().add(new MedicineCalculationPanel(++id,viewModel).getRootNode());
+        HBox parentPanel = panel.getParentPanel();
+        MedicineCalculationPanel newPanel = new MedicineCalculationPanel(++id, viewModel, parentPanel);
+        newPanel.addToParentNode();
+//        panelsStorage.getPanelsStorage().getChildren().add(new MedicineCalculationPanel(++id,viewModel).getRootNode());
         System.out.println("Panel added");
 
     }
 
     @FXML
     void deleteRecentPanel(MouseEvent event) {
-        panelsStorage.getPanelsStorage().getChildren().remove(calculationPanel);
+        panel.deletePanel();
+        panel.getParentPanel().getChildren().remove(calculationPanel);
+//        panelsStorage.getPanelsStorage().getChildren().remove(calculationPanel);
     }
 
     @FXML
     void getDmd(ActionEvent event) {
-        if (connectionService==null){
+        if (connectionService == null) {
             connectionService = new ConnectionService();
         }
         dmd.setText(connectionService.getDmdByCategory(personalCategory.getSelectionModel().getSelectedItem()));
@@ -107,7 +110,7 @@ public class MedicineCalculationPanelController  {
 
     @FXML
     void getDirectionCoefficient(ActionEvent event) {
-        MedPanelDataService service = new MedPanelDataService(id,viewModel);
+        MedPanelDataService service = new MedPanelDataService(id, viewModel);
         service.selectElement(directionCoefficient);
     }
 

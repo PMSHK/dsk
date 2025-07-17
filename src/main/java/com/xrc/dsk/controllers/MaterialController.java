@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.Setter;
+
 @Getter
 public class MaterialController {
 
@@ -63,6 +64,6 @@ public class MaterialController {
 
     @FXML
     void selectMaterial(ActionEvent event) {
-//        service = new MaterialPanelDataService(materialBox,thicknessField,matEqvLabel);
+
     }
 }

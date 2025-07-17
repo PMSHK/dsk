@@ -4,14 +4,14 @@ package com.xrc.dsk.connection;
 import com.xrc.dsk.converters.JsonConverter;
 import com.xrc.dsk.converters.NumbersFormatter;
 import com.xrc.dsk.dto.KParamDto;
-import com.xrc.dsk.dto.medicine.MaterialInfoDataDto;
 import com.xrc.dsk.dto.ResultLeadEquivalentDto;
+import com.xrc.dsk.dto.medicine.MaterialInfoDataDto;
+import com.xrc.dsk.dto.medicine.OpeningsDataDto;
 import com.xrc.dsk.dto.medicine.ProtectionDataDto;
 import com.xrc.dsk.dto.medicine.RadTypeDataDto;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 
@@ -20,7 +20,6 @@ import static com.xrc.dsk.settings.ApiEndpoints.ADDITIONAL_PROTECTION;
 @Slf4j
 public class ConnectionService {
     private final HttpClient httpClient;
-    private HttpRequest request;
     private RequestBuilder requestBuilder;
     private JsonConverter jsonConverter;
 
@@ -105,8 +104,13 @@ public class ConnectionService {
                 .join();
     }
 
-    public String getOpeningsProtection(Double demandedLeadEquivalent) {
-        OpeningsRequestBuilder openingsBuilder = new OpeningsRequestBuilder("GET");
+    public String getOpeningsProtection(String name, Double demandedLeadEquivalent, Double precision) {
+        OpeningsRequestBuilder openingsBuilder = new OpeningsRequestBuilder("GET", name, demandedLeadEquivalent, precision);
         return openingsBuilder.constructRequest(String.class).join();
+    }
+
+    public List<String> getAllOpenings() {
+        AllOpeningsRequestBuilder allOpeningsBuilder = new AllOpeningsRequestBuilder("GET");
+        return allOpeningsBuilder.constructRequest(OpeningsDataDto.class).join();
     }
 }

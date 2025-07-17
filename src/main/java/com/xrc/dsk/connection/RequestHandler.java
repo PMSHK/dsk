@@ -20,10 +20,14 @@ public abstract class RequestHandler<T, D> {
     protected JsonConverter jsonConverter = new JsonConverter();
 
     public CompletableFuture<T> constructRequest(Class<D> responseClass) {
+
         return httpClient.sendAsync(
                         constructRequestBuilder().createRequest(method),
                         HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
+                .thenApply(response -> {
+                    log.debug("Received response: {}", response.body());
+                    return response.body();
+                })
                 .thenApply(handleJson(responseClass))
                 .exceptionally(ex -> {
                     log.error("request failed", ex);
@@ -31,7 +35,6 @@ public abstract class RequestHandler<T, D> {
                 });
     }
 
-    //    abstract String constructUrl();
     protected abstract Function<Throwable, T> getExceptionallyResult();
 
     protected abstract RequestBuilder constructRequestBuilder();

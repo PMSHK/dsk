@@ -4,7 +4,7 @@ import javafx.scene.control.ComboBox;
 
 import java.util.NoSuchElementException;
 
-public class ComboBoxHandler <T> extends ElementHandler {
+public class ComboBoxHandler<T> extends ElementHandler {
     private ComboBox<?> comboBox;
 
     public ComboBoxHandler(ComboBox<T> comboBox) {

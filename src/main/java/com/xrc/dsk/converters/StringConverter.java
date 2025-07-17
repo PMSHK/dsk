@@ -5,27 +5,6 @@ public class StringConverter {
         if (str == null || str.isEmpty()) {
             return 0.0;
         }
-//        int start = 0;
-//        int end = 0;
-//        StringBuilder builder = new StringBuilder(str);
-//        for (int i = 0; i < builder.length(); i++) {
-//            if (builder.charAt(i) == '.') {
-//                continue;
-//            }
-//            if (!Character.isDigit(builder.charAt(i)) && i <= end) {
-//                start++;
-//                end = start;
-//            } else {
-//                end++;
-//            }
-//        }
-//        if (!Character.isDigit(builder.charAt(end))) {
-//            end--;
-//        }
-//        if (start == end && start == builder.length()) {
-//            return 0.0;
-//        }
-//        return Double.parseDouble(builder.substring(start, end));
         int start = -1;
         int end = -1;
         boolean hasDot = false;

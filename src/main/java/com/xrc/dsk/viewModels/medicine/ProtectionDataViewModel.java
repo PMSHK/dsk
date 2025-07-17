@@ -43,11 +43,11 @@ public class ProtectionDataViewModel extends DataViewModel<ProtectionDataDto> {
         this.leadEqvProperty = new SimpleDoubleProperty(0);
     }
 
-    public Double getWeaknessCoefficient(){
+    public Double getWeaknessCoefficient() {
         return NullChecker.getValueOrDefault(weaknessCoefficientProperty.get(), 0D);
     }
 
-    public Double getLeadEqv(){
+    public Double getLeadEqv() {
         return NullChecker.getValueOrDefault(leadEqvProperty.get(), 0D);
     }
 }

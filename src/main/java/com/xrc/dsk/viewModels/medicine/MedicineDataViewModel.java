@@ -36,7 +36,7 @@ public class MedicineDataViewModel extends DataViewModel<MedicineDataDto> {
     @Override
     public MedicineDataDto toDto() {
         List<PanelDataDto> panelDataDtoList = NullChecker.getList(panelDataProperty, PanelDataViewModel::toDto);
-        RadTypeDataDto dto = NullChecker.getDtoOrDefault(radiationTypeProperty,RadTypeDataViewModel::toDto,new RadTypeDataDto());
+        RadTypeDataDto dto = NullChecker.getDtoOrDefault(radiationTypeProperty, RadTypeDataViewModel::toDto, new RadTypeDataDto());
         return new MedicineDataDto(dto, panelDataDtoList);
     }
 
@@ -56,9 +56,11 @@ public class MedicineDataViewModel extends DataViewModel<MedicineDataDto> {
         this.radiationTypeProperty = new SimpleObjectProperty<>();
         this.panelDataProperty = new SimpleListProperty<>(FXCollections.observableArrayList());
     }
+
     public RadTypeDataViewModel getRadiationTypeViewModel() {
-        return NullChecker.getValueOrDefault(radiationTypeProperty,new RadTypeDataViewModel());
+        return NullChecker.getValueOrDefault(radiationTypeProperty, new RadTypeDataViewModel());
     }
+
     public ObservableList<PanelDataViewModel> getPanelDataViewModelList() {
         return NullChecker.getObservableList(panelDataProperty);
     }

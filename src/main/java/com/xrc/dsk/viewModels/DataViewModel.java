@@ -17,5 +17,6 @@ public abstract class DataViewModel<T extends AppData> {
     public abstract T toDto();
 
     public abstract void fromDto(AppData dto);
+
     public abstract void init();
 }

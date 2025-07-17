@@ -1,6 +1,5 @@
 package com.xrc.dsk.panels;
 
-import com.xrc.dsk.controllers.Controllable;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -17,7 +16,6 @@ public abstract class Panel extends Pane implements Initializable {
     private final FXMLLoader loader;
     @Getter
     private final Node rootNode;
-    private Controllable controller;
 
     public Panel(String path) {
         this.path = path;

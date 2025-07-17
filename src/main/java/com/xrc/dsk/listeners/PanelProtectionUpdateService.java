@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PanelProtectionUpdateService {
-    //    private final EventManager eventManager;
     private final List<PanelDataViewModel> panels;
     private final RadTypeDataDto radiationType;
     private ConnectionService connectionService;

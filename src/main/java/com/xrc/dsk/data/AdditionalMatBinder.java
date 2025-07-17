@@ -1,6 +1,5 @@
 package com.xrc.dsk.data;
 
-import com.xrc.dsk.dto.medicine.PanelDataDto;
 import com.xrc.dsk.events.AdditionalMatEvent;
 import com.xrc.dsk.events.EventManager;
 import com.xrc.dsk.listeners.AdditionalMatUpdateService;
@@ -33,7 +32,6 @@ public class AdditionalMatBinder implements Bindable {
     public void bind() {
         log.info("Starting binding for additional material data");
         PanelDataViewModel panelDataViewModel = viewModel.getPanelDataViewModelList().get(panelId);
-        PanelDataDto panelDataDto = viewModel.getPanelDataProperty().get(panelId).toDto();
         AdditionalMatUpdateService service = new AdditionalMatUpdateService(additionalMatLeadLabel, panelId);
 
         panelDataViewModel.getExistedMatCharacteristicsViewModelListProperty().forEach(
@@ -59,7 +57,7 @@ public class AdditionalMatBinder implements Bindable {
                         }
 
                         if (change.wasRemoved()) {
-                            // при необходимости можно отписываться от удалённых, если ты их где-то хранишь
+
                         }
                     }
                 }

@@ -17,7 +17,6 @@ public abstract class GeneralWindow extends Window {
     private Stage stage;
     @Getter
     private CalculatorWindowController controller;
-//    private WindowControl controller;
 
     public void show() {
         try {
@@ -26,7 +25,6 @@ public abstract class GeneralWindow extends Window {
             stage.setScene(new Scene(loader.load()));
             stage.setTitle(title);
             controller = loader.getController();
-//            controller.setStage(stage);
             this.stage = stage;
             stage.show();
         } catch (IOException e) {

@@ -1,8 +1,6 @@
 package com.xrc.dsk.services;
 
 import com.xrc.dsk.data.AdditionalMatBinder;
-import com.xrc.dsk.data.DataStorage;
-import com.xrc.dsk.data.MaterialDataBinder;
 import com.xrc.dsk.data.MedicineSourceDataBinder;
 import com.xrc.dsk.data.MedicineTextFormsBinder;
 import com.xrc.dsk.data.ProtectionDataBinder;
@@ -24,9 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class MedPanelDataService {
-    private DataStorage dataStorage = DataStorage.getInstance();
     private MedicineDataViewModel viewModel;
-    //    @Setter
     private int panelId;
 
     public MedPanelDataService(int panelId, DataViewModel<?> viewModel) {
@@ -46,10 +42,6 @@ public class MedPanelDataService {
         binder.bind();
     }
 
-//    public void addNewPanel() {
-//        MedWindowDto dto = getMedWindowDto();
-//        dto.getPanelData().add(new PanelDataDto());
-//    }
 
     public void addNewPanelToVM() {
         viewModel.getPanelDataProperty().add(new PanelDataViewModel());
@@ -75,15 +67,14 @@ public class MedPanelDataService {
         MatCharacteristicsDataDto materialCharacteristicsDto = new MatCharacteristicsDataDto(materialInfoDataDto, 0D, 0D);
         MaterialViewModelManager manager = new MaterialViewModelManager(
                 viewModel.getPanelDataProperty().get(panelId),
-                new MatCharacteristicsDataViewModel(materialCharacteristicsDto));
+                new MatCharacteristicsDataViewModel(materialCharacteristicsDto),
+                true);
         MatCalcService calculator = new MatCalcService(manager, viewModel, false);
         MatBindingManager matBindingManager = new MatBindingManager(calculator, manager);
 
         log.info("materialComboBox: {}, thicknessLabel: {}",
                 materialComboBox, thicknessLabel);
         matBindingManager.bindLeadBaseUI(materialComboBox, thicknessLabel);
-//        MaterialDataBinder binder = new MaterialDataBinder(materialComboBox, thicknessLabel, panelId, viewModel);
-//        binder.bind();
     }
 
     public void selectElement(ComboBox<Double> directionCoefficientBox) {
@@ -92,13 +83,9 @@ public class MedPanelDataService {
         System.out.println("Selected direction coefficient: " + handler.getElement());
     }
 
-//    private MedWindowDto getMedWindowDto() {
-//        MedWindowDto dto = (MedWindowDto) dataStorage.getWindowDto();
-//        if (dto == null) {
-//            dto = new MedWindowDto();
-//            dataStorage.setWindowDto(dto);
-//        }
-//        return dto;
-//    }
+    public void deletePanel(MedicineDataViewModel vm) {
+        log.info("Deleting existing panel");
+        viewModel.getPanelDataViewModelList().removeIf(vmCurr -> vmCurr.equals(vm));
+    }
 
 }

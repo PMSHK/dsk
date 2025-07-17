@@ -2,9 +2,6 @@ package com.xrc.dsk.services;
 
 import com.xrc.dsk.connection.ConnectionService;
 import com.xrc.dsk.controllers.CalculatorWindowController;
-import com.xrc.dsk.viewModels.DataViewModel;
-import com.xrc.dsk.dto.medicine.MedicineDataDto;
-import com.xrc.dsk.model.PanelsStorage;
 import com.xrc.dsk.panels.MedicineCalculationPanel;
 import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
 import com.xrc.dsk.windows.CalculatorWindow;
@@ -22,16 +19,13 @@ import java.util.List;
 public class MedicineWindowService {
     private final CalculatorWindow window;
     private List<MedicineCalculationPanel> panels;
-    private SaveLoader saveLoader;
-    private MedicinePanelService panelService;
     private CalculatorWindowController calculatorWindowController;
-    private PanelsStorage panelsStorage = PanelsStorage.getInstance();
 
     public MedicineWindowService(CalculatorWindow window) {
         this.window = window;
     }
 
-    public MedicineWindowService (CalculatorWindow window, List<MedicineCalculationPanel> panels){
+    public MedicineWindowService(CalculatorWindow window, List<MedicineCalculationPanel> panels) {
         this.window = window;
         this.panels = panels;
     }
@@ -48,11 +42,10 @@ public class MedicineWindowService {
         calculatorWindowController.getEquipmentType().setItems(equipmentTypes);
         if (panels == null) {
             panels = new ArrayList<>();
-            panels.add(new MedicineCalculationPanel(0,viewModel));
+            panels.add(new MedicineCalculationPanel(0, viewModel, calculatorWindowController.getPanelsStorage()));
         }
         for (MedicineCalculationPanel panel : panels) {
             calculatorWindowController.getPanelsStorage().getChildren().add(panel.getRootNode());
         }
-        panelsStorage.setPanelsStorage(calculatorWindowController.getPanelsStorage());
     }
 }

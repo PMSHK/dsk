@@ -19,7 +19,7 @@ public class FileManager {
     public FileManager(Window window) {
         this.window = window;
         this.fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("calculation file","*." + EXTENSION));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("calculation file", "*." + EXTENSION));
     }
 
     public File openFile() {

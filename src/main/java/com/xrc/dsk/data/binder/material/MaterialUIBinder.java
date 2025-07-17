@@ -11,7 +11,6 @@ public class MaterialUIBinder {
     private ComboBox<String> matBox;
     private TextField thicknessField;
     private Label label;
-    private boolean suppressEvents = false;
     private final MaterialViewModelManager dataManager;
     private final MatCalcService calculator;
 
@@ -47,21 +46,19 @@ public class MaterialUIBinder {
         System.out.println("ADDING LISTENER TO " + dataManager.getThicknessProperty());
         dataManager.getThicknessProperty().addListener((obs, oldVal, newVal) -> {
             System.out.println("🔥 Thickness changed: " + oldVal + " -> " + newVal);
-//            if (suppressEvents) return;
-//            suppressEvents = true;
-//            try {
-                calculator.handleThicknessChange(newVal.doubleValue());
-//            } finally {
-//                suppressEvents = false;
-//            }
+
+            calculator.handleThicknessChange(newVal.doubleValue());
+
         });
     }
 
     private void setupMaterialSelectionListener() {
         matBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null && !newVal.equals(oldVal) && thicknessField!=null) {
+            if (newVal != null && !newVal.equals(oldVal) && thicknessField != null) {
                 thicknessField.setText(String.format("%.2f", calculator.updateMaterialInfo(newVal)));
-            } else {calculator.updateMaterialInfo(newVal);}
+            } else {
+                calculator.updateMaterialInfo(newVal);
+            }
         });
     }
 

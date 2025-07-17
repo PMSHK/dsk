@@ -1,7 +1,6 @@
 package com.xrc.dsk.data;
 
 import com.xrc.dsk.connection.ConnectionService;
-import com.xrc.dsk.dto.medicine.RadTypeDataDto;
 import com.xrc.dsk.events.EventManager;
 import com.xrc.dsk.events.RadiationTypeEvent;
 import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
@@ -19,7 +18,6 @@ public class MedicineMainWindowBinder implements Bindable {
     private Label radExitLabel;
     private Label typeLabel;
     private ComboBox<String> equipmentType;
-//    private RadTypeDataDto radiationTypeDto;
     private MedicineDataViewModel viewModel;
 
     public MedicineMainWindowBinder() {
@@ -63,7 +61,6 @@ public class MedicineMainWindowBinder implements Bindable {
         radExitLabel.setText(String.valueOf(connectionService.getRadExit(viewModel.getRadiationTypeViewModel().getVoltage())));
         radTypeViewModel.getRadiationExitProperty().set(Double.parseDouble(radExitLabel.getText()));
         radTypeViewModel.getNameProperty().set(equipmentType.getValue());
-
 
 
         binder.bindLongPropertyToString(workLoadField.textProperty(), workloadProperty, viewModel.getRadiationTypeViewModel().getWorkload(),

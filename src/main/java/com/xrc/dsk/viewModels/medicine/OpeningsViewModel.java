@@ -4,8 +4,6 @@ import com.xrc.dsk.converters.NullChecker;
 import com.xrc.dsk.data.bin.AppData;
 import com.xrc.dsk.dto.medicine.OpeningsDataDto;
 import com.xrc.dsk.viewModels.DataViewModel;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import lombok.Getter;
@@ -16,7 +14,7 @@ import lombok.Setter;
 public class OpeningsViewModel extends DataViewModel<OpeningsDataDto> {
 
     private StringProperty nameProperty;
-    private DoubleProperty thicknessProperty;
+    private StringProperty thicknessProperty;
 
     public OpeningsViewModel() {
         super();
@@ -36,20 +34,21 @@ public class OpeningsViewModel extends DataViewModel<OpeningsDataDto> {
     @Override
     public void fromDto(AppData dto) {
         OpeningsDataDto data = (OpeningsDataDto) dto;
-        this.nameProperty.set(NullChecker.getString(data.getName(),""));
-        this.thicknessProperty.set(NullChecker.getValueOrDefault(data.getThickness(),0D));
+        this.nameProperty.set(NullChecker.getString(data.getName(), ""));
+        this.thicknessProperty.set(NullChecker.getString(data.getThickness(), ""));
     }
 
     @Override
     public void init() {
         this.nameProperty = new SimpleStringProperty();
-        this.thicknessProperty = new SimpleDoubleProperty();
+        this.thicknessProperty = new SimpleStringProperty();
     }
 
-    public String getName(){
-        return NullChecker.getString(nameProperty.get(),"");
+    public String getName() {
+        return NullChecker.getString(nameProperty.get(), "");
     }
-    public Double getThickness(){
-        return NullChecker.getValueOrDefault(thicknessProperty.get(),0D);
+
+    public String getThickness() {
+        return NullChecker.getString(thicknessProperty.get(), "");
     }
 }

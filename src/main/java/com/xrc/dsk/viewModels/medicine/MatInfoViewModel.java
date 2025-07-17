@@ -34,9 +34,9 @@ public class MatInfoViewModel extends DataViewModel<MaterialInfoDataDto> {
         return NullChecker.getValueOrDefault(densityProperty.get(), 0F);
     }
 
-    public boolean isFilled(){
+    public boolean isFilled() {
         return !getName().isEmpty() && !getName().isBlank() &&
-                getDensity() >0;
+                getDensity() > 0;
     }
 
     @Override

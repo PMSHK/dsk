@@ -8,7 +8,4 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public class UpdateMatEvent {
     private final MatCharacteristicsDataViewModel viewModel;
-//    private final MatCharacteristicsDataDto materialCharacteristicsDto;
-//    private final Long voltage;
-//    private final Boolean basedOnThickness;
 }

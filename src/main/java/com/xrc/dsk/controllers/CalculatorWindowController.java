@@ -1,7 +1,6 @@
 package com.xrc.dsk.controllers;
 
 import com.xrc.dsk.connection.ConnectionService;
-import com.xrc.dsk.data.DataStorage;
 import com.xrc.dsk.services.DataService;
 import com.xrc.dsk.services.SaveLoader;
 import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
@@ -60,8 +59,6 @@ public class CalculatorWindowController extends WindowControl {
     private TextField workloadField;
 
     private CalculatorWindow window;
-
-    private DataStorage storage = DataStorage.getInstance();
 
     private SaveLoader saveLoader;
     private DataService dataService;

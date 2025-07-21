@@ -1,0 +1,62 @@
+.button-class {
+    -fx-margin: 8 0 0 0;
+}
+.button
+{
+    -fx-background-color: #373737;
+    -fx-border-color: #808080;
+    -fx-border-radius: 8;
+    -fx-text-fill: #9a9a9a;
+    -fx-font-family: "Franklin Gothic Demi";
+    -fx-pref-width: 145;
+    -fx-pref-height: 35;
+    -fx-text-alignment: center;
+    -fx-content-display: center;
+    -fx-alignment: center;
+}
+.button:hover{
+
+    -fx-background-color: #FF9900;
+    -fx-border-color: #808080;
+    -fx-border-radius: 8;
+    -fx-text-fill: #9a9a9a;
+
+}
+
+.button:pressed {
+    -fx-background-color: #ff0000;
+    -fx-border-color: #808080;
+    -fx-border-radius: 8;
+    -fx-text-fill: #9a9a9a;
+}
+
+.label{
+    -fx-text-fill: #9a9a9a;
+    -fx-font-family: "Franklin Gothic Demi";
+    -fx-text-alignment: left;
+    -fx-color-label-visible: true;
+}
+.label:readonly{
+    -fx-text-fill: #23e0cc;
+}
+.text-field{
+    -fx-font-family: "Franklin Gothic Demi";
+    -fx-text-alignment: left;
+}
+
+.text-field:disabled{
+    -fx-text-fill: #46362f;
+    -fx-font-size: 12;
+    -fx-background-color: #d5ffde;
+
+}
+
+.root{
+    -fx-background-color: #373737;
+    -fx-alignment: top-center;
+    -fx-pref-height: 207;
+    -fx-pref-width: 174;
+    -fx-padding: 8 5 10 5;
+    -fx-spacing: 8;
+
+}

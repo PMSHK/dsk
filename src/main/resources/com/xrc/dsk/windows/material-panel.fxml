@@ -13,7 +13,7 @@
 
 <VBox fx:id="materialPlate" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="245.0" style="-fx-border-color: #FF9900; -fx-border-radius: 5;" styleClass=".vbox" stylesheets="@calculatorStyle.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xrc.dsk.controllers.MaterialController">
    <children>
-      <ComboBox fx:id="materialBox" onAction="#selectMaterial" prefHeight="26.0" prefWidth="246.0" promptText="Материал" styleClass=".combo-box" stylesheets="@calculatorStyle.css" VBox.vgrow="NEVER">
+      <ComboBox fx:id="materialBox" onMouseClicked="#selectMaterial" prefHeight="26.0" prefWidth="246.0" promptText="Материал" styleClass=".combo-box" stylesheets="@calculatorStyle.css" VBox.vgrow="NEVER">
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </VBox.margin>

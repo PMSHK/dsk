@@ -5,6 +5,7 @@ import com.xrc.dsk.services.DataService;
 import com.xrc.dsk.services.SaveLoader;
 import com.xrc.dsk.viewModels.medicine.MedicineDataViewModel;
 import com.xrc.dsk.windows.CalculatorWindow;
+import com.xrc.dsk.windows.SettingsWindow;
 import com.xrc.dsk.windows.WindowControl;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
@@ -15,16 +16,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
-public class CalculatorWindowController extends WindowControl {
+public class CalculatorWindowController extends WindowControl implements StageCtrl {
 
     private ConnectionService connectionService;
     private MedicineDataViewModel dataViewModel;
-
+    private Stage stage;
     @FXML
     private ComboBox<String> equipmentType;
 
@@ -84,7 +86,8 @@ public class CalculatorWindowController extends WindowControl {
 
     @FXML
     void openSettings(MouseEvent event) {
-
+        SettingsWindow settingsWindow = new SettingsWindow();
+        settingsWindow.show();
     }
 
     @FXML

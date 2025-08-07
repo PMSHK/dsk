@@ -17,4 +17,7 @@ public class ApiEndpoints {
     public static final String ADDITIONAL_PROTECTION = MCS_HOST + ":" + MCS_PORT + "/protection/additional_protection";
     public static final String OPENINGS = MCS_HOST + ":" + MCS_PORT + "/protection/openings";
     public static final String ALL_OPENINGS = MCS_HOST + ":" + MCS_PORT + "/protection/openings/all";
+    public static final String ADD_MATERIAL = MCS_HOST + ":" + MCS_PORT + "/materials/add";
+    public static final String DEL_MATERIAL = MCS_HOST + ":" + MCS_PORT + "/materials/delete";
+    public static final String UPDATE_MATERIAL = MCS_HOST + ":" + MCS_PORT + "/materials/update";
 }

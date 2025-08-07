@@ -34,4 +34,35 @@ public class StringConverter {
             return 0.0;
         }
     }
+
+    public static double extractNumber(String str) {
+        if (str == null || str.isBlank()) {
+            return 0.0;
+        }
+        StringBuilder builder = new StringBuilder();
+        boolean hasDot = false;
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+
+            if (Character.isDigit(c)) {
+                builder.append(c);
+            } else if ((c == '.' || c == ',') && !hasDot) {
+                builder.append('.');
+                hasDot = true;
+            }
+        }
+        return !builder.isEmpty() ? Double.parseDouble(builder.toString()) : 0.0;
+    }
+
+    public static String extractLetters(String str) {
+        if (str == null || str.isBlank()) {return "";}
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (Character.isLetter(c)) {
+                builder.append(c);
+            }
+        }
+        return builder.toString();
+    }
 }

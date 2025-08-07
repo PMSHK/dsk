@@ -1,6 +1,9 @@
 package com.xrc.dsk.controllers;
 
 import com.xrc.dsk.connection.ConnectionService;
+import com.xrc.dsk.converters.StringConverter;
+import com.xrc.dsk.dto.medicine.MaterialInfoDataDto;
+import com.xrc.dsk.services.material.MaterialManagerService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,6 +18,8 @@ import lombok.Setter;
 public class MaterialManagerWindowController implements StageCtrl {
     private Stage stage;
     private ConnectionService connectionService;
+    private MaterialManagerService materialManagerService = new MaterialManagerService();
+    private String method;
 
     @FXML
     private Button acceptBtn;
@@ -56,7 +61,8 @@ public class MaterialManagerWindowController implements StageCtrl {
 
     @FXML
     void acceptBtnClick(MouseEvent event) {
-        boolean isDigit = matDensField.getText().chars().allMatch(Character::isDigit);
+        boolean isDigit = StringConverter.extractNumber(matDensField.getText()) > 0;
+
         if (baseMatField.getText().isEmpty()) {
             baseMatField.setStyle("-fx-border-color: red");
         } else {
@@ -68,12 +74,59 @@ public class MaterialManagerWindowController implements StageCtrl {
         } else {
             matDensField.setStyle("-fx-border-color: green");
         }
-        System.out.println("hahahaha");
+
+        manageAddEditMaterial();
+
     }
+
+    private void manageAddEditMaterial() {
+        switch (method) {
+            case "ADD" -> {
+                MaterialInfoDataDto target = new MaterialInfoDataDto(
+                        StringConverter.extractLetters(baseMatField.getText()),
+                        (float) StringConverter.extractNumber(matDensField.getText()
+                        ));
+                float density = (float) StringConverter.extractNumber(matNameField.getText());
+                String name = StringConverter.extractLetters(matNameField.getText());
+                MaterialInfoDataDto source = new MaterialInfoDataDto(
+                        name,
+                        density);
+
+                materialManagerService.addMaterial(source, target);
+            }
+            case "EDIT" -> materialManagerService.updateMaterial(
+                    new MaterialInfoDataDto(baseMatField.getText(),
+                            (float) StringConverter.extractNumber(matDensField.getText())),
+                    StringConverter.extractLetters(matNameField.getText()) ,(float) StringConverter.extractNumber(matNameField.getText())
+            );
+            default -> throw new IllegalArgumentException("Unsupported method: " + method);
+        }
+    }
+
+//    private boolean isMaterialValid(){
+//        boolean isValid = false;
+//        boolean isDigit = matDensField.getText().chars().allMatch(Character::isDigit);
+//        if (baseMatField.getText().isEmpty()) {
+//            baseMatField.setStyle("-fx-border-color: red");
+//        } else {
+//            baseMatField.setStyle("-fx-border-color: green");
+//            isValid = true;
+//        }
+//        if (matDensField.getText().isEmpty() || !isDigit) {
+//            matDensField.setStyle("-fx-border-color: red");
+//            isValid = false;
+//        } else {
+//            matDensField.setStyle("-fx-border-color: green");
+//            isValid = true;
+//        }
+//        return isValid;
+//    }
 
     @FXML
     void addMatBtnClick(MouseEvent event) {
         switchOnOffMatFields("Наименование: ", "Плотность: ");
+        this.method = "ADD";
+
     }
 
     @FXML
@@ -88,12 +141,15 @@ public class MaterialManagerWindowController implements StageCtrl {
 
     @FXML
     void delMatBtnClick(MouseEvent event) {
-
+        materialManagerService.deleteMaterial(
+                new MaterialInfoDataDto(matNameField.getText(),
+                        (float) StringConverter.convertToNumber(matDensField.getText())));
     }
 
     @FXML
     void editMatBtnClick(MouseEvent event) {
         switchOnOffMatFields("Новое наименование: ", "Новая плотность: ");
+        this.method = "EDIT";
     }
 
     @Override
@@ -119,7 +175,8 @@ public class MaterialManagerWindowController implements StageCtrl {
         acceptBtn.setVisible(false);
         declineBtn.setVisible(false);
     }
-    private void turnOnMatFields(String matName, String density){
+
+    private void turnOnMatFields(String matName, String density) {
         densLbl.setText(density);
         baseMatLbl.setText(matName);
         densLbl.setVisible(true);

@@ -7,6 +7,7 @@ import com.xrc.dsk.dto.KParamDto;
 import com.xrc.dsk.dto.ResultLeadEquivalentDto;
 import com.xrc.dsk.dto.medicine.MaterialInfoDataDto;
 import com.xrc.dsk.dto.medicine.OpeningsDataDto;
+import com.xrc.dsk.dto.medicine.PairMaterialInfoDto;
 import com.xrc.dsk.dto.medicine.ProtectionDataDto;
 import com.xrc.dsk.dto.medicine.RadTypeDataDto;
 import lombok.extern.slf4j.Slf4j;
@@ -112,5 +113,22 @@ public class ConnectionService {
     public List<String> getAllOpenings() {
         AllOpeningsRequestBuilder allOpeningsBuilder = new AllOpeningsRequestBuilder("GET");
         return allOpeningsBuilder.constructRequest(OpeningsDataDto.class).join();
+    }
+
+    public void addNewMaterial(MaterialInfoDataDto targetMaterial, MaterialInfoDataDto sourceMaterial) {
+        PairMaterialInfoDto dto = new PairMaterialInfoDto(targetMaterial, sourceMaterial);
+        MaterialsManagerRequestBuilder<PairMaterialInfoDto> manager = new MaterialsManagerRequestBuilder<>("POST", dto);
+        manager.constructRequest(String.class).join();
+    }
+
+    public void deleteMaterial(MaterialInfoDataDto materialInfoDataDto) {
+        MaterialsManagerRequestBuilder<MaterialInfoDataDto> manager = new MaterialsManagerRequestBuilder<>("DELETE", materialInfoDataDto);
+        manager.constructRequest(String.class).join();
+    }
+
+    public void updateMaterial(MaterialInfoDataDto materialInfoDataDto, String materialName, float materialDensity) {
+        MaterialsManagerRequestBuilder<MaterialInfoDataDto> manager = new MaterialsManagerRequestBuilder<>("PUT", materialInfoDataDto,
+                materialName, materialDensity);
+        manager.constructRequest(String.class).join();
     }
 }
